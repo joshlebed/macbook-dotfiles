@@ -1,0 +1,13 @@
+{
+  "name": "karabiner-config-builder",
+  "version": "1.0.0",
+  "description": "builds karabiner.json config file from karabiner.js config script",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Josh Lebedinsky",
+  "license": "ISC",
+  "type": "module"
+}
