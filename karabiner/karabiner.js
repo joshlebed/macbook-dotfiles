@@ -252,10 +252,57 @@ const nav_mappings = [
     },
   },
   {
+    from: { key_code: "e" },
+    to: {
+      shell_command:
+        'echo "tell application \\"System Events\\" to key code 50 using command down" | osascript',
+    },
+  },
+  {
+    from: { key_code: "r" },
+    to: {
+      shell_command:
+        'echo "tell application \\"System Events\\" to key code 50 using command down" | osascript',
+    },
+  },
+  {
+    from: {
+      key_code: "e",
+      modifiers: {
+        mandatory: ["option"],
+        optional: ["any"],
+      },
+    },
+    to: {
+      key_code: "left_arrow",
+      modifiers: ["left_option", "left_shift", "left_command", "left_control"],
+    },
+  },
+  {
+    from: {
+      key_code: "r",
+      modifiers: {
+        mandatory: ["option"],
+        optional: ["any"],
+      },
+    },
+    to: {
+      key_code: "right_arrow",
+      modifiers: ["left_option", "left_shift", "left_command", "left_control"],
+    },
+  },
+  {
     from: { key_code: "w" },
     to: {
       key_code: "q",
       modifiers: ["left_option"],
+    },
+  },
+  {
+    from: { key_code: "spacebar" },
+    to: {
+      key_code: "equal_sign",
+      modifiers: ["left_option", "left_shift", "left_control"],
     },
   },
 ];
@@ -272,6 +319,57 @@ const nav_mode = {
     ],
     type: "basic",
   })),
+};
+const command_for_alfred = {
+  description: "tap command to open alfred",
+  manipulators: [
+    {
+      type: "basic",
+      from: {
+        key_code: "left_option",
+        modifiers: {
+          optional: ["any"],
+        },
+      },
+      to: [
+        {
+          key_code: "left_option",
+          lazy: true,
+        },
+      ],
+      to_if_alone: [
+        {
+          key_code: "spacebar",
+          modifiers: ["left_command"],
+        },
+      ],
+    },
+  ],
+};
+const misc_shortcuts = {
+  description: "miscellaneous shortcuts",
+  manipulators: [
+    {
+      type: "basic",
+      from: {
+        key_code: "spacebar",
+        modifiers: {
+          mandatory: ["option"],
+        },
+      },
+      to: { shell_command: 'open -na "Google Chrome" --args --new-window' },
+    },
+    {
+      type: "basic",
+      from: {
+        key_code: "delete_or_backspace",
+        modifiers: {
+          mandatory: ["left_option"],
+        },
+      },
+      to: { key_code: "delete_forward" },
+    },
+  ],
 };
 const fn_function_keys = [
   {
@@ -375,7 +473,7 @@ const profiles = [
   {
     complex_modifications: {
       parameters,
-      rules: [caps_lock_toggler, nav_mode],
+      rules: [caps_lock_toggler, nav_mode, command_for_alfred, misc_shortcuts],
     },
     devices: [],
     // fn_function_keys,
