@@ -431,6 +431,48 @@
               },
               {
                 "from": {
+                  "key_code": "open_bracket"
+                },
+                "to": {
+                  "key_code": "open_bracket",
+                  "modifiers": [
+                    "left_control",
+                    "left_option",
+                    "left_command"
+                  ]
+                },
+                "conditions": [
+                  {
+                    "name": "nav_mode",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "close_bracket"
+                },
+                "to": {
+                  "key_code": "close_bracket",
+                  "modifiers": [
+                    "left_control",
+                    "left_option",
+                    "left_command"
+                  ]
+                },
+                "conditions": [
+                  {
+                    "name": "nav_mode",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
                   "key_code": "d"
                 },
                 "to": {
@@ -576,22 +618,60 @@
                 "type": "basic"
               },
               {
-                "from": {
-                  "key_code": "w"
-                },
-                "to": {
-                  "key_code": "q",
-                  "modifiers": [
-                    "left_option"
-                  ]
-                },
                 "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "com\\.googlecode\\.iterm2",
+                      "com\\.microsoft\\.VSCode",
+                      "com\\.google\\.Chrome",
+                      "com\\.apple\\.finder"
+                    ]
+                  },
                   {
                     "name": "nav_mode",
                     "type": "variable_if",
                     "value": 1
                   }
                 ],
+                "from": {
+                  "key_code": "w"
+                },
+                "to": {
+                  "key_code": "w",
+                  "modifiers": [
+                    "left_option",
+                    "left_shift"
+                  ]
+                },
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "com\\.googlecode\\.iterm2",
+                      "com\\.microsoft\\.VSCode",
+                      "com\\.google\\.Chrome",
+                      "com\\.apple\\.finder"
+                    ]
+                  },
+                  {
+                    "name": "nav_mode",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "w"
+                },
+                "to": {
+                  "key_code": "w",
+                  "modifiers": [
+                    "left_option"
+                  ]
+                },
                 "type": "basic"
               },
               {
@@ -676,6 +756,32 @@
                 },
                 "to": {
                   "key_code": "delete_forward"
+                }
+              },
+              {
+                "type": "basic",
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "com\\.apple\\.finder"
+                    ]
+                  }
+                ],
+                "from": {
+                  "key_code": "w",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_option"
+                    ]
+                  }
+                },
+                "to": {
+                  "key_code": "w",
+                  "modifiers": [
+                    "left_option",
+                    "left_shift"
+                  ]
                 }
               }
             ]
