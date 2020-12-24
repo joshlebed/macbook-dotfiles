@@ -43,6 +43,12 @@ const caps_lock_toggler = {
     },
   ],
 };
+const app_bundle_identifiers_with_command_shift_w_to_close_window = [
+  "com\\.googlecode\\.iterm2",
+  "com\\.microsoft\\.VSCode",
+  "com\\.google\\.Chrome",
+  "com\\.apple\\.finder",
+];
 const nav_mappings = [
   // text nav
   {
@@ -203,7 +209,7 @@ const nav_mappings = [
       modifiers: ["left_control"],
     },
   },
-  // editor group nav
+  // vscode nav
   {
     from: {
       key_code: "u",
@@ -226,6 +232,24 @@ const nav_mappings = [
     to: {
       key_code: "f13",
       modifiers: ["left_control", "left_shift"],
+    },
+  },
+  {
+    from: {
+      key_code: "open_bracket",
+    },
+    to: {
+      key_code: "open_bracket",
+      modifiers: ["left_control", "left_option", "left_command"],
+    },
+  },
+  {
+    from: {
+      key_code: "close_bracket",
+    },
+    to: {
+      key_code: "close_bracket",
+      modifiers: ["left_control", "left_option", "left_command"],
     },
   },
   // spaces nav
@@ -292,9 +316,28 @@ const nav_mappings = [
     },
   },
   {
+    conditions: [
+      {
+        type: "frontmost_application_if",
+        bundle_identifiers: app_bundle_identifiers_with_command_shift_w_to_close_window,
+      },
+    ],
     from: { key_code: "w" },
     to: {
-      key_code: "q",
+      key_code: "w",
+      modifiers: ["left_option", "left_shift"],
+    },
+  },
+  {
+    conditions: [
+      {
+        type: "frontmost_application_unless",
+        bundle_identifiers: app_bundle_identifiers_with_command_shift_w_to_close_window,
+      },
+    ],
+    from: { key_code: "w" },
+    to: {
+      key_code: "w",
       modifiers: ["left_option"],
     },
   },
@@ -310,13 +353,13 @@ const nav_mode = {
   description: "nav_mode",
   manipulators: nav_mappings.map((item) => ({
     ...item,
-    conditions: [
+    conditions: (item.conditions || []).concat([
       {
         name: "nav_mode",
         type: "variable_if",
         value: 1,
       },
-    ],
+    ]),
     type: "basic",
   })),
 };
@@ -368,6 +411,23 @@ const misc_shortcuts = {
         },
       },
       to: { key_code: "delete_forward" },
+    },
+    {
+      type: "basic",
+      conditions: [
+        {
+          type: "frontmost_application_if",
+          bundle_identifiers: ["com\\.apple\\.finder"],
+        },
+      ],
+      from: {
+        key_code: "w",
+        modifiers: { mandatory: ["left_option"] },
+      },
+      to: {
+        key_code: "w",
+        modifiers: ["left_option", "left_shift"],
+      },
     },
   ],
 };
