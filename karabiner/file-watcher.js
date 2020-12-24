@@ -3,11 +3,7 @@ import { exec } from "child_process";
 
 const fname = "./karabiner.js";
 
-console.log("watching for changes...");
-
-fs.watchFile(fname, (curr, prev) => {
-  console.log("changes detected");
-
+const build = () => {
   exec("node config-builder.js", (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
@@ -19,4 +15,13 @@ fs.watchFile(fname, (curr, prev) => {
     }
     console.log(`stdout: ${stdout}`);
   });
+};
+
+console.log("initial build...");
+build();
+console.log("watching for changes...");
+
+fs.watchFile(fname, (curr, prev) => {
+  console.log("changes detected");
+  build();
 });
