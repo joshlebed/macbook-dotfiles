@@ -145,7 +145,8 @@ const nav_mappings = [
       },
     },
     to: {
-      key_code: "home",
+      key_code: "left_arrow",
+      modifiers: ["left_option"],
     },
   },
   {
@@ -157,7 +158,8 @@ const nav_mappings = [
       },
     },
     to: {
-      key_code: "end",
+      key_code: "right_arrow",
+      modifiers: ["left_option"],
     },
   },
   {
@@ -169,7 +171,8 @@ const nav_mappings = [
       },
     },
     to: {
-      key_code: "home",
+      key_code: "left_arrow",
+      modifiers: ["left_option"],
     },
   },
   {
@@ -181,7 +184,8 @@ const nav_mappings = [
       },
     },
     to: {
-      key_code: "end",
+      key_code: "right_arrow",
+      modifiers: ["left_option"],
     },
   },
   // tab nav
@@ -267,6 +271,32 @@ const nav_mappings = [
       modifiers: ["left_control"],
     },
   },
+  {
+    from: {
+      key_code: "d",
+      modifiers: {
+        mandatory: ["option"],
+        optional: ["any"],
+      },
+    },
+    to: {
+      key_code: "f16",
+      modifiers: ["left_command", "left_shift", "left_option"],
+    },
+  },
+  {
+    from: {
+      key_code: "f",
+      modifiers: {
+        mandatory: ["option"],
+        optional: ["any"],
+      },
+    },
+    to: {
+      key_code: "f16",
+      modifiers: ["left_command", "left_option"],
+    },
+  },
   // window nav
   {
     from: { key_code: "s" },
@@ -276,17 +306,23 @@ const nav_mappings = [
     },
   },
   {
-    from: { key_code: "e" },
+    from: { key_code: "a" },
     to: {
       shell_command:
-        'echo "tell application \\"System Events\\" to key code 50 using command down" | osascript',
+        'echo "tell application \\"System Events\\" to key code 48 using command down" | osascript',
+    },
+  },
+  {
+    from: { key_code: "e" },
+    to: {
+      key_code: "f16",
+      modifiers: ["left_shift"],
     },
   },
   {
     from: { key_code: "r" },
     to: {
-      shell_command:
-        'echo "tell application \\"System Events\\" to key code 50 using command down" | osascript',
+      key_code: "f16",
     },
   },
   {
@@ -298,8 +334,8 @@ const nav_mappings = [
       },
     },
     to: {
-      key_code: "left_arrow",
-      modifiers: ["left_option", "left_shift", "left_command", "left_control"],
+      key_code: "f16",
+      modifiers: ["left_option", "left_shift"],
     },
   },
   {
@@ -311,8 +347,8 @@ const nav_mappings = [
       },
     },
     to: {
-      key_code: "right_arrow",
-      modifiers: ["left_option", "left_shift", "left_command", "left_control"],
+      key_code: "f16",
+      modifiers: ["left_option"],
     },
   },
   {
@@ -389,6 +425,32 @@ const command_for_alfred = {
     },
   ],
 };
+const option_for_notifications = {
+  description: "tap option to open notification panel",
+  manipulators: [
+    {
+      type: "basic",
+      from: {
+        key_code: "left_command",
+        modifiers: {
+          optional: ["any"],
+        },
+      },
+      to: [
+        {
+          key_code: "left_command",
+          lazy: true,
+        },
+      ],
+      to_if_alone: [
+        {
+          key_code: "f8",
+          modifiers: ["left_command", "left_control", "left_option"],
+        },
+      ],
+    },
+  ],
+};
 const misc_shortcuts = {
   description: "miscellaneous shortcuts",
   manipulators: [
@@ -403,6 +465,12 @@ const misc_shortcuts = {
       to: { shell_command: 'open -na "Google Chrome" --args --new-window' },
     },
     {
+      conditions: [
+        {
+          type: "frontmost_application_unless",
+          bundle_identifiers: ["com\\.apple\\.finder"],
+        },
+      ],
       type: "basic",
       from: {
         key_code: "delete_or_backspace",
@@ -427,6 +495,37 @@ const misc_shortcuts = {
       to: {
         key_code: "w",
         modifiers: ["left_option", "left_shift"],
+      },
+    },
+    {
+      type: "basic",
+      from: {
+        key_code: "f11",
+        modifiers: { mandatory: ["left_option"] },
+      },
+      to: {
+        shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh down",
+      },
+    },
+    {
+      type: "basic",
+      from: {
+        key_code: "f12",
+        modifiers: { mandatory: ["left_option"] },
+      },
+      to: {
+        shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh up",
+      },
+    },
+    {
+      type: "basic",
+      from: {
+        key_code: "h",
+        modifiers: { mandatory: ["left_option"] },
+      },
+      to: {
+        key_code: "f",
+        modifiers: ["left_option", "left_command"],
       },
     },
   ],
@@ -533,7 +632,13 @@ const profiles = [
   {
     complex_modifications: {
       parameters,
-      rules: [caps_lock_toggler, nav_mode, command_for_alfred, misc_shortcuts],
+      rules: [
+        caps_lock_toggler,
+        nav_mode,
+        command_for_alfred,
+        option_for_notifications,
+        misc_shortcuts,
+      ],
     },
     devices: [],
     // fn_function_keys,
