@@ -811,7 +811,7 @@
             ]
           },
           {
-            "description": "tap option to open alfred",
+            "description": "tap option to open notification panel",
             "manipulators": [
               {
                 "type": "basic",
