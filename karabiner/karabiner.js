@@ -50,6 +50,12 @@ const app_bundle_identifiers_with_command_shift_w_to_close_window = [
   "com\\.apple\\.finder",
 ];
 const nav_mappings = [
+  {
+    from: {
+      key_code: "quote",
+    },
+    to: { key_code: "return_or_enter" },
+  },
   // text nav
   {
     from: {
@@ -96,7 +102,7 @@ const nav_mappings = [
     },
     to: {
       key_code: "left_arrow",
-      modifiers: ["left_command"],
+      modifiers: ["left_option"],
     },
   },
   {
@@ -108,7 +114,7 @@ const nav_mappings = [
     },
     to: {
       key_code: "right_arrow",
-      modifiers: ["left_command"],
+      modifiers: ["left_option"],
     },
   },
   // text nav holding command
@@ -116,7 +122,7 @@ const nav_mappings = [
     from: {
       key_code: "i",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
@@ -128,7 +134,7 @@ const nav_mappings = [
     from: {
       key_code: "k",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
@@ -140,52 +146,52 @@ const nav_mappings = [
     from: {
       key_code: "j",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
     to: {
       key_code: "left_arrow",
-      modifiers: ["left_option"],
+      modifiers: ["left_command"],
     },
   },
   {
     from: {
       key_code: "l",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
     to: {
       key_code: "right_arrow",
-      modifiers: ["left_option"],
+      modifiers: ["left_command"],
     },
   },
   {
     from: {
       key_code: "h",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
     to: {
       key_code: "left_arrow",
-      modifiers: ["left_option"],
+      modifiers: ["left_command"],
     },
   },
   {
     from: {
       key_code: "semicolon",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
     to: {
       key_code: "right_arrow",
-      modifiers: ["left_option"],
+      modifiers: ["left_command"],
     },
   },
   // tab nav
@@ -193,7 +199,7 @@ const nav_mappings = [
     from: {
       key_code: "u",
       modifiers: {
-        optional: ["command"],
+        optional: ["option"],
       },
     },
     to: {
@@ -205,7 +211,7 @@ const nav_mappings = [
     from: {
       key_code: "o",
       modifiers: {
-        optional: ["command"],
+        optional: ["option"],
       },
     },
     to: {
@@ -214,11 +220,12 @@ const nav_mappings = [
     },
   },
   // vscode nav
+  // vscode change tab groups left/right
   {
     from: {
       key_code: "u",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
       },
     },
     to: {
@@ -230,7 +237,7 @@ const nav_mappings = [
     from: {
       key_code: "o",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
       },
     },
     to: {
@@ -238,13 +245,14 @@ const nav_mappings = [
       modifiers: ["left_control", "left_shift"],
     },
   },
+  // vscode search results nav up/down
   {
     from: {
       key_code: "open_bracket",
     },
     to: {
       key_code: "open_bracket",
-      modifiers: ["left_control", "left_option", "left_command"],
+      modifiers: ["left_control", "left_command", "left_option"],
     },
   },
   {
@@ -253,9 +261,35 @@ const nav_mappings = [
     },
     to: {
       key_code: "close_bracket",
-      modifiers: ["left_control", "left_option", "left_command"],
+      modifiers: ["left_control", "left_command", "left_option"],
     },
   },
+  // hop through vscode search results
+  {
+    from: {
+      key_code: "m",
+      modifiers: {
+        mandatory: ["command"],
+      },
+    },
+    to: {
+      key_code: "open_bracket",
+      modifiers: ["left_control", "left_command", "left_option"],
+    },
+  },
+  {
+    from: {
+      key_code: "period",
+      modifiers: {
+        mandatory: ["command"],
+      },
+    },
+    to: {
+      key_code: "close_bracket",
+      modifiers: ["left_control", "left_command", "left_option"],
+    },
+  },
+
   // spaces nav
   {
     from: { key_code: "d" },
@@ -275,26 +309,26 @@ const nav_mappings = [
     from: {
       key_code: "d",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
     to: {
       key_code: "f16",
-      modifiers: ["left_command", "left_shift", "left_option"],
+      modifiers: ["left_option", "left_shift", "left_command"],
     },
   },
   {
     from: {
       key_code: "f",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
     to: {
       key_code: "f16",
-      modifiers: ["left_command", "left_option"],
+      modifiers: ["left_option", "left_command"],
     },
   },
   // window nav
@@ -329,26 +363,26 @@ const nav_mappings = [
     from: {
       key_code: "e",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
     to: {
       key_code: "f16",
-      modifiers: ["left_option", "left_shift"],
+      modifiers: ["left_command", "left_shift"],
     },
   },
   {
     from: {
       key_code: "r",
       modifiers: {
-        mandatory: ["option"],
+        mandatory: ["command"],
         optional: ["any"],
       },
     },
     to: {
       key_code: "f16",
-      modifiers: ["left_option"],
+      modifiers: ["left_command"],
     },
   },
   {
@@ -361,7 +395,7 @@ const nav_mappings = [
     from: { key_code: "w" },
     to: {
       key_code: "w",
-      modifiers: ["left_option", "left_shift"],
+      modifiers: ["left_command", "left_shift"],
     },
   },
   {
@@ -374,15 +408,24 @@ const nav_mappings = [
     from: { key_code: "w" },
     to: {
       key_code: "w",
-      modifiers: ["left_option"],
+      modifiers: ["left_command"],
     },
   },
   {
     from: { key_code: "spacebar" },
     to: {
       key_code: "equal_sign",
-      modifiers: ["left_option", "left_shift", "left_control"],
+      modifiers: ["left_command", "left_shift", "left_control"],
     },
+  },
+  // forward/back
+  {
+    from: { key_code: "m" },
+    to: { key_code: "open_bracket", modifiers: ["left_command"] },
+  },
+  {
+    from: { key_code: "period" },
+    to: { key_code: "close_bracket", modifiers: ["left_command"] },
   },
 ];
 const nav_mode = {
@@ -405,32 +448,6 @@ const command_for_alfred = {
     {
       type: "basic",
       from: {
-        key_code: "left_option",
-        modifiers: {
-          optional: ["any"],
-        },
-      },
-      to: [
-        {
-          key_code: "left_option",
-          lazy: true,
-        },
-      ],
-      to_if_alone: [
-        {
-          key_code: "spacebar",
-          modifiers: ["left_command"],
-        },
-      ],
-    },
-  ],
-};
-const option_for_notifications = {
-  description: "tap option to open notification panel",
-  manipulators: [
-    {
-      type: "basic",
-      from: {
         key_code: "left_command",
         modifiers: {
           optional: ["any"],
@@ -444,8 +461,34 @@ const option_for_notifications = {
       ],
       to_if_alone: [
         {
+          key_code: "spacebar",
+          modifiers: ["left_option"],
+        },
+      ],
+    },
+  ],
+};
+const option_for_notifications = {
+  description: "tap option to open notification panel",
+  manipulators: [
+    {
+      type: "basic",
+      from: {
+        key_code: "left_option",
+        modifiers: {
+          optional: ["any"],
+        },
+      },
+      to: [
+        {
+          key_code: "left_option",
+          lazy: true,
+        },
+      ],
+      to_if_alone: [
+        {
           key_code: "f8",
-          modifiers: ["left_command", "left_control", "left_option"],
+          modifiers: ["left_option", "left_control", "left_command"],
         },
       ],
     },
@@ -459,7 +502,7 @@ const misc_shortcuts = {
       from: {
         key_code: "spacebar",
         modifiers: {
-          mandatory: ["option"],
+          mandatory: ["command"],
         },
       },
       to: { shell_command: 'open -na "Google Chrome" --args --new-window' },
@@ -475,7 +518,7 @@ const misc_shortcuts = {
       from: {
         key_code: "delete_or_backspace",
         modifiers: {
-          mandatory: ["left_option"],
+          mandatory: ["left_command"],
         },
       },
       to: { key_code: "delete_forward" },
@@ -490,18 +533,18 @@ const misc_shortcuts = {
       ],
       from: {
         key_code: "w",
-        modifiers: { mandatory: ["left_option"] },
+        modifiers: { mandatory: ["left_command"] },
       },
       to: {
         key_code: "w",
-        modifiers: ["left_option", "left_shift"],
+        modifiers: ["left_command", "left_shift"],
       },
     },
     {
       type: "basic",
       from: {
         key_code: "f11",
-        modifiers: { mandatory: ["left_option"] },
+        modifiers: { mandatory: ["left_command"] },
       },
       to: {
         shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh down",
@@ -511,7 +554,7 @@ const misc_shortcuts = {
       type: "basic",
       from: {
         key_code: "f12",
-        modifiers: { mandatory: ["left_option"] },
+        modifiers: { mandatory: ["left_command"] },
       },
       to: {
         shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh up",
@@ -521,15 +564,117 @@ const misc_shortcuts = {
       type: "basic",
       from: {
         key_code: "h",
-        modifiers: { mandatory: ["left_option"] },
+        modifiers: { mandatory: ["left_command"] },
       },
       to: {
         key_code: "f",
-        modifiers: ["left_option", "left_command"],
+        modifiers: ["left_command", "left_option"],
       },
     },
+    // {
+    //   type: "basic",
+    //   from: {
+    //     key_code: "volume_decrement",
+    //   },
+    //   to: {
+    //     key_code: "a",
+    //   },
+    // },
+    // {
+    //   type: "basic",
+    //   from: {
+    //     key_code: "volume_increment",
+    //   },
+    //   to: {
+    //     key_code: "b",
+    //   },
+    // },
+    {
+      type: "basic",
+      from: {
+        key_code: "f17",
+      },
+      to: {
+        key_code: "volume_decrement",
+        modifiers: ["left_shift", "left_option"],
+      },
+    },
+    {
+      type: "basic",
+      from: {
+        key_code: "f18",
+      },
+      to: {
+        key_code: "volume_increment",
+        modifiers: ["left_shift", "left_option"],
+      },
+    },
+    {
+      type: "basic",
+      from: {
+        key_code: "f17",
+        modifiers: { mandatory: ["left_shift"] },
+      },
+      to: {
+        key_code: "volume_decrement",
+      },
+    },
+    {
+      type: "basic",
+      from: {
+        key_code: "f18",
+        modifiers: { mandatory: ["left_shift"] },
+      },
+      to: {
+        key_code: "volume_increment",
+      },
+    },
+    // {
+    //   type: "basic",
+    //   from: {
+    //     key_code: "f14",
+    //   },
+    //   to: {
+    //     key_code: "volume_increment",
+    //     modifiers: ["left_shift", "left_option"],
+    //   },
+    // },
   ],
 };
+const switch_command_and_option = [
+  {
+    from: {
+      key_code: "left_option",
+    },
+    to: {
+      key_code: "left_command",
+    },
+  },
+  {
+    from: {
+      key_code: "left_command",
+    },
+    to: {
+      key_code: "left_option",
+    },
+  },
+  {
+    from: {
+      key_code: "right_option",
+    },
+    to: {
+      key_code: "right_command",
+    },
+  },
+  {
+    from: {
+      key_code: "right_command",
+    },
+    to: {
+      key_code: "right_option",
+    },
+  },
+];
 const fn_function_keys = [
   {
     from: {
@@ -628,35 +773,38 @@ const fn_function_keys = [
     },
   },
 ];
-const profiles = [
-  {
-    complex_modifications: {
-      parameters,
-      rules: [
-        caps_lock_toggler,
-        nav_mode,
-        command_for_alfred,
-        option_for_notifications,
-        misc_shortcuts,
-      ],
-    },
-    devices: [],
-    // fn_function_keys,
-    name: "Default profile",
-    parameters: {
-      delay_milliseconds_before_open_device: 1000,
-    },
-    selected: true,
-    simple_modifications: [],
-    virtual_hid_keyboard: {
-      country_code: 0,
-      mouse_key_xy_scale: 100,
-    },
+
+const default_profile = {
+  complex_modifications: {
+    parameters,
+    rules: [
+      caps_lock_toggler,
+      nav_mode,
+      command_for_alfred,
+      option_for_notifications,
+      misc_shortcuts,
+    ],
   },
-];
+  name: "No Name",
+  parameters: {
+    delay_milliseconds_before_open_device: 1000,
+  },
+  virtual_hid_keyboard: {
+    country_code: 0,
+    mouse_key_xy_scale: 100,
+  },
+  selected: true,
+  name: "Default profile",
+  simple_modifications: switch_command_and_option,
+};
+
+const empty_profile = {
+  name: "Emtpy profile",
+};
+
 const config = {
   global,
-  profiles,
+  profiles: [default_profile, empty_profile],
 };
 
 export default config;
