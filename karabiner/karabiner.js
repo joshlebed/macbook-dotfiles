@@ -793,9 +793,50 @@ const default_profile = {
     country_code: 0,
     mouse_key_xy_scale: 100,
   },
+  devices: [
+    {
+      disable_built_in_keyboard_if_exists: false,
+      fn_function_keys: [],
+      identifiers: {
+        is_keyboard: true,
+        is_pointing_device: true,
+        product_id: 832,
+        vendor_id: 1452,
+      },
+      ignore: false,
+      manipulate_caps_lock_led: false,
+      simple_modifications: [],
+    },
+    {
+      disable_built_in_keyboard_if_exists: false,
+      fn_function_keys: [],
+      identifiers: {
+        is_keyboard: true,
+        is_pointing_device: false,
+        product_id: 4,
+        vendor_id: 9494,
+      },
+      ignore: false,
+      manipulate_caps_lock_led: false,
+      simple_modifications: switch_command_and_option,
+    },
+    {
+      disable_built_in_keyboard_if_exists: false,
+      fn_function_keys: [],
+      identifiers: {
+        is_keyboard: true,
+        is_pointing_device: false,
+        product_id: 6505,
+        vendor_id: 12951,
+      },
+      ignore: false,
+      manipulate_caps_lock_led: false,
+      simple_modifications: switch_command_and_option,
+    },
+  ],
   selected: true,
   name: "Default profile",
-  simple_modifications: switch_command_and_option,
+  // simple_modifications: switch_command_and_option,
 };
 
 const empty_profile = {
