@@ -1,0 +1,378 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "key": "shift+cmd+enter",
+    "command": "editor.action.goToReferences",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd+shift+\\",
+    "command": "workbench.action.moveEditorToNextGroup"
+  },
+  {
+    "key": "alt+n",
+    "command": "workbench.action.newGroupRight"
+  },
+  { "key": "cmd+,", "command": "workbench.action.openSettingsJson" },
+  {
+    "key": "cmd+shift+,",
+    "command": "workbench.action.openGlobalKeybindingsFile"
+  },
+  { "key": "cmd+j", "command": "workbench.action.terminal.focus" },
+  {
+    "key": "cmd+j",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalFocus"
+  },
+  { "key": "cmd+k cmd+enter", "command": "workbench.action.keepEditor" },
+  {
+    "key": "cmd+alt+b",
+    "command": "workbench.action.toggleActivityBarVisibility"
+  },
+  {
+    "key": "cmd+shift+alt+f13",
+    "command": "editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "cmd+shift+alt+f13",
+    "command": "toggleSuggestionDetails",
+    "when": "suggestWidgetVisible && textInputFocus"
+  },
+  {
+    "key": "cmd+k cmd+m",
+    "command": "search",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+tab",
+    "command": "workbench.action.nextEditorInGroup"
+  },
+  {
+    "key": "ctrl+shift+tab",
+    "command": "workbench.action.previousEditorInGroup"
+  },
+  {
+    "key": "ctrl+f13",
+    "command": "workbench.action.focusPreviousGroup"
+  },
+  {
+    "key": "ctrl+shift+f13",
+    "command": "workbench.action.focusNextGroup"
+  },
+  {
+    "key": "cmd+d",
+    "command": "editor.action.smartSelect.expand",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "shift+alt+right",
+    "command": "-editor.action.smartSelect.expand",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd+shift+d",
+    "command": "editor.action.smartSelect.shrink",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "shift+alt+left",
+    "command": "-editor.action.smartSelect.shrink",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "end",
+    "command": "cursorLineEnd"
+  },
+  {
+    "key": "home",
+    "command": "cursorLineStart"
+  },
+  {
+    "key": "cmd+enter",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "f12",
+    "command": "-editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "cmd+shift+enter",
+    "command": "editor.action.goToReferences",
+    "when": "editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+  },
+  {
+    "key": "shift+f12",
+    "command": "-editor.action.goToReferences",
+    "when": "editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+  },
+  {
+    "key": "cmd+shift+enter",
+    "command": "goToNextReference",
+    "when": "inReferenceSearchEditor || referenceSearchVisible"
+  },
+  {
+    "key": "shift+f12",
+    "command": "-goToPreviousReference",
+    "when": "inReferenceSearchEditor || referenceSearchVisible"
+  },
+  {
+    "key": "cmd+shift+r",
+    "command": "workbench.files.action.showActiveFileInExplorer"
+  },
+  {
+    "key": "cmd+alt+r",
+    "command": "workbench.action.reloadWindow",
+    "when": "isDevelopment"
+  },
+  {
+    "key": "cmd+r",
+    "command": "-workbench.action.reloadWindow",
+    "when": "isDevelopment"
+  },
+  {
+    "key": "cmd+shift+j",
+    "command": "workbench.action.closePanel",
+    "when": "activePanel"
+  },
+  {
+    "key": "cmd+shift+j",
+    "command": "workbench.action.terminal.focus",
+    "when": "!activePanel"
+  },
+  {
+    "key": "cmd+shift+g",
+    "command": "multiCommand.gitSchwifty",
+    "when": "!sideBarVisible || !activePanel"
+  },
+  {
+    "key": "shift+cmd+g",
+    "command": "multiCommand.hideSidebars",
+    "when": "sideBarVisible && activePanel"
+  },
+  {
+    "key": "cmd+l alt+b",
+    "command": "-latex-workshop.build",
+    "when": "config.latex-workshop.bind.altKeymap.enabled && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l alt+b",
+    "command": "-latex-workshop.build",
+    "when": "config.latex-workshop.bind.altKeymap.enabled && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l alt+c",
+    "command": "-latex-workshop.clean",
+    "when": "config.latex-workshop.bind.altKeymap.enabled && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l alt+v",
+    "command": "-latex-workshop.view",
+    "when": "config.latex-workshop.bind.altKeymap.enabled && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l alt+j",
+    "command": "-latex-workshop.synctex",
+    "when": "config.latex-workshop.bind.altKeymap.enabled && editorTextFocus && editorLangId == 'latex'"
+  },
+  {
+    "key": "cmd+l alt+x",
+    "command": "-workbench.view.extension.latex",
+    "when": "config.latex-workshop.bind.altKeymap.enabled"
+  },
+  {
+    "key": "cmd+l [",
+    "command": "-latex-workshop.promote-sectioning",
+    "when": "config.latex-workshop.bind.altKeymap.enabled && editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l ]",
+    "command": "-latex-workshop.demote-sectioning",
+    "when": "config.latex-workshop.bind.altKeymap.enabled && editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+enter",
+    "command": "-latex-workshop.shortcut.item",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+b",
+    "command": "-latex-workshop.shortcut.textbf",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+i",
+    "command": "-latex-workshop.shortcut.textit",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+u",
+    "command": "-latex-workshop.shortcut.underline",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+e",
+    "command": "-latex-workshop.shortcut.emph",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+r",
+    "command": "-latex-workshop.shortcut.textrm",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+t",
+    "command": "-latex-workshop.shortcut.texttt",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+s",
+    "command": "-latex-workshop.shortcut.textsl",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+c",
+    "command": "-latex-workshop.shortcut.textsc",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+n",
+    "command": "-latex-workshop.shortcut.textnormal",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+6",
+    "command": "-latex-workshop.shortcut.textsuperscript",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+-",
+    "command": "-latex-workshop.shortcut.textsubscript",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+l",
+    "command": "-expandLineSelection",
+    "when": "textInputFocus && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+m",
+    "command": "-editor.action.toggleTabFocusMode",
+    "when": "textInputFocus && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "cmd+l cmd+w",
+    "command": "-latex-workshop.surround",
+    "when": "editorHasSelection && editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
+  },
+  {
+    "key": "PageDown",
+    "command": "cursorMove",
+    "args": { "to": "viewPortBottom" },
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "PageUp",
+    "command": "cursorMove",
+    "args": { "to": "viewPortTop" },
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "cmd+shift+=",
+    "command": "editor.action.fontZoomIn"
+  },
+  {
+    "key": "cmd+shift+-",
+    "command": "editor.action.fontZoomOut"
+  },
+  {
+    "key": "cmd+[",
+    "command": "workbench.action.navigateBack"
+  },
+  {
+    "key": "ctrl+-",
+    "command": "-workbench.action.navigateBack"
+  },
+  {
+    "key": "cmd+]",
+    "command": "workbench.action.navigateForward"
+  },
+  {
+    "key": "ctrl+shift+-",
+    "command": "-workbench.action.navigateForward"
+  },
+  {
+    "key": "shift+cmd+w",
+    "command": "workbench.action.closeWindow"
+  },
+  {
+    "key": "shift+cmd+w",
+    "command": "-workbench.action.closeWindow"
+  },
+  {
+    "key": "cmd+r",
+    "command": "workbench.action.openRecent"
+  },
+  {
+    "key": "ctrl+r",
+    "command": "-workbench.action.openRecent"
+  },
+  {
+    "key": "cmd+.",
+    "command": "editor.action.showHover",
+    "when": "editorFocus"
+  },
+  {
+    "key": "shift+cmd+.",
+    "command": "editor.action.quickFix",
+    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "cmd+.",
+    "command": "-editor.action.quickFix",
+    "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+  },
+  // folding
+  {
+    "key": "cmd+k cmd+j",
+    "command": "editor.fold",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "cmd+k cmd+l",
+    "command": "editor.unfold",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "cmd+k cmd+m",
+    "command": "editor.foldRecursively",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "cmd+k cmd+.",
+    "command": "editor.unfoldRecursively",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "ctrl+alt+cmd+]",
+    "command": "search.action.focusNextSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    "key": "f4",
+    "command": "-search.action.focusNextSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    "key": "ctrl+alt+cmd+[",
+    "command": "search.action.focusPreviousSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    "key": "shift+f4",
+    "command": "-search.action.focusPreviousSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  }
+]
