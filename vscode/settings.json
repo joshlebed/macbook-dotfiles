@@ -3,6 +3,7 @@
   // "editor.lineNumbers": "off",
   "workbench.activityBar.visible": false,
   "editor.formatOnSave": true,
+  "prettier.tabWidth": 2,
   "files.autoSave": "onFocusChange",
   "editor.rulers": [100],
 
@@ -85,15 +86,6 @@
     "enable": false
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "latex-workshop.latex.autoBuild.run": "onFileChange",
-  "latex-workshop.latex.watch.usePolling": true,
-  "latex-workshop.latexindent.args": [
-    "-c",
-    "%DIR%/",
-    "%TMPFILE%",
-    "-y=defaultIndent: '  '"
-  ],
-  "latex-workshop.view.pdf.viewer": "tab",
   "python.linting.pylintArgs": ["--indent-string=\"    \""],
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
@@ -177,5 +169,10 @@
   },
   "emmet.showExpandedAbbreviation": "never",
   "python.pythonPath": "/usr/local/bin/python3",
+  "telemetry.enableTelemetry": false,
+  "extensions.autoUpdate": false,
+  "liveshare.connectionMode": "relay",
+  "liveshare.anonymousGuestApproval": "reject",
+  "liveshare.allowedDomains": ["bloomberg.com"],
   "window.zoomLevel": 1
 }
