@@ -438,15 +438,6 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
-		<key>0x33-0x0-0x14</key>
-		<dict>
-			<key>Action</key>
-			<integer>10</integer>
-			<key>Label</key>
-			<string></string>
-			<key>Text</key>
-			<string>f</string>
-		</dict>
 		<key>0x9-0x40000-0x0</key>
 		<dict>
 			<key>Action</key>
@@ -1316,6 +1307,10 @@
 	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
+	<key>OpenArrangementAtStartup</key>
+	<false/>
+	<key>OpenNoWindowsAtStartup</key>
+	<true/>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -1357,5 +1352,7 @@
 	<false/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
+	<key>findMode_iTerm</key>
+	<integer>0</integer>
 </dict>
 </plist>
