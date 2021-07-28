@@ -1,178 +1,205 @@
 {
-  // frequently edited
-  // "editor.lineNumbers": "off",
-  "workbench.activityBar.visible": false,
-  "editor.formatOnSave": true,
-  "prettier.tabWidth": 2,
-  "files.autoSave": "onFocusChange",
-  "editor.rulers": [100],
-
-  // everything else
-  "eslint.validate": ["javascript"],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-    // "source.organizeImports": true
-  },
-  "editor.glyphMargin": false,
-  "workbench.editor.enablePreview": false,
-  "workbench.editor.enablePreviewFromQuickOpen": true,
-  "window.openFoldersInNewWindow": "on",
-  "editor.autoClosingOvertype": "always",
-  "editor.minimap.enabled": false,
-  "workbench.editor.tabCloseButton": "off",
-  "workbench.editor.closeEmptyGroups": false,
-  "workbench.colorCustomizations": {
-    "statusBar.background": "#1A1A1A",
-    "statusBar.noFolderBackground": "#212121",
-    "statusBar.debuggingBackground": "#263238",
-    "statusBarItem.remoteBackground": "#444",
-    "terminal.foreground": "#D3D7CF",
-    "terminal.background": "#300A24",
-    "terminal.ansiBlack": "#300A24",
-    "terminal.ansiBlue": "#3465A4",
-    "terminal.ansiBrightBlack": "#555753",
-    "terminal.ansiBrightBlue": "#729FCF",
-    "terminal.ansiBrightCyan": "#34E2E2",
-    "terminal.ansiBrightGreen": "#8AE234",
-    "terminal.ansiBrightMagenta": "#EF2929",
-    "terminal.ansiBrightRed": "#AD7FA8",
-    "terminal.ansiBrightWhite": "#EEEEEE",
-    "terminal.ansiBrightYellow": "#FCE94F",
-    "terminal.ansiCyan": "#06989A",
-    "terminal.ansiGreen": "#4E9A06",
-    "terminal.ansiName": "Ubuntu",
-    "terminal.ansiMagenta": "#75507B",
-    "terminal.ansiRed": "#CC0000",
-    "terminal.ansiWhite": "#D3D7CF",
-    "terminal.ansiYellow": "#C4A000"
-  },
-  "workbench.colorTheme": "Monokai",
-  "window.titleBarStyle": "custom",
-  "workbench.startupEditor": "newUntitledFile",
-  "diffEditor.ignoreTrimWhitespace": false,
-  "workbench.editor.revealIfOpen": true,
-
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "workbench.list.smoothScrolling": true,
-  "editor.smoothScrolling": true,
-  "editor.cursorSmoothCaretAnimation": true,
-  "editor.fontFamily": "Fira Code",
-  "terminal.integrated.fontFamily": "Fira Code",
-  "editor.fontLigatures": true,
-  "terminal.integrated.cursorBlinking": true,
-  "multiCommand.commands": [
-    {
-      "command": "multiCommand.hideSidebars",
-      "sequence": [
-        "workbench.action.closePanel",
-        "workbench.action.closeSidebar"
-      ]
+    "editor.formatOnSave": false,
+    "editor.lineNumbers": "off",
+    "prettier.tabWidth": 2,
+    "files.autoSave": "onFocusChange",
+    "editor.rulers": [
+        100
+    ],
+    "eslint.validate": [
+        "javascript"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
     },
-    {
-      "command": "multiCommand.gitSchwifty",
-      "sequence": ["workbench.view.scm", "workbench.action.terminal.focus"]
-    }
-  ],
-  "eslint.codeAction.disableRuleComment": {
-    "enable": true,
-    "location": "separateLine"
-  },
-  "eslint.codeAction.showDocumentation": {
-    "enable": false
-  },
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "python.linting.pylintArgs": ["--indent-string=\"    \""],
-  "python.formatting.provider": "black",
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
-  "files.associations": {
-    "*.pl": "prolog"
-  },
-
-  "[txt]": {
-    "editor.defaultFormatter": "imjacobclark.vscode-lisp-formatter"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "prettier.proseWrap": "always",
-  "editor.tabSize": 2,
-  "settingsSync.ignoredExtensions": [],
-  "git.autorefresh": true,
-  "editor.cursorSurroundingLines": 9999,
-  "workbench.editorAssociations": [
-    {
-      "viewType": "jupyter-notebook",
-      "filenamePattern": "*.ipynb"
-    }
-  ],
-  "python.autoComplete.extraPaths": [
-    "/mnt/c/Users/Josh/Google Drive/Classes/DSA/project4/00135_zawilw"
-  ],
-  "gitlens.defaultDateFormat": null,
-  "gitlens.menus": {
-    "editor": {
-      "blame": false,
-      "clipboard": true,
-      "compare": true,
-      "history": false,
-      "remote": false,
-      "details": false
+    "editor.glyphMargin": false,
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.enablePreviewFromQuickOpen": true,
+    "window.openFoldersInNewWindow": "on",
+    "editor.autoClosingOvertype": "always",
+    "editor.minimap.enabled": false,
+    "workbench.editor.tabCloseButton": "off",
+    "workbench.editor.closeEmptyGroups": false,
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#1A1A1A",
+        "statusBar.noFolderBackground": "#212121",
+        "statusBar.debuggingBackground": "#263238",
+        "statusBarItem.remoteBackground": "#444",
+        "terminal.foreground": "#D3D7CF",
+        "terminal.background": "#300A24",
+        "terminal.ansiBlack": "#300A24",
+        "terminal.ansiBlue": "#3465A4",
+        "terminal.ansiBrightBlack": "#555753",
+        "terminal.ansiBrightBlue": "#729FCF",
+        "terminal.ansiBrightCyan": "#34E2E2",
+        "terminal.ansiBrightGreen": "#8AE234",
+        "terminal.ansiBrightMagenta": "#EF2929",
+        "terminal.ansiBrightRed": "#AD7FA8",
+        "terminal.ansiBrightWhite": "#EEEEEE",
+        "terminal.ansiBrightYellow": "#FCE94F",
+        "terminal.ansiCyan": "#06989A",
+        "terminal.ansiGreen": "#4E9A06",
+        "terminal.ansiName": "Ubuntu",
+        "terminal.ansiMagenta": "#75507B",
+        "terminal.ansiRed": "#CC0000",
+        "terminal.ansiWhite": "#D3D7CF",
+        "terminal.ansiYellow": "#C4A000"
     },
-    "editorGroup": false,
-    "editorTab": {
-      "clipboard": true,
-      "compare": true,
-      "history": true,
-      "remote": true
+    "workbench.colorTheme": "Monokai",
+    "window.titleBarStyle": "custom",
+    "workbench.startupEditor": "newUntitledFile",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "workbench.editor.revealIfOpen": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "explorer": {
-      "clipboard": true,
-      "compare": true,
-      "history": true,
-      "remote": true
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "scm": {
-      "authors": true
+    "workbench.list.smoothScrolling": true,
+    "editor.smoothScrolling": true,
+    "editor.cursorSmoothCaretAnimation": true,
+    "editor.fontFamily": "Fira Code",
+    "terminal.integrated.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "terminal.integrated.cursorBlinking": true,
+    "multiCommand.commands": [
+        {
+            "command": "multiCommand.hideSidebars",
+            "sequence": [
+                "workbench.action.closePanel",
+                "workbench.action.closeSidebar"
+            ]
+        },
+        {
+            "command": "multiCommand.gitSchwifty",
+            "sequence": [
+                "workbench.view.scm",
+                "workbench.action.terminal.focus"
+            ]
+        }
+    ],
+    "eslint.codeAction.disableRuleComment": {
+        "enable": true,
+        "location": "separateLine"
     },
-    "scmGroupInline": {
-      "stash": true
+    "eslint.codeAction.showDocumentation": {
+        "enable": false
     },
-    "scmGroup": {
-      "compare": true,
-      "openClose": true,
-      "stash": true,
-      "stashInline": true
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "python.linting.pylintArgs": [
+        "--indent-string=\"    \""
+    ],
+    "python.formatting.provider": "black",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "files.associations": {
+        "*.pl": "prolog"
     },
-    "scmItem": {
-      "clipboard": true,
-      "compare": true,
-      "history": true,
-      "remote": true,
-      "stash": true
-    }
-  },
-  "gitlens.keymap": "none",
-  "workbench.panel.defaultLocation": "right",
-  "explorer.confirmDragAndDrop": false,
-  "explorer.confirmDelete": false,
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "emmet.showExpandedAbbreviation": "never",
-  "python.pythonPath": "/usr/local/bin/python3",
-  "telemetry.enableTelemetry": false,
-  "extensions.autoUpdate": false,
-  "liveshare.connectionMode": "relay",
-  "liveshare.anonymousGuestApproval": "reject",
-  "liveshare.allowedDomains": ["bloomberg.com"],
-  "window.zoomLevel": 1
+    "[txt]": {
+        "editor.defaultFormatter": "imjacobclark.vscode-lisp-formatter"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "prettier.proseWrap": "always",
+    "editor.tabSize": 2,
+    "settingsSync.ignoredExtensions": [],
+    "git.autorefresh": true,
+    "editor.cursorSurroundingLines": 9999,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "python.autoComplete.extraPaths": [
+        "/mnt/c/Users/Josh/Google Drive/Classes/DSA/project4/00135_zawilw"
+    ],
+    "gitlens.defaultDateFormat": null,
+    "gitlens.menus": {
+        "editor": {
+            "blame": false,
+            "clipboard": true,
+            "compare": true,
+            "history": false,
+            "remote": false,
+            "details": false
+        },
+        "editorGroup": false,
+        "editorTab": {
+            "clipboard": true,
+            "compare": true,
+            "history": true,
+            "remote": true
+        },
+        "explorer": {
+            "clipboard": true,
+            "compare": true,
+            "history": true,
+            "remote": true
+        },
+        "scm": {
+            "authors": true
+        },
+        "scmGroupInline": {
+            "stash": true
+        },
+        "scmGroup": {
+            "compare": true,
+            "openClose": true,
+            "stash": true,
+            "stashInline": true
+        },
+        "scmItem": {
+            "clipboard": true,
+            "compare": true,
+            "history": true,
+            "remote": true,
+            "stash": true
+        }
+    },
+    "gitlens.keymap": "none",
+    "workbench.panel.defaultLocation": "right",
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "emmet.showExpandedAbbreviation": "never",
+    "python.pythonPath": "/usr/local/bin/python3",
+    "telemetry.enableTelemetry": false,
+    "extensions.autoUpdate": false,
+    "liveshare.connectionMode": "relay",
+    "liveshare.anonymousGuestApproval": "reject",
+    "liveshare.allowedDomains": [
+        "bloomberg.com"
+    ],
+    "workbench.activityBar.visible": false,
+    "[xml]": {
+        "editor.defaultFormatter": "DotJoshJohnson.xml"
+    },
+    "workbench.editor.untitled.hint": "hidden",
+    "git.ignoreMissingGitWarning": true,
+    "remote.containers.defaultExtensions": [
+        "eamodio.gitlens"
+    ],
+    "python.analysis.extraPaths": [
+        "/mnt/c/Users/Josh/Google Drive/Classes/DSA/project4/00135_zawilw"
+    ],
+    "security.workspace.trust.untrustedFiles": "open",
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python"
+    },
+    "window.zoomLevel": 2
 }
