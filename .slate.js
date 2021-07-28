@@ -1,4 +1,5 @@
 debug = false;
+bigDebug = false;
 
 if (debug) slate.log("debug: reloaded");
 const pad = (object, width, direction = "left") =>
@@ -108,6 +109,7 @@ const getCenterX = (win) => {
 };
 
 const directionalFocus = (currentWin, direction) => {
+  if (bigDebug) slate.log("running");
   if (currentWin == null) {
     if (debug) slate.log("debug: null currentWin");
     target = null;
@@ -160,7 +162,7 @@ const directionalFocus = (currentWin, direction) => {
     });
     windows.sort(windowSorter);
     windows.forEach((win) => {
-      slate.log(`debug:      ` + pad(win.app().name(), 20) + "");
+      if (debug) slate.log(`debug:      ` + pad(win.app().name(), 20) + "");
     });
     if (direction == "left") {
       windows.reverse();
@@ -179,8 +181,10 @@ const directionalFocus = (currentWin, direction) => {
     debugWindow(target, "-> target");
     if (debug) slate.log("debug: ");
     target.focus();
+    if (bigDebug) slate.log("done!");
     return;
   }
+  if (bigDebug) slate.log("done, no action");
 };
 
 slate.bind("f16", function (win) {
