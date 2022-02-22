@@ -1,5 +1,5 @@
-debug = false;
-bigDebug = false;
+const debug = true;
+const bigDebug = false;
 
 if (debug) slate.log("debug: reloaded");
 const pad = (object, width, direction = "left") =>
@@ -7,7 +7,7 @@ const pad = (object, width, direction = "left") =>
     ? (`${object}` + " ".repeat(width)).slice(0, width)
     : (" ".repeat(width) + `${object}`).slice(-width);
 
-const blacklist = ["Find in page*"];
+const blacklist = ["Find in page*", "Bloomberg Anywhere"];
 const debugWindow = (window, label) => {
   const rect = window.rect();
   const left = rect.x;
@@ -189,8 +189,10 @@ const directionalFocus = (currentWin, direction) => {
 
 slate.bind("f16", function (win) {
   directionalFocus(win, "right");
+  // if (debug) slate.log("AAAAAAAAA");
 });
 
 slate.bind("f16:shift", function (win) {
   directionalFocus(win, "left");
+  // if (debug) slate.log("BBBBBBBBB");
 });
