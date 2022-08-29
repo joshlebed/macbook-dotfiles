@@ -1,12 +1,27 @@
 // Place your key bindings in this file to override the defaults
 [
   {
+    "key": "ctrl+d",
+    "command": "commandId",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+d",
+    "command": "workbench.view.debug",
+    "when": "viewContainer.workbench.view.debug.enabled"
+  },
+
+  {
     "key": "shift+cmd+enter",
     "command": "editor.action.goToReferences",
     "when": "editorTextFocus"
   },
   {
     "key": "cmd+shift+\\",
+    "command": "workbench.action.moveEditorToNextGroup"
+  },
+  {
+    "key": "shift+cmd+escape",
     "command": "workbench.action.moveEditorToNextGroup"
   },
   {
@@ -134,23 +149,22 @@
   },
   {
     "key": "cmd+shift+j",
-    "command": "workbench.action.closePanel",
-    "when": "activePanel"
-  },
-  {
-    "key": "cmd+shift+j",
-    "command": "workbench.action.terminal.focus",
-    "when": "!activePanel"
-  },
-  {
-    "key": "cmd+shift+g",
-    "command": "multiCommand.gitSchwifty",
-    "when": "!sideBarVisible || !activePanel"
+    "command": "workbench.action.toggleAuxiliaryBar"
   },
   {
     "key": "shift+cmd+g",
-    "command": "multiCommand.hideSidebars",
-    "when": "sideBarVisible && activePanel"
+    "command": "multiCommand.hideSidebarAndToggleAuxiliaryBar",
+    "when": "activeAuxiliary"
+  },
+  {
+    "key": "shift+cmd+g",
+    "command": "workbench.action.closeSidebar",
+    "when": "sideBarVisible && !activeAuxiliary"
+  },
+  {
+    "key": "shift+cmd+g",
+    "command": "multiCommand.activateGitAndTerminal",
+    "when": "!sideBarVisible && !activeAuxiliary"
   },
   {
     "key": "cmd+l alt+b",
