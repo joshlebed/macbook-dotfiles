@@ -8,10 +8,10 @@
 
   // everything else
   "eslint.validate": ["javascript"],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-    // "source.organizeImports": true
-  },
+  "editor.codeActionsOnSave": [
+    "source.organizeImports",
+    "source.fixAll.eslint"
+  ],
   "editor.glyphMargin": false,
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": true,
@@ -51,12 +51,6 @@
   "diffEditor.ignoreTrimWhitespace": false,
   "workbench.editor.revealIfOpen": true,
 
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "workbench.list.smoothScrolling": true,
   "editor.smoothScrolling": true,
   "editor.cursorSmoothCaretAnimation": true,
@@ -77,51 +71,17 @@
       "sequence": ["workbench.view.scm", "workbench.action.terminal.focus"]
     }
   ],
-  "eslint.codeAction.disableRuleComment": {
-    "enable": true,
-    "location": "separateLine"
-  },
-  "eslint.codeAction.showDocumentation": {
-    "enable": false
-  },
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "latex-workshop.latex.autoBuild.run": "onFileChange",
-  "latex-workshop.latex.watch.usePolling": true,
-  "latex-workshop.latexindent.args": [
-    "-c",
-    "%DIR%/",
-    "%TMPFILE%",
-    "-y=defaultIndent: '  '"
-  ],
-  "latex-workshop.view.pdf.viewer": "tab",
-  "python.linting.pylintArgs": ["--indent-string=\"    \""],
-  "python.formatting.provider": "black",
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
   "files.associations": {
     "*.pl": "prolog"
   },
-
-  "[txt]": {
-    "editor.defaultFormatter": "imjacobclark.vscode-lisp-formatter"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "prettier.proseWrap": "always",
   "editor.tabSize": 2,
   "settingsSync.ignoredExtensions": [],
   "git.autorefresh": true,
   "editor.cursorSurroundingLines": 9999,
-  "workbench.editorAssociations": [
-    {
-      "viewType": "jupyter-notebook",
-      "filenamePattern": "*.ipynb"
-    }
-  ],
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
   "python.autoComplete.extraPaths": [
     "/mnt/c/Users/Josh/Google Drive/Classes/DSA/project4/00135_zawilw"
   ],
@@ -175,7 +135,38 @@
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
   "emmet.showExpandedAbbreviation": "never",
   "python.pythonPath": "/usr/local/bin/python3",
-  "window.zoomLevel": 1
+  "python.analysis.extraPaths": [
+    "/mnt/c/Users/Josh/Google Drive/Classes/DSA/project4/00135_zawilw"
+  ],
+  "security.workspace.trust.untrustedFiles": "open",
+  "files.exclude": {
+    "**/.env": true,
+    "**/.git": true,
+    "**.pytest_cache": true,
+    "**__pycache__": true
+  },
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "svg.preview.mode": "svg"
 }
