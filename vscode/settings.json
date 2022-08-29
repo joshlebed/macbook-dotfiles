@@ -60,14 +60,14 @@
   "terminal.integrated.cursorBlinking": true,
   "multiCommand.commands": [
     {
-      "command": "multiCommand.hideSidebars",
+      "command": "multiCommand.hideSidebarAndToggleAuxiliaryBar",
       "sequence": [
-        "workbench.action.closePanel",
-        "workbench.action.closeSidebar"
+        "workbench.action.closeSidebar",
+        "workbench.action.toggleAuxiliaryBar"
       ]
     },
     {
-      "command": "multiCommand.gitSchwifty",
+      "command": "multiCommand.activateGitAndTerminal",
       "sequence": ["workbench.view.scm", "workbench.action.terminal.focus"]
     }
   ],
