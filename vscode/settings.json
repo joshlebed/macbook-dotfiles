@@ -50,7 +50,6 @@
   "workbench.startupEditor": "newUntitledFile",
   "diffEditor.ignoreTrimWhitespace": false,
   "workbench.editor.revealIfOpen": true,
-
   "workbench.list.smoothScrolling": true,
   "editor.smoothScrolling": true,
   "editor.cursorSmoothCaretAnimation": true,
@@ -72,66 +71,13 @@
     }
   ],
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "files.associations": {
-    "*.pl": "prolog"
-  },
   "editor.tabSize": 2,
-  "settingsSync.ignoredExtensions": [],
   "git.autorefresh": true,
   "editor.cursorSurroundingLines": 9999,
-  "workbench.editorAssociations": {
-    "*.ipynb": "jupyter-notebook"
-  },
-  "python.autoComplete.extraPaths": [
-    "/mnt/c/Users/Josh/Google Drive/Classes/DSA/project4/00135_zawilw"
-  ],
-  "gitlens.defaultDateFormat": null,
-  "gitlens.menus": {
-    "editor": {
-      "blame": false,
-      "clipboard": true,
-      "compare": true,
-      "history": false,
-      "remote": false,
-      "details": false
-    },
-    "editorGroup": false,
-    "editorTab": {
-      "clipboard": true,
-      "compare": true,
-      "history": true,
-      "remote": true
-    },
-    "explorer": {
-      "clipboard": true,
-      "compare": true,
-      "history": true,
-      "remote": true
-    },
-    "scm": {
-      "authors": true
-    },
-    "scmGroupInline": {
-      "stash": true
-    },
-    "scmGroup": {
-      "compare": true,
-      "openClose": true,
-      "stash": true,
-      "stashInline": true
-    },
-    "scmItem": {
-      "clipboard": true,
-      "compare": true,
-      "history": true,
-      "remote": true,
-      "stash": true
-    }
-  },
-  "gitlens.keymap": "none",
   "workbench.panel.defaultLocation": "right",
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
+  "prettier.tabWidth": 2,
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -150,23 +96,10 @@
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
-  "emmet.showExpandedAbbreviation": "never",
-  "python.pythonPath": "/usr/local/bin/python3",
-  "python.analysis.extraPaths": [
-    "/mnt/c/Users/Josh/Google Drive/Classes/DSA/project4/00135_zawilw"
-  ],
-  "security.workspace.trust.untrustedFiles": "open",
-  "files.exclude": {
-    "**/.env": true,
-    "**/.git": true,
-    "**.pytest_cache": true,
-    "**__pycache__": true
-  },
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "svg.preview.mode": "svg"
+  "emmet.showExpandedAbbreviation": "never",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true
 }
