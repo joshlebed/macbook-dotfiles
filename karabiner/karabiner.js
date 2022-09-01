@@ -1,7 +1,8 @@
 const global = {
   check_for_updates_on_startup: true,
-  show_in_menu_bar: true,
+  show_in_menu_bar: false,
   show_profile_name_in_menu_bar: false,
+  unsafe_ui: false,
 };
 const parameters = {
   "basic.simultaneous_threshold_milliseconds": 50,
@@ -389,7 +390,8 @@ const nav_mappings = [
     conditions: [
       {
         type: "frontmost_application_if",
-        bundle_identifiers: app_bundle_identifiers_with_command_shift_w_to_close_window,
+        bundle_identifiers:
+          app_bundle_identifiers_with_command_shift_w_to_close_window,
       },
     ],
     from: { key_code: "w" },
@@ -402,7 +404,8 @@ const nav_mappings = [
     conditions: [
       {
         type: "frontmost_application_unless",
-        bundle_identifiers: app_bundle_identifiers_with_command_shift_w_to_close_window,
+        bundle_identifiers:
+          app_bundle_identifiers_with_command_shift_w_to_close_window,
       },
     ],
     from: { key_code: "w" },
@@ -675,6 +678,7 @@ const switch_command_and_option = [
     },
   },
 ];
+// unused! just for reference
 const fn_function_keys = [
   {
     from: {
