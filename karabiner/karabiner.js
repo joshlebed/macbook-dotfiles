@@ -197,6 +197,13 @@ const nav_mappings = [
   },
   // tab nav
   {
+    type: "basic",
+    conditions: [
+      {
+        type: "frontmost_application_unless",
+        bundle_identifiers: ["com\\.quip\\.Desktop"],
+      },
+    ],
     from: {
       key_code: "u",
       modifiers: {
@@ -209,6 +216,13 @@ const nav_mappings = [
     },
   },
   {
+    type: "basic",
+    conditions: [
+      {
+        type: "frontmost_application_unless",
+        bundle_identifiers: ["com\\.quip\\.Desktop"],
+      },
+    ],
     from: {
       key_code: "o",
       modifiers: {
@@ -218,6 +232,44 @@ const nav_mappings = [
     to: {
       key_code: "tab",
       modifiers: ["left_control"],
+    },
+  },
+  {
+    type: "basic",
+    conditions: [
+      {
+        type: "frontmost_application_if",
+        bundle_identifiers: ["com\\.quip\\.Desktop"],
+      },
+    ],
+    from: {
+      key_code: "u",
+      modifiers: {
+        optional: ["option"],
+      },
+    },
+    to: {
+      key_code: "left_arrow",
+      modifiers: ["left_option", "left_command"],
+    },
+  },
+  {
+    type: "basic",
+    conditions: [
+      {
+        type: "frontmost_application_if",
+        bundle_identifiers: ["com\\.quip\\.Desktop"],
+      },
+    ],
+    from: {
+      key_code: "o",
+      modifiers: {
+        optional: ["option"],
+      },
+    },
+    to: {
+      key_code: "right_arrow",
+      modifiers: ["left_option", "left_command"],
     },
   },
   // vscode nav
