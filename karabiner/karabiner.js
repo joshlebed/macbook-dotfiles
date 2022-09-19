@@ -694,6 +694,66 @@ const misc_shortcuts = {
     //     modifiers: ["left_shift", "left_option"],
     //   },
     // },
+    // slack cmd + p for chat finder
+    {
+      type: "basic",
+      conditions: [
+        {
+          type: "frontmost_application_if",
+          bundle_identifiers: ["com\\.tinyspeck\\.slackmacgap"],
+        },
+      ],
+      from: {
+        key_code: "p",
+        modifiers: {
+          mandatory: ["command"],
+        },
+      },
+      to: {
+        key_code: "k",
+        modifiers: ["left_command"],
+      },
+    },
+    // quip cmd + p for file opener
+    {
+      type: "basic",
+      conditions: [
+        {
+          type: "frontmost_application_if",
+          bundle_identifiers: ["com\\.quip\\.Desktop"],
+        },
+      ],
+      from: {
+        key_code: "p",
+        modifiers: {
+          mandatory: ["command"],
+        },
+      },
+      to: {
+        key_code: "j",
+        modifiers: ["left_command"],
+      },
+    },
+    // quip cmd + shift + p for command palate ("command library")
+    {
+      type: "basic",
+      conditions: [
+        {
+          type: "frontmost_application_if",
+          bundle_identifiers: ["com\\.quip\\.Desktop"],
+        },
+      ],
+      from: {
+        key_code: "p",
+        modifiers: {
+          mandatory: ["command", "shift"],
+        },
+      },
+      to: {
+        key_code: "j",
+        modifiers: ["left_command", "left_shift"],
+      },
+    },
   ],
 };
 const switch_command_and_option = [
