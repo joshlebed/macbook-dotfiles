@@ -3,4 +3,8 @@ iterm2/AppSupport
 **/.DS_Store
 configstore
 gcloud
+
+# amazon stuff
 brazil
+cr
+.environment-specifics.zsh
