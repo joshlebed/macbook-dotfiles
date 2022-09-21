@@ -602,7 +602,7 @@ const misc_shortcuts = {
         modifiers: { mandatory: ["left_command"] },
       },
       to: {
-        shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh down",
+        shell_command: "~/code/ddcctl/ddcctl.sh down",
       },
     },
     {
@@ -612,7 +612,7 @@ const misc_shortcuts = {
         modifiers: { mandatory: ["left_command"] },
       },
       to: {
-        shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh up",
+        shell_command: "~/code/ddcctl/ddcctl.sh up",
       },
     },
     {
