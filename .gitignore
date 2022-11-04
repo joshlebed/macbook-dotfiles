@@ -3,8 +3,11 @@ iterm2/AppSupport
 **/.DS_Store
 configstore
 gcloud
+brazil
+qBittorrent
+MusicBrainz
+nicotine
+.environment-specifics.zsh
 
 # amazon stuff
-brazil
 cr
-.environment-specifics.zsh
