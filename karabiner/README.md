@@ -1,7 +1,9 @@
 # instructions for karabiner config builds
 
-in this dir, run:
+to do an intial build and start file watcher:
 
-`node file-watcher.js`
+```bash
+cd ~/.config/karabiner && node file-watcher.js
+```
 
 note: you need `node` available on your `PATH` (not sure which minimum version)

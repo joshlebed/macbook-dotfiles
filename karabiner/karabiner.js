@@ -552,16 +552,16 @@ const option_for_notifications = {
 const misc_shortcuts = {
   description: "miscellaneous shortcuts",
   manipulators: [
-    {
-      type: "basic",
-      from: {
-        key_code: "spacebar",
-        modifiers: {
-          mandatory: ["command"],
-        },
-      },
-      to: { shell_command: 'open -na "Google Chrome" --args --new-window' },
-    },
+    // {
+    //   type: "basic",
+    //   from: {
+    //     key_code: "spacebar",
+    //     modifiers: {
+    //       mandatory: ["command"],
+    //     },
+    //   },
+    //   to: { shell_command: 'open -na "Google Chrome" --args --new-window' },
+    // },
     {
       conditions: [
         {
@@ -602,7 +602,7 @@ const misc_shortcuts = {
         modifiers: { mandatory: ["left_command"] },
       },
       to: {
-        shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh down",
+        shell_command: "~/code/ddcctl/ddcctl.sh down",
       },
     },
     {
@@ -612,7 +612,7 @@ const misc_shortcuts = {
         modifiers: { mandatory: ["left_command"] },
       },
       to: {
-        shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh up",
+        shell_command: "~/code/ddcctl/ddcctl.sh up",
       },
     },
     {
