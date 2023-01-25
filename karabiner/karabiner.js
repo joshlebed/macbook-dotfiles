@@ -497,6 +497,7 @@ const nav_mode = {
     type: "basic",
   })),
 };
+// TODO: fix this so shift + press cmd, alt + press cmd, etc does nothing
 const command_for_alfred = {
   description: "tap command to open alfred",
   manipulators: [
