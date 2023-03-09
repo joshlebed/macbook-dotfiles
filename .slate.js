@@ -1,6 +1,5 @@
-const debug = true;
-
 slate.log("reloaded slate");
+
 const pad = (object, width, direction = "left") =>
   direction == "left"
     ? (`${object}` + " ".repeat(width)).slice(0, width)
@@ -12,9 +11,8 @@ const debugWindow = (window, label) => {
   const rect = window.rect();
   const left = rect.x;
   const width = rect.width;
-  const x = left + width / 2;
   slate.log(
-    `debug: ` +
+    `window: ` +
       pad(label, 10) +
       ` ` +
       pad(left, 5) +
@@ -105,7 +103,7 @@ const getCenterX = (win) => {
 };
 
 const directionalFocus = (currentWin, direction) => {
-  if (currentWin == null) {
+  if (currentWin == null || !validWindow(currentWin)) {
     slate.log("debug: null currentWin");
     target = null;
     slate.eachApp((app) => {
