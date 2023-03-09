@@ -9,7 +9,7 @@
   // everything else
   "eslint.validate": ["javascript"],
   "editor.codeActionsOnSave": [
-    "source.organizeImports",
+    // "source.organizeImports",
     "source.fixAll.eslint"
   ],
   "editor.glyphMargin": false,
@@ -52,7 +52,7 @@
   "workbench.editor.revealIfOpen": true,
   "workbench.list.smoothScrolling": true,
   "editor.smoothScrolling": true,
-  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorSmoothCaretAnimation": "on",
   "editor.fontFamily": "Fira Code",
   "terminal.integrated.fontFamily": "Fira Code",
   "editor.fontLigatures": true,
@@ -104,5 +104,13 @@
   "python.linting.pylintEnabled": true,
   "files.associations": {
     "packageInfo": "plaintext"
-  }
+  },
+  "python.linting.pylintArgs": ["--indent-string", "'  '"],
+  "python.formatting.autopep8Args": ["--indent-size", "2"],
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "window.zoomLevel": 1,
+  "gitlens.mode.active": "zen"
 }
