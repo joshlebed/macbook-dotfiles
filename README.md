@@ -1,30 +1,90 @@
 # macbook-dotfiles
 
-my ~/.config directory on a Macbook.
+my ~/.config directory on a Macbook or other [\*nix](https://www.computerhope.com/jargon/num/nix.htm) system
 
 ## setup instructions
 
 some files here are hardlinked system files from other locations. These commands will assume you clone this repo in `~/.config`:
 
 ```zsh
+# clone repo
 git clone https://github.com/joshlebed/macbook-dotfiles ~/.config
-ln ~/.config/.zshrc ~/.zshrc
-ln ~/.config/.slate.js ~/.slate.js
-```
 
-### oh my zsh setup
+# install zsh
+brew install zsh # on mac
+apt install zsh # on ubuntu, debian, WSL
 
-```zsh
+# install oh my zsh
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+
+# link zsh config
+(test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln ~/.config/.zshrc ~/.zshrc
+
+# link oh my zsh setup
 ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme
-```
 
-### vscode setup
+# link slate config
+(test -e ~/.slate.js && mv ~/.slate.js ~/.slate.js.old); ln ~/.config/.slate.js ~/.slate.js
 
-```
+# vscode setup (must install vscode first)
 ln -s ~/.config/vscode/keybindings.json '~/Library/Application Support/Code/User/keybindings.json'
 ln -s ~/.config/vscode/settings.json '~/Library/Application Support/Code/User/settings.json'
 ```
 
+## linux tools
 
-### my ~/.config directory on a Macbook.
+[zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH): replacement for bash
+
+[ohmyzsh](https://github.com/ohmyzsh/ohmyzsh): extension for managing zsh
+
+## macbook tools
+
+[karabiner-elements](https://karabiner-elements.pqrs.org/): keybindings
+
+[keyboard maestro](https://www.keyboardmaestro.com/main/): hotkeys and automation
+
+[slate](https://github.com/jigish/slate): directional focus for windows
+
+[rectangle](https://rectangleapp.com/): move windows left and right
+
+[amethyst](https://ianyh.com/amethyst/): move windows between spaces ([v0.15.6](https://github.com/ianyh/Amethyst/releases/tag/v0.15.6) until [multi monitor bug](https://github.com/ianyh/Amethyst/issues/1436) is fixed)
+
+[limelight](https://github.com/koekeishiya/limelight): highlight focused window
+
+[alfred](https://www.alfredapp.com/): replace spotlight (find and open things)
+
+[contexts](https://contexts.co/): replace alt-tab (switch between windows)
+
+[bartender](https://www.macbartender.com/Bartender4/): to hide menu bar icons
+
+[iterm](https://iterm2.com/): replace terminal
+
+[brew](https://brew.sh/): package manager
+
+[ddcctl](https://github.com/kfix/ddcctl): control external monitor brightness
+
+[backup and sync](https://www.google.com/drive/download/): google drive sync
+
+[vscode](https://code.visualstudio.com/): text editor and IDE
+
+## windows tools
+
+[windows terminal](https://github.com/microsoft/terminal): replacement terminal emulator for windows
+
+[vscode](https://code.visualstudio.com/): text editor and IDE
+
+[autohotkey](https://www.autohotkey.com/): keybindings and window management
+
+TODO: add AHK config somewhere
+
+## chrome extensions
+
+[Google Search Keyboard Shortcuts](https://chrome.google.com/webstore/detail/google-search-keyboard-sh/iobmefdldoplhmonnnkchglfdeepnfhd)
+
+[Notifier for GitHub](https://chrome.google.com/webstore/detail/notifier-for-github/lmjdlojahmbbcodnpecnjnmlddbkjhnn)
+
+[Ad Added Tab to Window/Popup - Keyboard Shortcut 85](https://chrome.google.com/webstore/detail/tab-to-windowpopup-keyboa/adbkphmimfcaeonicpmamfddbbnphikh) - cmd+shift+p
+
+[Duplicate Tab Shortcut](https://chrome.google.com/webstore/detail/duplicate-tab-shortcut/klehggjefofgiajjfpoebdidnpjmljhb) - cmd+d
+
+[bitwarden](https://chrome.google.com/webstore/detail/bitwarden-free-password-m/nngceckbapebfimnlniiiahkandclblb)
