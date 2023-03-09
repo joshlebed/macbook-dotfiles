@@ -27,8 +27,11 @@ ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-c
 (test -e ~/.slate.js && mv ~/.slate.js ~/.slate.js.old); ln ~/.config/.slate.js ~/.slate.js
 
 # vscode setup (must install vscode first)
-ln -s ~/.config/vscode/keybindings.json '~/Library/Application Support/Code/User/keybindings.json'
-ln -s ~/.config/vscode/settings.json '~/Library/Application Support/Code/User/settings.json'
+ln ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
+ln ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+
+# alfred setup (must install vscode first)
+ln -s ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/Alfred/Alfred.alfredpreferences
 ```
 
 ## linux tools
