@@ -1,6 +1,6 @@
 {
   // frequently edited
-  // "editor.lineNumbers": "off",
+  "editor.lineNumbers": "off",
   "workbench.activityBar.visible": false,
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
