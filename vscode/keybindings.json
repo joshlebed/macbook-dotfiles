@@ -370,6 +370,13 @@
     "when": "editorTextFocus && foldingEnabled"
   },
   {
+    "key": "cmd+k alt+cmd+f",
+    "command": "editor.foldAll",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+
+  // other
+  {
     "key": "ctrl+alt+cmd+]",
     "command": "search.action.focusNextSearchResult",
     "when": "hasSearchResult || inSearchEditor"
