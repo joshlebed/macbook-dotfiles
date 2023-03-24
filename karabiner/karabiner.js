@@ -359,6 +359,13 @@ const nav_mappings = [
     },
   },
   {
+    from: { key_code: "g" },
+    to: {
+      key_code: "f17",
+      modifiers: ["left_option", "left_shift", "left_command"],
+    },
+  },
+  {
     from: {
       key_code: "d",
       modifiers: {

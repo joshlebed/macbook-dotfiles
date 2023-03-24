@@ -666,6 +666,27 @@
                             },
                             {
                                 "from": {
+                                    "key_code": "g"
+                                },
+                                "to": {
+                                    "key_code": "f17",
+                                    "modifiers": [
+                                        "left_option",
+                                        "left_shift",
+                                        "left_command"
+                                    ]
+                                },
+                                "conditions": [
+                                    {
+                                        "name": "nav_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
                                     "key_code": "d",
                                     "modifiers": {
                                         "mandatory": [
