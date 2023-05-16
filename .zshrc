@@ -23,6 +23,7 @@ alias restart-ha='curl -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR
 # other aliases
 alias karabiner-build="cd ~/.config/karabiner && node file-watcher.js"
 alias p="python3"
+alias kill-bluetooth="sudo pkill bluetoothd"
 
 # load environment specifics if there are any (home config, work config)
 test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-specifics.zshrc" || true
