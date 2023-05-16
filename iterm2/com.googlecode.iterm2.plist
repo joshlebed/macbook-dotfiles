@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AboutToPasteTabsWithCancel</key>
+	<false/>
+	<key>AlternateMouseScroll</key>
+	<true/>
+	<key>BracketedPasteMode</key>
+	<true/>
+	<key>ConvertDosNewlines</key>
+	<true/>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>Ubuntu</key>
@@ -427,6 +435,8 @@
 	</dict>
 	<key>Default Bookmark Guid</key>
 	<string>0B367096-A887-4EFB-AC1D-AE0EAD3F0F16</string>
+	<key>EscapeShellCharsWithBackslash</key>
+	<false/>
 	<key>GlobalKeyMap</key>
 	<dict>
 		<key>0x19-0x60000-0x0</key>
@@ -1335,6 +1345,12 @@
 	<false/>
 	<key>PMPrintingExpandedStateForPrint2</key>
 	<false/>
+	<key>PasteSpecialRegex</key>
+	<string></string>
+	<key>PasteSpecialSubstitution</key>
+	<string></string>
+	<key>PasteSpecialUseRegexSubstitution</key>
+	<false/>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -1380,6 +1396,8 @@
 	<real>604800</real>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
+	<key>Window Arrangements</key>
+	<dict/>
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 </dict>
