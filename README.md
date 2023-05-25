@@ -15,7 +15,7 @@ brew install zsh # on mac
 apt install zsh # on ubuntu, debian, WSL
 
 # install oh my zsh
-curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # link zsh config
 (test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln ~/.config/.zshrc ~/.zshrc
@@ -30,7 +30,7 @@ ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-c
 ln ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
 ln ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
 
-# alfred setup (must install vscode first)
+# alfred setup (must install alfred first)
 ln -s ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/Alfred/Alfred.alfredpreferences
 ```
 
@@ -69,6 +69,8 @@ ln -s ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/A
 [backup and sync](https://www.google.com/drive/download/): google drive sync
 
 [vscode](https://code.visualstudio.com/): text editor and IDE
+
+[finicky](https://github.com/johnste/finicky): link redirector (for AWS stuff)
 
 ## windows tools
 
