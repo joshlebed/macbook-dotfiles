@@ -52,7 +52,7 @@
   "workbench.editor.revealIfOpen": true,
   "workbench.list.smoothScrolling": true,
   "editor.smoothScrolling": true,
-  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorSmoothCaretAnimation": "off",
   "editor.fontFamily": "Fira Code",
   "terminal.integrated.fontFamily": "Fira Code",
   "editor.fontLigatures": true,
@@ -106,12 +106,13 @@
     "packageInfo": "plaintext"
   },
   "python.linting.pylintArgs": ["--indent-string", "'  '"],
-  "python.formatting.autopep8Args": ["--indent-size", "2"],
+  "python.formatting.autopep8Args": ["--indent-size", "4"],
   "[python]": {
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "terminal.integrated.defaultProfile.linux": "zsh",
-  "window.zoomLevel": 1,
   "gitlens.mode.active": "zen",
-  "security.workspace.trust.untrustedFiles": "open"
+  "security.workspace.trust.untrustedFiles": "open",
+  "window.zoomLevel": 2
 }
