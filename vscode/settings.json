@@ -113,6 +113,5 @@
   },
   "terminal.integrated.defaultProfile.linux": "zsh",
   "gitlens.mode.active": "zen",
-  "security.workspace.trust.untrustedFiles": "open",
-  "window.zoomLevel": 2
+  "security.workspace.trust.untrustedFiles": "open"
 }
