@@ -118,6 +118,5 @@
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.accessibilitySupport": "off",
-  "window.zoomLevel": 1
+  "editor.accessibilitySupport": "off"
 }
