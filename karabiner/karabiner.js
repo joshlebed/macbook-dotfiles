@@ -899,6 +899,105 @@ const fn_function_keys = [
   },
 ];
 
+const fn_function_keys_normal = [
+  {
+    from: {
+      key_code: "f1",
+    },
+    to: {
+      key_code: "f1",
+    },
+  },
+  {
+    from: {
+      key_code: "f2",
+    },
+    to: {
+      key_code: "f2",
+    },
+  },
+  {
+    from: {
+      key_code: "f3",
+    },
+    to: {
+      key_code: "f3",
+    },
+  },
+  {
+    from: {
+      key_code: "f4",
+    },
+    to: {
+      key_code: "f4",
+    },
+  },
+  {
+    from: {
+      key_code: "f5",
+    },
+    to: {
+      key_code: "f5",
+    },
+  },
+  {
+    from: {
+      key_code: "f6",
+    },
+    to: {
+      key_code: "f6",
+    },
+  },
+  {
+    from: {
+      key_code: "f7",
+    },
+    to: {
+      key_code: "f7",
+    },
+  },
+  {
+    from: {
+      key_code: "f8",
+    },
+    to: {
+      key_code: "f8",
+    },
+  },
+  {
+    from: {
+      key_code: "f9",
+    },
+    to: {
+      key_code: "f9",
+    },
+  },
+  {
+    from: {
+      key_code: "f10",
+    },
+    to: {
+      key_code: "f10",
+    },
+  },
+  {
+    from: {
+      key_code: "f11",
+    },
+    to: {
+      key_code: "f11",
+    },
+  },
+  {
+    from: {
+      key_code: "f12",
+    },
+    to: {
+      key_code: "f12",
+    },
+  },
+];
+
 const default_profile = {
   complex_modifications: {
     parameters,
@@ -921,7 +1020,7 @@ const default_profile = {
   devices: [
     {
       disable_built_in_keyboard_if_exists: false,
-      fn_function_keys: [],
+      fn_function_keys: fn_function_keys_normal,
       identifiers: {
         is_keyboard: true,
         is_pointing_device: true,
@@ -934,7 +1033,7 @@ const default_profile = {
     },
     {
       disable_built_in_keyboard_if_exists: false,
-      fn_function_keys: [],
+      fn_function_keys: fn_function_keys_normal,
       identifiers: {
         is_keyboard: true,
         is_pointing_device: false,
@@ -947,7 +1046,7 @@ const default_profile = {
     },
     {
       disable_built_in_keyboard_if_exists: false,
-      fn_function_keys: [],
+      fn_function_keys: fn_function_keys_normal,
       identifiers: {
         is_keyboard: true,
         is_pointing_device: false,

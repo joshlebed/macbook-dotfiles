@@ -1,7 +1,6 @@
 {
   // frequently edited
   "editor.lineNumbers": "off",
-  "workbench.activityBar.visible": false,
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
   "editor.rulers": [100],
@@ -9,8 +8,8 @@
   // everything else
   "eslint.validate": ["javascript"],
   "editor.codeActionsOnSave": [
-    "source.organizeImports",
-    "source.fixAll.eslint"
+    "source.organizeImports"
+    // "source.fixAll.eslint"
   ],
   "editor.glyphMargin": false,
   "workbench.editor.enablePreview": false,
@@ -18,7 +17,6 @@
   "window.openFoldersInNewWindow": "on",
   "editor.autoClosingOvertype": "always",
   "editor.minimap.enabled": false,
-  "workbench.editor.tabCloseButton": "off",
   "workbench.editor.closeEmptyGroups": false,
   "workbench.colorCustomizations": {
     "statusBar.background": "#1A1A1A",
@@ -101,16 +99,13 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "emmet.showExpandedAbbreviation": "never",
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
   "files.associations": {
     "packageInfo": "plaintext"
   },
-  "python.linting.pylintArgs": ["--indent-string", "'  '"],
-  "python.formatting.autopep8Args": ["--indent-size", "4"],
   "[python]": {
     "editor.formatOnType": true,
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": ["source.organizeImports"]
   },
   "terminal.integrated.defaultProfile.linux": "zsh",
   "gitlens.mode.active": "zen",
@@ -118,5 +113,10 @@
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.accessibilitySupport": "off"
+  "editor.accessibilitySupport": "off",
+  "workbench.activityBar.location": "hidden",
+  "terminal.integrated.env.osx": {
+    "CW_NEW_SESSION": "1"
+  },
+  "workbench.editor.tabActionCloseVisibility": false
 }
