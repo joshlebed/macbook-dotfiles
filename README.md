@@ -56,6 +56,8 @@ ln -s ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/A
 
 [alfred](https://www.alfredapp.com/): replace spotlight (find and open things)
 
+maybe [raycast](https://www.raycast.com/)? replace spotlight/alfred
+
 [contexts](https://contexts.co/): replace alt-tab (switch between windows)
 
 [bartender](https://www.macbartender.com/Bartender4/): to hide menu bar icons
