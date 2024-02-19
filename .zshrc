@@ -1,4 +1,4 @@
-# for new setup, hardlink this file 
+# for new setup, hardlink this file (see readme)
 
 # oh-my-zsh config
 export ZSH="$HOME/.oh-my-zsh"
