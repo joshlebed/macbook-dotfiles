@@ -31,7 +31,11 @@ ln ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/ke
 ln ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
 
 # alfred setup (must install alfred first)
-ln -s ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/Alfred/Alfred.alfredpreferences
+ln ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/Alfred/Alfred.alfredpreferences
+
+# intellij/IDEA setup (must install IDEA first)
+ln ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml
+ln /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml
 ```
 
 ## linux tools
