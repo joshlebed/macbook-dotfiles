@@ -6,36 +6,64 @@ my ~/.config directory on a Macbook or other [\*nix](https://www.computerhope.co
 
 some files here are hardlinked system files from other locations. These commands will assume you clone this repo in `~/.config`:
 
+on debian/ubuntu (apt-get):
+
 ```zsh
-# clone repo
-git clone https://github.com/joshlebed/macbook-dotfiles ~/.config
+# set up brew, git, zsh, and omz
+sudo apt-get update
+sudo apt-get install git
+git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
+apt install zsh
+(test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln ~/.config/.zshrc ~/.zshrc # link zsh config
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # install omz
+ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme # link omz theme
+```
 
-# install zsh
-brew install zsh # on mac
-apt install zsh # on ubuntu, debian, WSL
+on macOS:
 
-# install oh my zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```zsh
+# set up brew, git, zsh, and omz
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # install homebrew
+brew install git
+git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
+brew install zsh
+(test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln ~/.config/.zshrc ~/.zshrc # link zsh config
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # install omz
+ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme # link omz theme
 
-# link zsh config
-(test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln ~/.config/.zshrc ~/.zshrc
+# install other tools
+brew install --cask visual-studio-code
+brew install --cask raycast
+brew install --cask bartender
+brew install --cask keyboard-maestro
+brew install --cask amethyst
+brew install --cask karabiner-elements
+brew install --cask rectangle
+brew install --cask contexts
+brew install --cask iterm2
+brew install --cask google-drive
+brew install --cask intellij-idea
+brew install --cask finicky
+brew install --cask alfred
+brew install ddcctl
+# install slate manually
 
-# link oh my zsh setup
-ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme
-
-# link slate config
-(test -e ~/.slate.js && mv ~/.slate.js ~/.slate.js.old); ln ~/.config/.slate.js ~/.slate.js
-
-# vscode setup (must install vscode first)
-ln ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
-ln ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
-
-# alfred setup (must install alfred first)
-ln ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/Alfred/Alfred.alfredpreferences
-
-# intellij/IDEA setup (must install IDEA first)
-ln ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml
-ln /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml
+# sync preferences for tools
+ln ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json # link vscode settings
+ln ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json # link vscode keybindings
+# sync raycast settings manually (TODO: sync dir ~/Library/Application Support/com.raycast.macos)
+# sync bartender settings manually (TODO: sync dir)
+# sync keyboard maestro settings by importing from .kmsync file in this repo
+# sync amethyst settings manually (TODO: sync dir)
+# karabiner config already synced in .config
+# sync rectangle settings manually (TODO: sync dir)
+# sync contexts settings manually (TODO: sync dir)
+# point iterm at com.googlecode.iterm2.plist config if not automatic (TODO: update this readme if it is automatic)
+# google drive needs setup wizard
+ln ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml # intellij/IDEA config
+(test -e ~/.slate.js && mv ~/.slate.js ~/.slate.js.old); ln ~/.config/.slate.js ~/.slate.js  # link slate config
+(test -e ~/.finicky.js && mv ~/.finicky.js ~/.finicky.js.old); ln ~/.config/.finicky.js ~/.finicky.js  # link finicky config
+ln ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/Alfred/Alfred.alfredpreferences # link alfred config
 ```
 
 ## linux tools
@@ -50,17 +78,18 @@ ln /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/key
 
 [keyboard maestro](https://www.keyboardmaestro.com/main/): hotkeys and automation
 
-[slate](https://github.com/jigish/slate): directional focus for windows
+\* [slate](https://github.com/jigish/slate): directional focus for windows
 
 [rectangle](https://rectangleapp.com/): move windows left and right
 
 [amethyst](https://ianyh.com/amethyst/): move windows between spaces ([v0.15.6](https://github.com/ianyh/Amethyst/releases/tag/v0.15.6) until [multi monitor bug](https://github.com/ianyh/Amethyst/issues/1436) is fixed)
 
-[limelight](https://github.com/koekeishiya/limelight): highlight focused window
+[limelight](https://github.com/koekeishiya/limelight): highlight focused window - TODO: this got taken down, find a replacement
 
+TODO: remove
 [alfred](https://www.alfredapp.com/): replace spotlight (find and open things)
 
-maybe [raycast](https://www.raycast.com/)? replace spotlight/alfred
+[raycast](https://www.raycast.com/)? replace spotlight/alfred
 
 [contexts](https://contexts.co/): replace alt-tab (switch between windows)
 
@@ -76,11 +105,15 @@ maybe [raycast](https://www.raycast.com/)? replace spotlight/alfred
 
 [vscode](https://code.visualstudio.com/): text editor and IDE
 
+[intellij](https://www.jetbrains.com/idea/): java IDE
+
 [finicky](https://github.com/johnste/finicky): link redirector (for AWS stuff)
 
 ## windows tools
 
 [windows terminal](https://github.com/microsoft/terminal): replacement terminal emulator for windows
+
+[chocolatey](https://chocolatey.org/install#individual): package manager
 
 [vscode](https://code.visualstudio.com/): text editor and IDE
 
