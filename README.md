@@ -44,7 +44,6 @@ brew install --cask iterm2
 brew install --cask google-drive
 brew install --cask intellij-idea
 brew install --cask finicky
-brew install --cask alfred
 brew install ddcctl
 # install slate manually
 
@@ -63,7 +62,6 @@ ln ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/ke
 ln ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml # intellij/IDEA config
 (test -e ~/.slate.js && mv ~/.slate.js ~/.slate.js.old); ln ~/.config/.slate.js ~/.slate.js  # link slate config
 (test -e ~/.finicky.js && mv ~/.finicky.js ~/.finicky.js.old); ln ~/.config/.finicky.js ~/.finicky.js  # link finicky config
-ln ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/Alfred/Alfred.alfredpreferences # link alfred config
 ```
 
 ## linux tools
@@ -85,9 +83,6 @@ ln ~/.config/Alfred/Alfred.alfredpreferences ~/Library/Application\ Support/Alfr
 [amethyst](https://ianyh.com/amethyst/): move windows between spaces ([v0.15.6](https://github.com/ianyh/Amethyst/releases/tag/v0.15.6) until [multi monitor bug](https://github.com/ianyh/Amethyst/issues/1436) is fixed)
 
 [limelight](https://github.com/koekeishiya/limelight): highlight focused window - TODO: this got taken down, find a replacement
-
-TODO: remove
-[alfred](https://www.alfredapp.com/): replace spotlight (find and open things)
 
 [raycast](https://www.raycast.com/)? replace spotlight/alfred
 
