@@ -118,5 +118,6 @@
   "terminal.integrated.env.osx": {
     "CW_NEW_SESSION": "1"
   },
-  "workbench.editor.tabActionCloseVisibility": false
+  "workbench.editor.tabActionCloseVisibility": false,
+  "window.zoomLevel": 2
 }
