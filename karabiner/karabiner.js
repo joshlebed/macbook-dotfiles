@@ -765,6 +765,7 @@ const misc_shortcuts = {
     },
   ],
 };
+
 const switch_command_and_option = [
   {
     from: {
@@ -796,6 +797,25 @@ const switch_command_and_option = [
     },
     to: {
       key_code: "right_option",
+    },
+  },
+];
+
+const switch_caps_lock_and_escape = [
+  {
+    from: {
+      key_code: "caps_lock",
+    },
+    to: {
+      key_code: "escape",
+    },
+  },
+  {
+    from: {
+      key_code: "escape",
+    },
+    to: {
+      key_code: "caps_lock",
     },
   },
 ];
@@ -998,6 +1018,53 @@ const fn_function_keys_normal = [
   },
 ];
 
+const devices = [
+  {
+    disable_built_in_keyboard_if_exists: false,
+    fn_function_keys: fn_function_keys_normal,
+    identifiers: {
+      is_keyboard: true,
+      is_pointing_device: true,
+      product_id: 832,
+      vendor_id: 1452,
+    },
+    ignore: false,
+    manipulate_caps_lock_led: false,
+    simple_modifications: [],
+  },
+  {
+    disable_built_in_keyboard_if_exists: false,
+    fn_function_keys: fn_function_keys_normal,
+    identifiers: {
+      is_keyboard: true,
+      is_pointing_device: false,
+      product_id: 4,
+      vendor_id: 9494,
+    },
+    ignore: false,
+    manipulate_caps_lock_led: false,
+    simple_modifications: switch_command_and_option,
+  },
+  {
+    disable_built_in_keyboard_if_exists: false,
+    fn_function_keys: fn_function_keys_normal,
+    identifiers: {
+      is_keyboard: true,
+      is_pointing_device: false,
+      product_id: 6505,
+      vendor_id: 12951,
+    },
+    ignore: false,
+    manipulate_caps_lock_led: false,
+    simple_modifications: switch_command_and_option,
+  },
+];
+
+const virtual_hid_keyboard = {
+  country_code: 0,
+  mouse_key_xy_scale: 100,
+};
+
 const default_profile = {
   complex_modifications: {
     parameters,
@@ -1009,67 +1076,32 @@ const default_profile = {
       misc_shortcuts,
     ],
   },
-  name: "No Name",
   parameters: {
     delay_milliseconds_before_open_device: 1000,
   },
-  virtual_hid_keyboard: {
-    country_code: 0,
-    mouse_key_xy_scale: 100,
-  },
-  devices: [
-    {
-      disable_built_in_keyboard_if_exists: false,
-      fn_function_keys: fn_function_keys_normal,
-      identifiers: {
-        is_keyboard: true,
-        is_pointing_device: true,
-        product_id: 832,
-        vendor_id: 1452,
-      },
-      ignore: false,
-      manipulate_caps_lock_led: false,
-      simple_modifications: [],
-    },
-    {
-      disable_built_in_keyboard_if_exists: false,
-      fn_function_keys: fn_function_keys_normal,
-      identifiers: {
-        is_keyboard: true,
-        is_pointing_device: false,
-        product_id: 4,
-        vendor_id: 9494,
-      },
-      ignore: false,
-      manipulate_caps_lock_led: false,
-      simple_modifications: switch_command_and_option,
-    },
-    {
-      disable_built_in_keyboard_if_exists: false,
-      fn_function_keys: fn_function_keys_normal,
-      identifiers: {
-        is_keyboard: true,
-        is_pointing_device: false,
-        product_id: 6505,
-        vendor_id: 12951,
-      },
-      ignore: false,
-      manipulate_caps_lock_led: false,
-      simple_modifications: switch_command_and_option,
-    },
-  ],
+  virtual_hid_keyboard: virtual_hid_keyboard,
+  devices: devices,
   selected: true,
-  name: "Default profile",
-  // simple_modifications: switch_command_and_option,
+  name: "Global VIM",
+};
+
+const tetris_profile = {
+  virtual_hid_keyboard: virtual_hid_keyboard,
+  devices: devices,
+  selected: false,
+  simple_modifications: switch_caps_lock_and_escape,
+  name: "Tetris",
 };
 
 const empty_profile = {
   name: "Empty profile",
+  devices: devices,
+  selected: false,
 };
 
 const config = {
   global,
-  profiles: [default_profile, empty_profile],
+  profiles: [default_profile, tetris_profile, empty_profile],
 };
 
 export default config;

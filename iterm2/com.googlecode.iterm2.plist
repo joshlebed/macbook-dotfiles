@@ -771,8 +771,6 @@
 			<false/>
 			<key>Blur</key>
 			<false/>
-			<key>Blur Radius</key>
-			<real>0.10000000000000001</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -912,6 +910,15 @@
 				<key>Red Component</key>
 				<real>0.70980000495910645</real>
 			</dict>
+			<key>Semantic History</key>
+			<dict>
+				<key>action</key>
+				<string>editor</string>
+				<key>editor</key>
+				<string>com.microsoft.VSCode</string>
+				<key>text</key>
+				<string></string>
+			</dict>
 			<key>Send Code When Idle</key>
 			<false/>
 			<key>Shortcut</key>
@@ -1018,7 +1025,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.0</real>
+			<real>0.19246176861702127</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -1220,9 +1227,9 @@
 			<key>Blinking Cursor</key>
 			<false/>
 			<key>Blur</key>
-			<false/>
+			<true/>
 			<key>Blur Radius</key>
-			<real>0.10000000000000001</real>
+			<real>2</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -1390,6 +1397,15 @@
 				<key>Red Component</key>
 				<real>0.70980000495910645</real>
 			</dict>
+			<key>Semantic History</key>
+			<dict>
+				<key>action</key>
+				<string>editor</string>
+				<key>editor</key>
+				<string>com.microsoft.VSCode</string>
+				<key>text</key>
+				<string></string>
+			</dict>
 			<key>Send Code When Idle</key>
 			<false/>
 			<key>Shortcut</key>
@@ -1405,7 +1421,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.29813278208283062</real>
+			<real>0.18667998952963913</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>

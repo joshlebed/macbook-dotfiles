@@ -76,7 +76,7 @@ ln ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml /Users/lebedinj/Library/Ap
 
 [keyboard maestro](https://www.keyboardmaestro.com/main/): hotkeys and automation
 
-\* [slate](https://github.com/jigish/slate): directional focus for windows
+[slate](https://github.com/jigish/slate): directional focus for windows
 
 [rectangle](https://rectangleapp.com/): move windows left and right
 

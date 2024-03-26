@@ -104,7 +104,7 @@
   },
   "[python]": {
     "editor.formatOnType": true,
-    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.codeActionsOnSave": ["source.organizeImports"]
   },
   "terminal.integrated.defaultProfile.linux": "zsh",
@@ -119,5 +119,6 @@
     "CW_NEW_SESSION": "1"
   },
   "workbench.editor.tabActionCloseVisibility": false,
-  "window.zoomLevel": 2
+  "window.zoomLevel": 2,
+  "scm.showOutgoingChanges": "never"
 }
