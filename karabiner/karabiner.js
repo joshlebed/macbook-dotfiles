@@ -801,7 +801,7 @@ const switch_command_and_option = [
   },
 ];
 
-const switch_caps_lock_and_escape = [
+const tetris_key_substitutions = [
   {
     from: {
       key_code: "caps_lock",
@@ -816,6 +816,14 @@ const switch_caps_lock_and_escape = [
     },
     to: {
       key_code: "caps_lock",
+    },
+  },
+  {
+    from: {
+      key_code: "left_option",
+    },
+    to: {
+      key_code: "v",
     },
   },
 ];
@@ -1087,9 +1095,9 @@ const default_profile = {
 
 const tetris_profile = {
   virtual_hid_keyboard: virtual_hid_keyboard,
-  devices: devices,
+  // devices: devices,
   selected: false,
-  simple_modifications: switch_caps_lock_and_escape,
+  simple_modifications: tetris_key_substitutions,
   name: "Tetris",
 };
 

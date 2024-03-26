@@ -120,5 +120,6 @@
   },
   "workbench.editor.tabActionCloseVisibility": false,
   "window.zoomLevel": 2,
-  "scm.showOutgoingChanges": "never"
+  "scm.showOutgoingChanges": "never",
+  "git.autofetch": true
 }
