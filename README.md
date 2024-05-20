@@ -71,14 +71,15 @@ ln ~/Library/Preferences/com.knollsoft.Rectangle.plist ~/.config/preferences/com
 ln ~/.config/preferences/com.knollsoft.Rectangle.plist ~/Library/Preferences/com.knollsoft.Rectangle.plist
 
 # sync contexts settings manually (TODO: sync dir)
-# point iterm at com.googlecode.iterm2.plist config if not automatic (TODO: update this readme if it is automatic)
-# google drive needs setup wizard
 (test -e ~/.slate.js && mv ~/.slate.js ~/.slate.js.old); ln ~/.config/.slate.js ~/.slate.js  # link slate config
 (test -e ~/.finicky.js && mv ~/.finicky.js ~/.finicky.js.old); ln ~/.config/.finicky.js ~/.finicky.js  # link finicky config
 ln ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml # intellij/IDEA config
 ```
 
 sync keyboard maestro settings: File -> Start Syncing Macros -> select km_macros.kmsync from this repo
+sync iterm settings: Preferences -> General -> Preferences -> Load preferences from a custom folder or URL -> ~/.config/iterm2
+set up google drive manually
+set up ticktick manually
 
 ## linux tools
 
