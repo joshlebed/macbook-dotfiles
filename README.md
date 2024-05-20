@@ -62,6 +62,13 @@ ln ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/ke
 # sync amethyst settings manually (TODO: sync dir)
 # karabiner config already synced in .config
 # sync rectangle settings manually (TODO: sync dir)
+
+
+# initial save (now)
+ln ~/Library/Preferences/com.knollsoft.Rectangle.plist ~/.config/preferences/com.knollsoft.Rectangle.plist
+# future readme
+ln ~/.config/preferences/com.knollsoft.Rectangle.plist ~/Library/Preferences/com.knollsoft.Rectangle.plist
+
 # sync contexts settings manually (TODO: sync dir)
 # point iterm at com.googlecode.iterm2.plist config if not automatic (TODO: update this readme if it is automatic)
 # google drive needs setup wizard
