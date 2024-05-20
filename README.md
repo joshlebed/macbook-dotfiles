@@ -23,7 +23,9 @@ on macOS:
 
 ```zsh
 # set up brew, git, zsh, and omz
+# TODO: fix commands for mac default shell (inline comments don't work)
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # install homebrew
+# TODO: add two follow up commands for brew installation
 brew install git
 git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
 brew install zsh
@@ -32,18 +34,22 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme # link omz theme
 
 # install other tools
-brew install --cask visual-studio-code
-brew install --cask raycast
-brew install --cask bartender
-brew install --cask keyboard-maestro
-brew install --cask amethyst
-brew install --cask karabiner-elements
-brew install --cask rectangle
-brew install --cask contexts
-brew install --cask iterm2
-brew install --cask google-drive
-brew install --cask intellij-idea
-brew install --cask finicky
+# install google chrome
+brew install iterm2
+brew install google-chrome
+brew install karabiner-elements
+brew install raycast
+brew install rectangle
+brew install contexts
+brew install bartender
+brew install keyboard-maestro
+brew install amethyst
+brew install slack
+brew install visual-studio-code
+brew install font-fira-code
+brew install google-drive
+brew install intellij-idea
+brew install finicky
 brew install ddcctl
 # install slate manually
 
