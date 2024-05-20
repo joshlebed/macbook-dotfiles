@@ -51,6 +51,8 @@ brew install google-drive
 brew install finicky
 brew install ddcctl
 brew install intellij-idea
+brew install gh
+brew install ticktick
 # install slate manually from here: https://github.com/jigish/slate/blob/master/build/Release/Slate.dmg
 
 # sync preferences for tools
