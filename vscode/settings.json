@@ -15,6 +15,7 @@
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": true,
   "window.openFoldersInNewWindow": "on",
+  "window.restoreWindows": "all",
   "editor.autoClosingOvertype": "always",
   "editor.minimap.enabled": false,
   "workbench.editor.closeEmptyGroups": false,
@@ -103,9 +104,7 @@
     "packageInfo": "plaintext"
   },
   "[python]": {
-    "editor.formatOnType": true,
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.codeActionsOnSave": ["source.organizeImports"]
+    "editor.formatOnType": true
   },
   "terminal.integrated.defaultProfile.linux": "zsh",
   "gitlens.mode.active": "zen",
