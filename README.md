@@ -34,31 +34,30 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme # link omz theme
 
 # install other tools
-# install google chrome
 brew install iterm2
 brew install google-chrome
+brew install visual-studio-code
+brew install font-fira-code
 brew install karabiner-elements
 brew install raycast
 brew install rectangle
 brew install contexts
-brew install bartender
 brew install keyboard-maestro
+brew install bartender
+brew install logi-options-plus
 brew install amethyst
 brew install slack
-brew install visual-studio-code
-brew install font-fira-code
 brew install google-drive
-brew install intellij-idea
 brew install finicky
 brew install ddcctl
-# install slate manually
+brew install intellij-idea
+# install slate manually from here: https://github.com/jigish/slate/blob/master/build/Release/Slate.dmg
 
 # sync preferences for tools
 ln ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json # link vscode settings
 ln ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json # link vscode keybindings
 # sync raycast settings manually (TODO: sync dir ~/Library/Application Support/com.raycast.macos)
 # sync bartender settings manually (TODO: sync dir)
-# sync keyboard maestro settings by importing from .kmsync file in this repo
 # sync amethyst settings manually (TODO: sync dir)
 # karabiner config already synced in .config
 # sync rectangle settings manually (TODO: sync dir)
@@ -72,10 +71,12 @@ ln ~/.config/preferences/com.knollsoft.Rectangle.plist ~/Library/Preferences/com
 # sync contexts settings manually (TODO: sync dir)
 # point iterm at com.googlecode.iterm2.plist config if not automatic (TODO: update this readme if it is automatic)
 # google drive needs setup wizard
-ln ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml # intellij/IDEA config
 (test -e ~/.slate.js && mv ~/.slate.js ~/.slate.js.old); ln ~/.config/.slate.js ~/.slate.js  # link slate config
 (test -e ~/.finicky.js && mv ~/.finicky.js ~/.finicky.js.old); ln ~/.config/.finicky.js ~/.finicky.js  # link finicky config
+ln ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml # intellij/IDEA config
 ```
+
+sync keyboard maestro settings: File -> Start Syncing Macros -> select km_macros.kmsync from this repo
 
 ## linux tools
 
@@ -144,3 +145,9 @@ TODO: add AHK config somewhere
 [uBlock origin](https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm) - adblocker
 
 [dark reader](https://chrome.google.com/webstore/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh) - to force dark mode
+
+# TODO: switch from slate to one of these:
+https://github.com/tmandry/Swindler
+https://github.com/koekeishiya/yabai
+yabai looks like a good option
+https://github.com/koekeishiya/yabai/blob/master/doc/yabai.asciidoc#window
