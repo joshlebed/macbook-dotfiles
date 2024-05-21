@@ -22,58 +22,30 @@ ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-c
 on macOS:
 
 ```zsh
-# set up brew, git, zsh, and omz
-# TODO: fix commands for mac default shell (inline comments don't work)
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # install homebrew
-# TODO: add two follow up commands for brew installation
-brew install git
 git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
-brew install zsh
-(test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln ~/.config/.zshrc ~/.zshrc # link zsh config
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # install omz
-ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme # link omz theme
+
+# install shell
+scripts/install_zsh_and_omz.sh
 
 # install other tools
-brew install iterm2
-brew install google-chrome
-brew install visual-studio-code
-brew install font-fira-code
-brew install karabiner-elements
-brew install raycast
-brew install rectangle
-brew install contexts
-brew install keyboard-maestro
-brew install bartender
-brew install logi-options-plus
-brew install amethyst
-brew install slack
-brew install google-drive
-brew install finicky
-brew install ddcctl
-brew install intellij-idea
-brew install gh
-brew install ticktick
-# install slate manually from here: https://github.com/jigish/slate/blob/master/build/Release/Slate.dmg
+scripts/brew_install_all.sh
 
-ln ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json # link vscode settings
-ln ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json # link vscode keybindings
-ln ~/.config/preferences/com.knollsoft.Rectangle.plist ~/Library/Preferences/com.knollsoft.Rectangle.plist # rectangle settings
-ln ~/.config/preferences/com.amethyst.Amethyst.plist ~/Library/Preferences/com.amethyst.Amethyst.plist # amethyst settings
-ln ~/.config/preferences/com.contextsformac.Contexts.plist ~/Library/Preferences/com.contextsformac.Contexts.plist # contexts settings
-ln ~/.config/preferences/com.raycast.macos.plist ~/Library/Preferences/com.raycast.macos.plist # raycast settings
-ln ~/.config/preferences/com.surteesstudios.Bartender.plist ~/Library/Preferences/com.surteesstudios.Bartender.plist # bartender settings
+# symlink and lock config files - vscode settings, vscode keybindings
+# TODO: maybe make this rely on zsh or bash 4+, or figure out a way to make this code work with spaces in file paths
+scripts/symlink_config_files.sh
 
+# hardlink config files - slate, finicky
+scripts/hardlink_config_files.sh
 
-
-com.surteesstudios.Bartender.plist
-# sync contexts settings manually (TODO: sync dir)
-(test -e ~/.slate.js && mv ~/.slate.js ~/.slate.js.old); ln ~/.config/.slate.js ~/.slate.js  # link slate config
-(test -e ~/.finicky.js && mv ~/.finicky.js ~/.finicky.js.old); ln ~/.config/.finicky.js ~/.finicky.js  # link finicky config
-ln ~/.config/IDEA/joshlebed-macOS-modified-keymap.xml /Users/lebedinj/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml # intellij/IDEA config
+# some config files need to be copied - contexts
+scripts/copy_config_files.sh
+# use this script to upload a new config or change a config for a stubborn program
+scripts/save_initial_config_files.sh
 ```
 
 sync keyboard maestro settings: File -> Start Syncing Macros -> select km_macros.kmsync from this repo
 sync iterm settings: Preferences -> General -> Preferences -> Load preferences from a custom folder or URL -> ~/.config/iterm2
+install slate manually from here: https://github.com/jigish/slate/blob/master/build/Release/Slate.dmg
 set up google drive manually
 set up ticktick manually
 
