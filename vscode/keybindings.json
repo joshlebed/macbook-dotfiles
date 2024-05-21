@@ -149,22 +149,17 @@
   },
   {
     "key": "cmd+shift+j",
-    "command": "workbench.action.toggleAuxiliaryBar"
+    "command": "workbench.action.togglePanel"
   },
   {
     "key": "shift+cmd+g",
-    "command": "multiCommand.hideSidebarAndToggleAuxiliaryBar",
-    "when": "activeAuxiliary"
+    "command": "workbench.view.scm",
+    "when": "activeViewlet != workbench.view.scm"
   },
   {
     "key": "shift+cmd+g",
     "command": "workbench.action.closeSidebar",
-    "when": "sideBarVisible && !activeAuxiliary"
-  },
-  {
-    "key": "shift+cmd+g",
-    "command": "multiCommand.activateGitAndTerminal",
-    "when": "!sideBarVisible && !activeAuxiliary"
+    "when": "activeViewlet == workbench.view.scm"
   },
   {
     "key": "cmd+l alt+b",

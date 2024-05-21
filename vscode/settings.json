@@ -1,4 +1,8 @@
 {
+
+
+
+  
   // frequently edited
   "editor.lineNumbers": "off",
   "editor.formatOnSave": true,
@@ -56,19 +60,6 @@
   "terminal.integrated.fontFamily": "Fira Code",
   "editor.fontLigatures": true,
   "terminal.integrated.cursorBlinking": true,
-  "multiCommand.commands": [
-    {
-      "command": "multiCommand.hideSidebarAndToggleAuxiliaryBar",
-      "sequence": [
-        "workbench.action.closeSidebar",
-        "workbench.action.toggleAuxiliaryBar"
-      ]
-    },
-    {
-      "command": "multiCommand.activateGitAndTerminal",
-      "sequence": ["workbench.view.scm", "workbench.action.terminal.focus"]
-    }
-  ],
   "editor.acceptSuggestionOnCommitCharacter": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.tabSize": 2,
