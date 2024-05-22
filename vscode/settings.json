@@ -1,8 +1,4 @@
 {
-
-
-
-  
   // frequently edited
   "editor.lineNumbers": "off",
   "editor.formatOnSave": true,
@@ -111,5 +107,6 @@
   "workbench.editor.tabActionCloseVisibility": false,
   "window.zoomLevel": 2,
   "scm.showOutgoingChanges": "never",
-  "git.autofetch": true
+  "git.autofetch": true,
+  "prisma.showPrismaDataPlatformNotification": false
 }

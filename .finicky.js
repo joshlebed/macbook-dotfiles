@@ -65,9 +65,9 @@ module.exports = {
           };
         }
 
-        for (let [host, host_patterns] of Object.entries(patterns)) {
-          for (let pattern of host_patterns) {
-            let match = pattern.exec(url.pathname);
+        for (const [host, host_patterns] of Object.entries(patterns)) {
+          for (const pattern of host_patterns) {
+            const match = pattern.exec(url.pathname);
             if (match) {
               let search = `team=${team || match.groups.team}`;
 
@@ -83,7 +83,7 @@ module.exports = {
                 search += `&message=${message}`;
               }
 
-              let output = {
+              const output = {
                 protocol: "slack",
                 username: "",
                 password: "",
@@ -93,7 +93,7 @@ module.exports = {
                 search: search,
                 hash: "",
               };
-              let outputStr = `${output.protocol}://${output.host}?${output.search}`;
+              const outputStr = `${output.protocol}://${output.host}?${output.search}`;
               finicky.log(
                 `Rewrote Slack URL ${urlString} to deep link ${outputStr}`
               );
