@@ -117,6 +117,8 @@ TODO: add AHK config somewhere
 
 [dark reader](https://chrome.google.com/webstore/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh) - to force dark mode
 
+[web scrobbler](https://chromewebstore.google.com/detail/web-scrobbler/hhinaapppaileiechjoiifaancjggfjm?pli=1) - for last.fm
+
 # TODO: switch from slate to one of these:
 
 https://github.com/tmandry/Swindler

@@ -1,4 +1,5 @@
 yarn/global/node_modules/*
+node_modules
 iterm2/AppSupport
 **/.DS_Store
 configstore

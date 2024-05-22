@@ -24,4 +24,11 @@ brew install ddcctl
 brew install git
 brew install gh
 brew install ticktick
+brew install node
+brew install pnpm
+brew install yarn
+brew install nvm
+brew install pyenv
+brew install rust
+brew install --cask docker
 # brew install intellij-idea
