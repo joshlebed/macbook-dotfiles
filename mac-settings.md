@@ -1,7 +1,8 @@
 settings to change
+
 - set "key repeat rate" to fast, "delay until repeat" to short
 - turn "displays have separate spaces" off
-- disable "Show Spotlight Search" keyboard shortcut 
+- disable "Show Spotlight Search" keyboard shortcut
 - `defaults write -g ApplePressAndHoldEnabled -bool false` see: https://apple.stackexchange.com/questions/332769/macos-disable-popup-showing-accented-characters-when-holding-down-a-key
 - disable auto correct in Text Input -> Input Sources
 - update keyboard shortcuts
@@ -18,3 +19,4 @@ settings to change
     - Finder
       - Close Window: `shift + cmd + w`
   - enable Function Keys -> "Use ... as standard function keys"
+- change scrollbars to disappear: "Show scroll bars" -> "When scrolling"

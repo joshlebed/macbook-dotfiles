@@ -3,6 +3,7 @@
 # NOTE: ~ expansion won't work for some of these commands, so use ${HOME}
 for SOURCE_TARGET_PAIR in \
   "${HOME}/.config/preferences/com.contextsformac.Contexts.plist ${HOME}/Library/Preferences/com.contextsformac.Contexts.plist" \
+  "${HOME}/.config/preferences/com.raycast.macos.plist ${HOME}/Library/Preferences/com.raycast.macos.plist" \
 
 do
     set -- $SOURCE_TARGET_PAIR # Convert the tuple into the param args $1 $2...

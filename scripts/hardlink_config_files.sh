@@ -4,7 +4,7 @@
 for SOURCE_TARGET_PAIR in \
   "${HOME}/.config/.slate.js ${HOME}/.slate.js" \
   "${HOME}/.config/.finicky.js ${HOME}/.finicky.js" \
-  
+
   # "${HOME}/.config/IDEA/joshlebed-macOS-modified-keymap.xml ${HOME}/Library/Application\ Support/JetBrains/IntelliJIdea2023.1/keymaps/joshlebed-macOS-modified-keymap.xml" \
 
 do
