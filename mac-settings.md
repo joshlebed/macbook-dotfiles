@@ -26,3 +26,4 @@ settings to change
 - change lock screen settings - timing
 - change wallpaper + screen saver
 - enable reduce motion
+- TODO: add login items
