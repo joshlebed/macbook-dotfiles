@@ -138,6 +138,11 @@
     "command": "workbench.files.action.showActiveFileInExplorer"
   },
   {
+    "key": "cmd+shift+r",
+    "command": "gitlens.openWorkingFile",
+    "when": "isInDiffEditor"
+  },
+  {
     "key": "cmd+alt+r",
     "command": "workbench.action.reloadWindow",
     "when": "isDevelopment"
@@ -154,12 +159,12 @@
   {
     "key": "shift+cmd+g",
     "command": "workbench.view.scm",
-    "when": "activeViewlet != workbench.view.scm"
+    "when": "!activeViewlet"
   },
   {
     "key": "shift+cmd+g",
     "command": "workbench.action.closeSidebar",
-    "when": "activeViewlet == workbench.view.scm"
+    "when": "activeViewlet"
   },
   {
     "key": "cmd+l alt+b",

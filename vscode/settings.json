@@ -108,5 +108,6 @@
   "window.zoomLevel": 2,
   "scm.showOutgoingChanges": "never",
   "git.autofetch": true,
-  "prisma.showPrismaDataPlatformNotification": false
+  "prisma.showPrismaDataPlatformNotification": false,
+  "github.copilot.editor.enableAutoCompletions": true
 }
