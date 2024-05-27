@@ -5,8 +5,8 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="agnoster-custom"
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
-export EDITOR='vi -e'
-export VISUAL='code'
+export EDITOR=vim
+export VISUAL=code
 
 # NVM (node version manager) setup
 export NVM_DIR="$HOME/.nvm"
