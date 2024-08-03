@@ -5,30 +5,32 @@
 # TODO: add two follow up commands for brew installation
 
 # install programs
-brew install iterm2
-brew install google-chrome
-brew install visual-studio-code
-brew install font-fira-code
-brew install karabiner-elements
-brew install raycast
-brew install rectangle
-brew install contexts
-brew install keyboard-maestro
-brew install bartender
-brew install logi-options-plus
-brew install amethyst
-brew install slack
-brew install google-drive
-brew install finicky
-brew install ddcctl
-brew install git
-brew install gh
-brew install ticktick
-brew install node
-brew install pnpm
-brew install yarn
-brew install nvm
-brew install pyenv
-brew install rust
+brew install --cask iterm2
+brew install --cask google-chrome
+brew install --cask visual-studio-code
+brew install --cask cursor
+brew install --cask font-fira-code
+brew install --cask karabiner-elements
+brew install --cask raycast
+brew install --cask rectangle
+brew install --cask contexts
+brew install --cask keyboard-maestro
+brew install --cask bartender
+brew install --cask logi-options-plus
+brew install --cask amethyst
+brew install --cask hazeover
+brew install --cask slack
+brew install --cask google-drive
+brew install --cask finicky
+brew install --cask ddcctl
+brew install --cask git
+brew install --cask gh
+brew install --cask ticktick
+brew install --cask node
+brew install --cask pnpm
+brew install --cask yarn
+brew install --cask nvm
+brew install --cask pyenv
+brew install --cask rust
 brew install --cask docker
-# brew install intellij-idea
+# brew install --cask intellij-idea
