@@ -400,5 +400,25 @@
     "key": "ctrl+g",
     "command": "editor.action.addSelectionToNextFindMatch",
     "when": "editorFocus"
+  },
+  {
+    "key": "cmd+m",
+    "command": "aipopup.action.modal.generate"
+  },
+  {
+    "key": "cmd+m",
+    "command": "cursorai.action.generateInTerminal",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  { "key": "cmd+t", "command": "aichat.newchataction" },
+  {
+    "key": "cmd+l",
+    "command": "expandLineSelection",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "cmd+j",
+    "command": "workbench.action.terminal.focus",
+    "when": "aiChatFocus"
   }
 ]

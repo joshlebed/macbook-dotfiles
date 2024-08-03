@@ -49,6 +49,11 @@ install slate manually from here: https://github.com/jigish/slate/blob/master/bu
 set up google drive manually
 set up ticktick manually
 
+### cursor setup
+
+- install 'code' command
+- import VS Code extensions and settings
+
 ## linux tools
 
 [zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH): replacement for bash
@@ -67,7 +72,7 @@ set up ticktick manually
 
 [amethyst](https://ianyh.com/amethyst/): move windows between spaces ([v0.15.6](https://github.com/ianyh/Amethyst/releases/tag/v0.15.6) until [multi monitor bug](https://github.com/ianyh/Amethyst/issues/1436) is fixed)
 
-[limelight](https://github.com/koekeishiya/limelight): highlight focused window - TODO: this got taken down, find a replacement
+[limelight](https://github.com/koekeishiya/limelight): highlight focused window - TODO: this got taken down, find a replacement - currently using HazeOver, tbd if it's worth it
 
 [raycast](https://www.raycast.com/)? replace spotlight/alfred
 
@@ -84,6 +89,8 @@ set up ticktick manually
 [backup and sync](https://www.google.com/drive/download/): google drive sync
 
 [vscode](https://code.visualstudio.com/): text editor and IDE
+
+[cursor](https://www.cursor.com/): vscode with AI
 
 [intellij](https://www.jetbrains.com/idea/): java IDE
 

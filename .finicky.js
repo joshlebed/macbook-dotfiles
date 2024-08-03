@@ -1,5 +1,8 @@
 // ~/.finicky.js
 
+// "Default" is personal
+// "Profile 1" is work profile
+
 module.exports = {
   defaultBrowser: "Google Chrome",
   handlers: [
@@ -14,6 +17,30 @@ module.exports = {
     {
       match: ({ url }) => url.protocol === "slack",
       browser: "/Applications/Slack.app",
+    },
+    {
+      match: [
+        "*datadog*", // datadog links
+      ],
+      browser: {
+        name: "Google Chrome",
+        profile: "Profile 1",
+      },
+    },
+    {
+      match: ({ opener }) =>
+        ["Slack", "Microsoft Outlook"].includes(opener.name),
+      browser: {
+        name: "Google Chrome",
+        profile: "Profile 1",
+      },
+    },
+    {
+      match: ({ opener }) => ["Messages", "Messenger"].includes(opener.name),
+      browser: {
+        name: "Google Chrome",
+        profile: "Default",
+      },
     },
   ],
   rewrite: [

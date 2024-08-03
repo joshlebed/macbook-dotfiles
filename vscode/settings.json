@@ -11,8 +11,20 @@
     "source.organizeImports"
     // "source.fixAll.eslint"
   ],
+  "vscode-color-picker.languages": [
+    "php",
+    "html",
+    "css",
+    "python",
+    "jsonc",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue"
+  ],
   "editor.glyphMargin": false,
-  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": true,
   "window.openFoldersInNewWindow": "on",
   "window.restoreWindows": "all",
@@ -24,6 +36,7 @@
     "statusBar.noFolderBackground": "#212121",
     "statusBar.debuggingBackground": "#263238",
     "statusBarItem.remoteBackground": "#444",
+    "tab.activeBorderTop": "#229fff",
     "terminal.foreground": "#D3D7CF",
     "terminal.background": "#300A24",
     "terminal.ansiBlack": "#300A24",
@@ -100,14 +113,19 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.accessibilitySupport": "off",
-  "workbench.activityBar.location": "hidden",
   "terminal.integrated.env.osx": {
     "CW_NEW_SESSION": "1"
   },
   "workbench.editor.tabActionCloseVisibility": false,
-  "window.zoomLevel": 2,
+  "window.zoomLevel": 1,
   "scm.showOutgoingChanges": "never",
   "git.autofetch": true,
   "prisma.showPrismaDataPlatformNotification": false,
-  "github.copilot.editor.enableAutoCompletions": true
+  "github.copilot.editor.enableAutoCompletions": true,
+  "git.confirmSync": false,
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "terminal.integrated.scrollback": 10000,
+  "workbench.activityBar.location": "hidden"
 }
