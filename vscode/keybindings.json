@@ -402,15 +402,15 @@
     "when": "editorFocus"
   },
   {
-    "key": "cmd+m",
+    "key": "cmd+i",
     "command": "aipopup.action.modal.generate"
   },
   {
-    "key": "cmd+m",
+    "key": "cmd+i",
     "command": "cursorai.action.generateInTerminal",
     "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
   },
-  { "key": "cmd+t", "command": "aichat.newchataction" },
+  { "key": "cmd+shift+i", "command": "aichat.newchataction" },
   {
     "key": "cmd+l",
     "command": "expandLineSelection",
