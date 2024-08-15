@@ -4,21 +4,21 @@
 
 # NOTE: ~ expansion won't work for some of these commands, so use ${HOME}
 for SOURCE_TARGET_PAIR in \
-  "${HOME}/.config/vscode/settings.json ${HOME}/Library/Application Support/Code/User/settings.json" \
-  "${HOME}/.config/vscode/keybindings.json ${HOME}/Library/Application Support/Code/User/keybindings.json" \
+  "${HOME}/.config/vscode/settings.json|${HOME}/Library/Application Support/Code/User/settings.json" \
+  "${HOME}/.config/vscode/settings.json|${HOME}/Library/Application Support/Cursor/User/settings.json" \
+  "${HOME}/.config/vscode/keybindings.json|${HOME}/Library/Application Support/Code/User/keybindings.json" \
+  "${HOME}/.config/vscode/keybindings.json|${HOME}/Library/Application Support/Cursor/User/keybindings.json"
 
 do
-    set -- $SOURCE_TARGET_PAIR # Convert the tuple into the param args $1 $2...
-    SOURCE=$1
-    TARGET=$2
+    IFS='|' read -r SOURCE TARGET <<< "$SOURCE_TARGET_PAIR"
+    echo "SOURCE: $SOURCE"
+    echo "TARGET: $TARGET"
+    # exit 0
     # SOURCE="${HOME}/.config/vscode/settings.json"
     # TARGET="${HOME}/Library/Application Support/Code/User/settings.json"
-    SOURCE="${HOME}/.config/vscode/keybindings.json"
-    TARGET="${HOME}/Library/Application Support/Code/User/keybindings.json"
+    # SOURCE="${HOME}/.config/vscode/keybindings.json"
+    # TARGET="${HOME}/Library/Application Support/Code/User/keybindings.json"
 
-    echo SOURCE: $SOURCE
-    echo TARGET: $TARGET
-    
     test -e "$TARGET" && echo file found || echo file not found
     test -e "$TARGET.old" && echo backup found || echo backup not found
 
@@ -27,7 +27,8 @@ do
         echo removing old backup && rm "$TARGET.old"
       ) || echo no old backup found
       echo making new backup
-      mv "$TARGET" "$TARGET.old"
+      cp "$TARGET" "$TARGET.old"
+      rm "$TARGET"
     )
     echo linking source to target
     ln -s "$SOURCE" "$TARGET"
