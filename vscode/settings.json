@@ -1,16 +1,10 @@
 {
-  // frequently edited
   "editor.lineNumbers": "off",
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
   "editor.rulers": [100],
-
-  // everything else
   "eslint.validate": ["javascript"],
-  "editor.codeActionsOnSave": [
-    "source.organizeImports"
-    // "source.fixAll.eslint"
-  ],
+  "editor.codeActionsOnSave": ["source.organizeImports"],
   "vscode-color-picker.languages": [
     "php",
     "html",
@@ -117,15 +111,17 @@
     "CW_NEW_SESSION": "1"
   },
   "workbench.editor.tabActionCloseVisibility": false,
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 2,
   "scm.showOutgoingChanges": "never",
   "git.autofetch": true,
-  "prisma.showPrismaDataPlatformNotification": false,
-  "github.copilot.editor.enableAutoCompletions": true,
   "git.confirmSync": false,
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "terminal.integrated.scrollback": 10000,
-  "workbench.activityBar.location": "hidden"
+  "cursor.cpp.disabledLanguages": ["plaintext", "markdown", "scminput"],
+  "workbench.activityBar.orientation": "vertical",
+  "workbench.activityBar.location": "hidden",
+  "workbench.editor.editorActionsLocation": "titleBar",
+  "cursor.chat.terminalShowHoverHint": false
 }
