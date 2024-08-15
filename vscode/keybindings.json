@@ -10,7 +10,6 @@
     "command": "workbench.view.debug",
     "when": "viewContainer.workbench.view.debug.enabled"
   },
-
   {
     "key": "shift+cmd+enter",
     "command": "editor.action.goToReferences",
@@ -420,5 +419,6 @@
     "key": "cmd+j",
     "command": "workbench.action.terminal.focus",
     "when": "aiChatFocus"
-  }
+  },
+  { "key": "cmd+l", "command": "-aichat.newchataction" }
 ]
