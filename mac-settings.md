@@ -22,6 +22,12 @@ settings to change
       - Zoom: `caps + space`
     - Finder
       - Close Window: `shift + cmd + w`
+    - Messenger
+      - Previous Chat: `ctrl + shift + right`
+      - Next Chat: `ctrl + right`
+    - Spotify
+      - Go Back: `cmd + [`
+      - Go Forward: `cmd + ]`
 - change scrollbars to disappear: "Show scroll bars" -> "When scrolling"
 - change lock screen settings - timing
 - change wallpaper + screen saver
