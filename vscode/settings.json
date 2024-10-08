@@ -56,8 +56,6 @@
   "workbench.startupEditor": "newUntitledFile",
   "diffEditor.ignoreTrimWhitespace": false,
   "workbench.editor.revealIfOpen": true,
-  "workbench.list.smoothScrolling": true,
-  "editor.smoothScrolling": true,
   "editor.cursorSmoothCaretAnimation": "off",
   "editor.fontFamily": "Fira Code",
   "terminal.integrated.fontFamily": "Fira Code",
@@ -95,7 +93,8 @@
   },
   "emmet.showExpandedAbbreviation": "never",
   "files.associations": {
-    "packageInfo": "plaintext"
+    "packageInfo": "plaintext",
+    ".gitconfig": "plaintext"
   },
   "[python]": {
     "editor.formatOnType": true
@@ -123,5 +122,9 @@
   "workbench.activityBar.orientation": "vertical",
   "workbench.activityBar.location": "hidden",
   "workbench.editor.editorActionsLocation": "titleBar",
-  "cursor.chat.terminalShowHoverHint": false
+  "cursor.chat.terminalShowHoverHint": false,
+  "terminal.integrated.smoothScrolling": false,
+  "workbench.list.smoothScrolling": false,
+  "editor.smoothScrolling": false,
+  "editor.largeFileOptimizations": false
 }
