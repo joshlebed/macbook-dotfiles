@@ -9,5 +9,9 @@
   "keywords": [],
   "author": "Josh Lebedinsky",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "json-stable-stringify": "^1.0.1",
+    "json-stringify-pretty-compact": "^4.0.0"
+  }
 }

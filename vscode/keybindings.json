@@ -166,121 +166,6 @@
     "when": "activeViewlet"
   },
   {
-    "key": "cmd+l alt+b",
-    "command": "-latex-workshop.build",
-    "when": "config.latex-workshop.bind.altKeymap.enabled && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l alt+b",
-    "command": "-latex-workshop.build",
-    "when": "config.latex-workshop.bind.altKeymap.enabled && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l alt+c",
-    "command": "-latex-workshop.clean",
-    "when": "config.latex-workshop.bind.altKeymap.enabled && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l alt+v",
-    "command": "-latex-workshop.view",
-    "when": "config.latex-workshop.bind.altKeymap.enabled && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l alt+j",
-    "command": "-latex-workshop.synctex",
-    "when": "config.latex-workshop.bind.altKeymap.enabled && editorTextFocus && editorLangId == 'latex'"
-  },
-  {
-    "key": "cmd+l alt+x",
-    "command": "-workbench.view.extension.latex",
-    "when": "config.latex-workshop.bind.altKeymap.enabled"
-  },
-  {
-    "key": "cmd+l [",
-    "command": "-latex-workshop.promote-sectioning",
-    "when": "config.latex-workshop.bind.altKeymap.enabled && editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l ]",
-    "command": "-latex-workshop.demote-sectioning",
-    "when": "config.latex-workshop.bind.altKeymap.enabled && editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+enter",
-    "command": "-latex-workshop.shortcut.item",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+b",
-    "command": "-latex-workshop.shortcut.textbf",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+i",
-    "command": "-latex-workshop.shortcut.textit",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+u",
-    "command": "-latex-workshop.shortcut.underline",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+e",
-    "command": "-latex-workshop.shortcut.emph",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+r",
-    "command": "-latex-workshop.shortcut.textrm",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+t",
-    "command": "-latex-workshop.shortcut.texttt",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+s",
-    "command": "-latex-workshop.shortcut.textsl",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+c",
-    "command": "-latex-workshop.shortcut.textsc",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+n",
-    "command": "-latex-workshop.shortcut.textnormal",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+6",
-    "command": "-latex-workshop.shortcut.textsuperscript",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+-",
-    "command": "-latex-workshop.shortcut.textsubscript",
-    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+l",
-    "command": "-expandLineSelection",
-    "when": "textInputFocus && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+m",
-    "command": "-editor.action.toggleTabFocusMode",
-    "when": "textInputFocus && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
-    "key": "cmd+l cmd+w",
-    "command": "-latex-workshop.surround",
-    "when": "editorHasSelection && editorTextFocus && !editorReadonly && editorLangId =~ /latex|rsweave|jlweave/"
-  },
-  {
     "key": "PageDown",
     "command": "cursorMove",
     "args": { "to": "viewPortBottom" },
@@ -401,15 +286,15 @@
     "when": "editorFocus"
   },
   {
-    "key": "cmd+i",
+    "key": "cmd+u",
     "command": "aipopup.action.modal.generate"
   },
   {
-    "key": "cmd+i",
+    "key": "cmd+u",
     "command": "cursorai.action.generateInTerminal",
     "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
   },
-  { "key": "cmd+shift+i", "command": "aichat.newchataction" },
+  { "key": "cmd+shift+u", "command": "aichat.newchataction" },
   {
     "key": "cmd+l",
     "command": "expandLineSelection",
