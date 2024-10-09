@@ -1,7 +1,21 @@
 {
+  "global": {
+    "ask_for_confirmation_before_quitting": true,
+    "check_for_updates_on_startup": true,
+    "show_in_menu_bar": true,
+    "show_profile_name_in_menu_bar": false,
+    "unsafe_ui": false
+  },
   "profiles": [
     {
       "complex_modifications": {
+        "parameters": {
+          "basic.simultaneous_threshold_milliseconds": 50,
+          "basic.to_delayed_action_delay_milliseconds": 500,
+          "basic.to_if_alone_timeout_milliseconds": 1000,
+          "basic.to_if_held_down_threshold_milliseconds": 500,
+          "mouse_motion_to_scroll.speed": 100
+        },
         "rules": [
           {
             "description": "caps_lock as nav_mode toggle",
@@ -389,7 +403,10 @@
                     "type": "frontmost_application_unless"
                   }
                 ],
-                "from": {"key_code": "delete_or_backspace", "modifiers": {"mandatory": ["shift"]}},
+                "from": {
+                  "key_code": "delete_or_backspace",
+                  "modifiers": {"mandatory": ["left_command"]}
+                },
                 "to": {"key_code": "delete_forward"},
                 "type": "basic"
               },
@@ -478,6 +495,7 @@
       },
       "devices": [
         {
+          "disable_built_in_keyboard_if_exists": false,
           "fn_function_keys": [
             {"from": {"key_code": "f1"}, "to": [{"key_code": "f1"}]},
             {"from": {"key_code": "f2"}, "to": [{"key_code": "f2"}]},
@@ -499,9 +517,11 @@
             "vendor_id": 1452
           },
           "ignore": false,
-          "manipulate_caps_lock_led": false
+          "manipulate_caps_lock_led": false,
+          "simple_modifications": []
         },
         {
+          "disable_built_in_keyboard_if_exists": false,
           "fn_function_keys": [
             {"from": {"key_code": "f1"}, "to": [{"key_code": "f1"}]},
             {"from": {"key_code": "f2"}, "to": [{"key_code": "f2"}]},
@@ -516,16 +536,23 @@
             {"from": {"key_code": "f11"}, "to": [{"key_code": "f11"}]},
             {"from": {"key_code": "f12"}, "to": [{"key_code": "f12"}]}
           ],
-          "identifiers": {"is_keyboard": true, "product_id": 4, "vendor_id": 9494},
+          "identifiers": {
+            "is_keyboard": true,
+            "is_pointing_device": false,
+            "product_id": 4,
+            "vendor_id": 9494
+          },
+          "ignore": false,
           "manipulate_caps_lock_led": false,
           "simple_modifications": [
-            {"from": {"key_code": "left_command"}, "to": [{"key_code": "left_option"}]},
-            {"from": {"key_code": "left_option"}, "to": [{"key_code": "left_command"}]},
-            {"from": {"key_code": "right_command"}, "to": [{"key_code": "right_option"}]},
-            {"from": {"key_code": "right_option"}, "to": [{"key_code": "right_command"}]}
+            {"from": {"key_code": "left_option"}, "to": {"key_code": "left_command"}},
+            {"from": {"key_code": "left_command"}, "to": {"key_code": "left_option"}},
+            {"from": {"key_code": "right_option"}, "to": {"key_code": "right_command"}},
+            {"from": {"key_code": "right_command"}, "to": {"key_code": "right_option"}}
           ]
         },
         {
+          "disable_built_in_keyboard_if_exists": false,
           "fn_function_keys": [
             {"from": {"key_code": "f1"}, "to": [{"key_code": "f1"}]},
             {"from": {"key_code": "f2"}, "to": [{"key_code": "f2"}]},
@@ -540,32 +567,41 @@
             {"from": {"key_code": "f11"}, "to": [{"key_code": "f11"}]},
             {"from": {"key_code": "f12"}, "to": [{"key_code": "f12"}]}
           ],
-          "identifiers": {"is_keyboard": true, "product_id": 6505, "vendor_id": 12951},
+          "identifiers": {
+            "is_keyboard": true,
+            "is_pointing_device": false,
+            "product_id": 6505,
+            "vendor_id": 12951
+          },
+          "ignore": false,
           "manipulate_caps_lock_led": false,
           "simple_modifications": [
-            {"from": {"key_code": "left_command"}, "to": [{"key_code": "left_option"}]},
-            {"from": {"key_code": "left_option"}, "to": [{"key_code": "left_command"}]},
-            {"from": {"key_code": "right_command"}, "to": [{"key_code": "right_option"}]},
-            {"from": {"key_code": "right_option"}, "to": [{"key_code": "right_command"}]}
+            {"from": {"key_code": "left_option"}, "to": {"key_code": "left_command"}},
+            {"from": {"key_code": "left_command"}, "to": {"key_code": "left_option"}},
+            {"from": {"key_code": "right_option"}, "to": {"key_code": "right_command"}},
+            {"from": {"key_code": "right_command"}, "to": {"key_code": "right_option"}}
           ]
         }
       ],
       "name": "Global VIM",
+      "parameters": {"delay_milliseconds_before_open_device": 1000},
       "selected": true,
-      "virtual_hid_keyboard": {"country_code": 0, "keyboard_type_v2": "ansi"}
+      "virtual_hid_keyboard": {"country_code": 0, "mouse_key_xy_scale": 100}
     },
     {
       "name": "Tetris",
+      "selected": false,
       "simple_modifications": [
-        {"from": {"key_code": "caps_lock"}, "to": [{"key_code": "escape"}]},
-        {"from": {"key_code": "escape"}, "to": [{"key_code": "caps_lock"}]},
-        {"from": {"key_code": "left_option"}, "to": [{"key_code": "v"}]}
+        {"from": {"key_code": "caps_lock"}, "to": {"key_code": "escape"}},
+        {"from": {"key_code": "escape"}, "to": {"key_code": "caps_lock"}},
+        {"from": {"key_code": "left_option"}, "to": {"key_code": "v"}}
       ],
-      "virtual_hid_keyboard": {"country_code": 0, "keyboard_type_v2": "ansi"}
+      "virtual_hid_keyboard": {"country_code": 0, "mouse_key_xy_scale": 100}
     },
     {
       "devices": [
         {
+          "disable_built_in_keyboard_if_exists": false,
           "fn_function_keys": [
             {"from": {"key_code": "f1"}, "to": [{"key_code": "f1"}]},
             {"from": {"key_code": "f2"}, "to": [{"key_code": "f2"}]},
@@ -587,9 +623,11 @@
             "vendor_id": 1452
           },
           "ignore": false,
-          "manipulate_caps_lock_led": false
+          "manipulate_caps_lock_led": false,
+          "simple_modifications": []
         },
         {
+          "disable_built_in_keyboard_if_exists": false,
           "fn_function_keys": [
             {"from": {"key_code": "f1"}, "to": [{"key_code": "f1"}]},
             {"from": {"key_code": "f2"}, "to": [{"key_code": "f2"}]},
@@ -604,16 +642,23 @@
             {"from": {"key_code": "f11"}, "to": [{"key_code": "f11"}]},
             {"from": {"key_code": "f12"}, "to": [{"key_code": "f12"}]}
           ],
-          "identifiers": {"is_keyboard": true, "product_id": 4, "vendor_id": 9494},
+          "identifiers": {
+            "is_keyboard": true,
+            "is_pointing_device": false,
+            "product_id": 4,
+            "vendor_id": 9494
+          },
+          "ignore": false,
           "manipulate_caps_lock_led": false,
           "simple_modifications": [
-            {"from": {"key_code": "left_command"}, "to": [{"key_code": "left_option"}]},
-            {"from": {"key_code": "left_option"}, "to": [{"key_code": "left_command"}]},
-            {"from": {"key_code": "right_command"}, "to": [{"key_code": "right_option"}]},
-            {"from": {"key_code": "right_option"}, "to": [{"key_code": "right_command"}]}
+            {"from": {"key_code": "left_option"}, "to": {"key_code": "left_command"}},
+            {"from": {"key_code": "left_command"}, "to": {"key_code": "left_option"}},
+            {"from": {"key_code": "right_option"}, "to": {"key_code": "right_command"}},
+            {"from": {"key_code": "right_command"}, "to": {"key_code": "right_option"}}
           ]
         },
         {
+          "disable_built_in_keyboard_if_exists": false,
           "fn_function_keys": [
             {"from": {"key_code": "f1"}, "to": [{"key_code": "f1"}]},
             {"from": {"key_code": "f2"}, "to": [{"key_code": "f2"}]},
@@ -628,17 +673,24 @@
             {"from": {"key_code": "f11"}, "to": [{"key_code": "f11"}]},
             {"from": {"key_code": "f12"}, "to": [{"key_code": "f12"}]}
           ],
-          "identifiers": {"is_keyboard": true, "product_id": 6505, "vendor_id": 12951},
+          "identifiers": {
+            "is_keyboard": true,
+            "is_pointing_device": false,
+            "product_id": 6505,
+            "vendor_id": 12951
+          },
+          "ignore": false,
           "manipulate_caps_lock_led": false,
           "simple_modifications": [
-            {"from": {"key_code": "left_command"}, "to": [{"key_code": "left_option"}]},
-            {"from": {"key_code": "left_option"}, "to": [{"key_code": "left_command"}]},
-            {"from": {"key_code": "right_command"}, "to": [{"key_code": "right_option"}]},
-            {"from": {"key_code": "right_option"}, "to": [{"key_code": "right_command"}]}
+            {"from": {"key_code": "left_option"}, "to": {"key_code": "left_command"}},
+            {"from": {"key_code": "left_command"}, "to": {"key_code": "left_option"}},
+            {"from": {"key_code": "right_option"}, "to": {"key_code": "right_command"}},
+            {"from": {"key_code": "right_command"}, "to": {"key_code": "right_option"}}
           ]
         }
       ],
-      "name": "Empty profile"
+      "name": "Empty profile",
+      "selected": false
     }
   ]
 }
