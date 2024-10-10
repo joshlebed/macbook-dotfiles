@@ -297,9 +297,14 @@ const nav_mappings = [
     from: { key_code: "period" },
     to: { key_code: "close_bracket", modifiers: ["left_command"] },
   },
+  // delete/backspace
+  {
+    from: { key_code: "delete_or_backspace" },
+    to: { key_code: "delete_forward" },
+  },
 ];
 
-const nav_mode = {
+const nav_mode_rule = {
   description: "nav_mode",
   manipulators: nav_mappings.map((item) => ({
     ...item,
@@ -343,20 +348,6 @@ const option_for_notifications = {
 const misc_shortcuts = {
   description: "miscellaneous shortcuts",
   manipulators: [
-    {
-      conditions: [
-        {
-          type: "frontmost_application_unless",
-          bundle_identifiers: ["com\\.apple\\.finder"],
-        },
-      ],
-      type: "basic",
-      from: {
-        key_code: "delete_or_backspace",
-        modifiers: { mandatory: ["shift"] },
-      },
-      to: { key_code: "delete_forward" },
-    },
     {
       type: "basic",
       conditions: [
@@ -537,7 +528,7 @@ const global_vim_profile = {
   complex_modifications: {
     rules: [
       caps_lock_toggler,
-      nav_mode,
+      nav_mode_rule,
       command_for_alfred,
       option_for_notifications,
       misc_shortcuts,
