@@ -39,5 +39,29 @@ alias karabiner-build="cd ~/.config/karabiner && node file-watcher.js"
 alias p="python3"
 alias kill-bluetooth="sudo pkill bluetoothd"
 
+# python virtualenvwrapper config
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.10
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/code
+source /usr/local/bin/virtualenvwrapper.sh
+
+# pnpm
+export PNPM_HOME="/Users/joshlebed/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# libsync
+LIBSYNC_REPO_DIRECTORY='/Users/joshlebed/code/lib-sync' # update to the path to the repo on your machine
+alias libsync-dev="${LIBSYNC_REPO_DIRECTORY}/.venv/bin/python ${LIBSYNC_REPO_DIRECTORY}/libsync/libsync.py"
+alias libsync-sh="cd ${LIBSYNC_REPO_DIRECTORY} && ${LIBSYNC_REPO_DIRECTORY}/scripts/run_sync.sh"
+alias libsync-sh-edit="code ${LIBSYNC_REPO_DIRECTORY}/scripts/run_sync.sh"
+alias webp-convert-downloads="magick mogrify -format JPEG ~/downloads/*.webp && open ~/downloads"
+alias wav-convert-mp3='for i in *.wav; do ffmpeg -i "$i" -ab 320k "${i%.*}.mp3"; done # convert all wavs in this directory to mp3s at 320kbps'
+alias flac-convert-mp3='for i in *.flac; do ffmpeg -i "$i" -ab 320k "${i%.*}.mp3"; done # convert all flacs in this directory to mp3s at 320kbps'
+alias m4a-convert-mp3='for i in *.m4a; do ffmpeg -i "$i" -ab 320k "${i%.*}.mp3"; done # convert all m4as in this directory to mp3s at 320kbps'
+
 # load environment specifics if there are any (home config, work config)
 test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-specifics.zshrc" || true

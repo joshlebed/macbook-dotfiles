@@ -23,8 +23,8 @@ settings to change
     - Finder
       - Close Window: `shift + cmd + w`
     - Messenger
-      - Previous Chat: `ctrl + shift + right`
-      - Next Chat: `ctrl + right`
+      - Previous Chat: `ctrl + shift + tab`
+      - Next Chat: `ctrl + tab`
     - Spotify
       - Go Back: `cmd + [`
       - Go Forward: `cmd + ]`
