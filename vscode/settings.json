@@ -97,7 +97,8 @@
     ".gitconfig": "plaintext"
   },
   "[python]": {
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "terminal.integrated.defaultProfile.linux": "zsh",
   "gitlens.mode.active": "zen",
