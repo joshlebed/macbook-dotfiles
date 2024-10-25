@@ -127,5 +127,6 @@
   "terminal.integrated.smoothScrolling": false,
   "workbench.list.smoothScrolling": false,
   "editor.smoothScrolling": false,
-  "editor.largeFileOptimizations": false
+  "editor.largeFileOptimizations": false,
+  "githubPullRequests.terminalLinksHandler": "github"
 }
