@@ -59,6 +59,10 @@
     "when": "editorTextFocus"
   },
   {
+    "key": "cmd+k cmd+w",
+    "command": "workbench.action.closeAllGroups"
+  },
+  {
     "key": "ctrl+tab",
     "command": "workbench.action.nextEditorInGroup"
   },
@@ -318,5 +322,9 @@
     "key": "f2",
     "command": "-editor.action.rename",
     "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "alt+p",
+    "command": "workbench.action.moveEditorToNextGroup"
   }
 ]
