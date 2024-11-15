@@ -47,7 +47,7 @@ alias kill-bluetooth="sudo pkill bluetoothd"
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.10
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/code
-source /usr/local/bin/virtualenvwrapper.sh
+[ -f /opt/homebrew/bin/virtualenvwrapper.sh ] && source /opt/homebrew/bin/virtualenvwrapper.sh
 
 # pnpm
 export PNPM_HOME="/Users/joshlebed/Library/pnpm"
