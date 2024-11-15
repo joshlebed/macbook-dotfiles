@@ -6,6 +6,7 @@
 
 # install programs
 brew install --cask iterm2
+brew install --cask fzf
 brew install --cask google-chrome
 brew install --cask visual-studio-code
 brew install --cask cursor
