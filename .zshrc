@@ -17,9 +17,15 @@ export NVM_DIR="$HOME/.nvm"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH=/usr/local/bin:$PATH
-eval "$(pyenv init -)"
+if command -v pyenv >/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
 
 # Enable fzf key bindings and completion
+# intel mac
+[ -f /usr/local/opt/fzf/shell/completion.zsh ] && source /usr/local/opt/fzf/shell/completion.zsh
+[ -f /usr/local/opt/fzf/shell/key-bindings.zsh ] && source /usr/local/opt/fzf/shell/key-bindings.zsh
+# arm mac
 [ -f /opt/homebrew/opt/fzf/shell/completion.zsh ] && source /opt/homebrew/opt/fzf/shell/completion.zsh
 [ -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh ] && source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
 
@@ -52,16 +58,16 @@ export PROJECT_HOME=$HOME/code
 # pnpm
 export PNPM_HOME="/Users/joshlebed/Library/pnpm"
 case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
 
 # libsync
 LIBSYNC_REPO_DIRECTORY='/Users/joshlebed/code/lib-sync' # update to the path to the repo on your machine
 alias libsync-dev="${LIBSYNC_REPO_DIRECTORY}/.venv/bin/python ${LIBSYNC_REPO_DIRECTORY}/libsync/libsync.py"
-alias libsync-sh="cd ${LIBSYNC_REPO_DIRECTORY} && ${LIBSYNC_REPO_DIRECTORY}/scripts/run_sync.sh"
-alias libsync-sh-edit="code ${LIBSYNC_REPO_DIRECTORY}/scripts/run_sync.sh"
+alias libsync-run-sync="cd ${LIBSYNC_REPO_DIRECTORY} && ${LIBSYNC_REPO_DIRECTORY}/scripts/run_sync.sh"
+alias libsync-run-sync-edit="cd ${LIBSYNC_REPO_DIRECTORY} && code ${LIBSYNC_REPO_DIRECTORY}/scripts/run_sync.sh"
 alias webp-convert-downloads="magick mogrify -format JPEG ~/downloads/*.webp && open ~/downloads"
 alias wav-convert-mp3='for i in *.wav; do ffmpeg -i "$i" -ab 320k "${i%.*}.mp3"; done # convert all wavs in this directory to mp3s at 320kbps'
 alias flac-convert-mp3='for i in *.flac; do ffmpeg -i "$i" -ab 320k "${i%.*}.mp3"; done # convert all flacs in this directory to mp3s at 320kbps'
