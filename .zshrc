@@ -72,6 +72,7 @@ alias webp-convert-downloads="magick mogrify -format JPEG ~/downloads/*.webp && 
 alias wav-convert-mp3='for i in *.wav; do ffmpeg -i "$i" -ab 320k "${i%.*}.mp3"; done # convert all wavs in this directory to mp3s at 320kbps'
 alias flac-convert-mp3='for i in *.flac; do ffmpeg -i "$i" -ab 320k "${i%.*}.mp3"; done # convert all flacs in this directory to mp3s at 320kbps'
 alias m4a-convert-mp3='for i in *.m4a; do ffmpeg -i "$i" -ab 320k "${i%.*}.mp3"; done # convert all m4as in this directory to mp3s at 320kbps'
+alias opus-convert-mp3='for i in *.opus; do ffmpeg -i "$i" -ab 320k "${i%.*}.mp3"; done # convert all opuss in this directory to mp3s at 320kbps'
 
 # load environment specifics if there are any (home config, work config)
 test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-specifics.zshrc" || true
