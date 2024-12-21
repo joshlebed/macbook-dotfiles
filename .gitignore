@@ -12,7 +12,14 @@ nicotine
 flipper
 Keyboard Maestro Macros.kmsync
 
-# amazon stuff
-cr
+# raspberry pi stuff
+Code
+pulse
+openbox
+lxterminal
+lxsession
+geany
+
 fish/conf.d
 raycast/extensions
+
