@@ -128,5 +128,6 @@
   "workbench.list.smoothScrolling": false,
   "editor.smoothScrolling": false,
   "editor.largeFileOptimizations": false,
-  "githubPullRequests.terminalLinksHandler": "github"
+  "githubPullRequests.terminalLinksHandler": "github",
+  "security.promptForLocalFileProtocolHandling": false
 }
