@@ -39,6 +39,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 alias gs="git status"
 alias la="ls -a"
 alias gc="git commit -m"
+alias gch="git checkout"
+alias gcb="git checkout -b"
 alias gpp="git push --set-upstream origin"
 alias config="code ~/.config"
 alias history="code ~/.zsh_history"
@@ -61,8 +63,8 @@ export PROJECT_HOME=$HOME/code
 # pnpm
 export PNPM_HOME="/Users/joshlebed/Library/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+*":$PNPM_HOME:"*) ;;
+*) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
 
