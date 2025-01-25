@@ -54,6 +54,10 @@ alias karabiner-build="cd ~/.config/karabiner && node file-watcher.js"
 alias p="python3"
 alias kill-bluetooth="sudo pkill bluetoothd"
 
+# Function to copy the output of the last command to the clipboard
+alias copylast='(eval $(fc -ln -1) &> /dev/null | pbcopy)'
+alias c='copylast'
+
 # python virtualenvwrapper config
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.10
 export WORKON_HOME=$HOME/.virtualenvs
