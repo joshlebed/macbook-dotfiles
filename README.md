@@ -13,7 +13,7 @@ on debian/ubuntu (apt-get):
 sudo apt-get update
 sudo apt-get install git
 git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
-apt install zsh
+sudo apt install zsh
 (test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln ~/.config/.zshrc ~/.zshrc # link zsh config
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # install omz
 ln ~/.config/zsh-themes/agnoster-custom.zsh-theme ~/.oh-my-zsh/themes/agnoster-custom.zsh-theme # link omz theme
