@@ -129,5 +129,6 @@
   "editor.smoothScrolling": false,
   "editor.largeFileOptimizations": false,
   "githubPullRequests.terminalLinksHandler": "github",
-  "security.promptForLocalFileProtocolHandling": false
+  "security.promptForLocalFileProtocolHandling": false,
+  "comments.visible": false
 }
