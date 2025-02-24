@@ -4,7 +4,13 @@
   "files.autoSave": "onFocusChange",
   "editor.rulers": [100],
   "eslint.validate": ["javascript"],
-  "editor.codeActionsOnSave": ["source.organizeImports"],
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "always",
+    "source.fixAll": "always",
+    "source.organizeImports": "always"
+    // "source.organizeImports": "always",
+    // "source.addMissingImports": "always"
+  },
   "vscode-color-picker.languages": [
     "php",
     "html",
