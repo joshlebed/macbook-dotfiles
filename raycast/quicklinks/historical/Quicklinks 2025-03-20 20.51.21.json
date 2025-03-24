@@ -1,0 +1,11 @@
+[
+  { "link": "https://www.youtube.com/playlist?list=WL", "name": "wl" },
+  {
+    "link": "chrome://settings/searchEngines",
+    "openWith": "Google Chrome",
+    "name": "engines"
+  },
+  { "name": "extensions", "link": "chrome:extensions" },
+  { "name": "yh", "link": "https://www.youtube.com/feed/history" },
+  { "name": "ch", "link": "chrome://history/" }
+]

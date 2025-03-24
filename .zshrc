@@ -50,7 +50,9 @@ alias z="source ~/.zshrc"
 alias temp='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 
 # other aliases
-alias karabiner-build="cd ~/.config/karabiner && node file-watcher.js"
+alias karabiner-build="cd ~/.config/karabiner && pnpm run build"
+alias quicklinks-build="cd ~/.config/raycast/quicklinks && pnpm run build"
+
 alias p="python3"
 alias kill-bluetooth="sudo pkill bluetoothd"
 

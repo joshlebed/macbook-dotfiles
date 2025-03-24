@@ -1,0 +1,63 @@
+[
+  { "name": "wl", "link": "https://www.youtube.com/playlist?list=WL" },
+  {
+    "openWith": "Google Chrome",
+    "link": "chrome://settings/searchEngines",
+    "name": "engines"
+  },
+  {
+    "name": "extensions",
+    "link": "chrome://extensions",
+    "openWith": "Google Chrome"
+  },
+  { "name": "yh", "link": "https://www.youtube.com/feed/history" },
+  { "openWith": "Google Chrome", "name": "ch", "link": "chrome://history/" },
+  {
+    "name": "1337",
+    "link": "https://1337x.to/category-search/{argument name=\"query\"}/Movies/1/"
+  },
+  {
+    "name": "Amex",
+    "link": "https://www.americanexpress.com/en-us/account/login"
+  },
+  {
+    "link": "https://secure.bankofamerica.com/login/sign-in/signOnV2Screen.go",
+    "name": "BofA"
+  },
+  {
+    "name": "Chase Bank",
+    "link": "https://secure.chase.com/web/auth/dashboard#/dashboard/index/index"
+  },
+  { "link": "http://localhost:3000/t/", "name": "dev" },
+  {
+    "name": "branches",
+    "link": "https://github.com/gentrace/gentrace/branches",
+    "openWith": "Google Chrome"
+  },
+  {
+    "openWith": "Google Chrome",
+    "name": "PRs",
+    "link": "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me"
+  },
+  {
+    "openWith": "Google Chrome",
+    "link": "https://home.personalcapital.com/page/login/app#/net-worth",
+    "name": "Net Worth"
+  },
+  {
+    "openWith": "Google Chrome",
+    "link": "https://home.personalcapital.com/page/login/app#/all-transactions/CREDIT_CARD",
+    "name": "Budget"
+  },
+  {
+    "openWith": "Google Chrome",
+    "name": "TD Bank",
+    "link": "https://onlinebanking.tdbank.com/#/authentication/login"
+  },
+  {
+    "link": "https://id.venmo.com/signin",
+    "name": "Venmo",
+    "openWith": "Google Chrome"
+  },
+  { "link": "cursor://file/~/.config", "openWith": "Cursor", "name": "config" }
+]

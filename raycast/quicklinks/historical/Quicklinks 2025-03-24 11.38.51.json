@@ -1,0 +1,72 @@
+[
+  { "link": "https://www.youtube.com/playlist?list=WL", "name": "wl" },
+  {
+    "name": "engines",
+    "link": "chrome://settings/searchEngines",
+    "openWith": "Google Chrome"
+  },
+  {
+    "openWith": "Google Chrome",
+    "name": "extensions",
+    "link": "chrome://extensions"
+  },
+  { "name": "yh", "link": "https://www.youtube.com/feed/history" },
+  { "name": "ch", "link": "chrome://history/", "openWith": "Google Chrome" },
+  {
+    "name": "Amex",
+    "link": "https://www.americanexpress.com/en-us/account/login"
+  },
+  {
+    "link": "https://secure.bankofamerica.com/login/sign-in/signOnV2Screen.go",
+    "name": "BofA"
+  },
+  {
+    "name": "Chase Bank",
+    "link": "https://secure.chase.com/web/auth/dashboard#/dashboard/index/index"
+  },
+  { "link": "http://localhost:3000/t/", "name": "dev" },
+  {
+    "link": "https://github.com/gentrace/gentrace/branches",
+    "openWith": "Google Chrome",
+    "name": "branches"
+  },
+  {
+    "name": "PRs",
+    "openWith": "Google Chrome",
+    "link": "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me"
+  },
+  {
+    "openWith": "Google Chrome",
+    "name": "Net Worth",
+    "link": "https://home.personalcapital.com/page/login/app#/net-worth"
+  },
+  {
+    "name": "Budget",
+    "link": "https://home.personalcapital.com/page/login/app#/all-transactions/CREDIT_CARD",
+    "openWith": "Google Chrome"
+  },
+  {
+    "link": "https://onlinebanking.tdbank.com/#/authentication/login",
+    "name": "TD Bank",
+    "openWith": "Google Chrome"
+  },
+  {
+    "openWith": "Google Chrome",
+    "link": "https://id.venmo.com/signin",
+    "name": "Venmo"
+  },
+  {
+    "name": "Wells Fargo",
+    "link": "https://connect.secure.wellsfargo.com/auth/login/present?origin=cob"
+  },
+  {
+    "link": "https://1337x.to/category-search/{argument name=\"query\"}/Movies/1/",
+    "name": "1337"
+  },
+  {
+    "name": "config",
+    "openWith": "Cursor",
+    "link": "cursor://file/Users/joshlebed/.config/"
+  },
+  { "name": "Downloads", "link": "~/Downloads" }
+]

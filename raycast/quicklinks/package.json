@@ -1,11 +1,10 @@
 {
-  "name": "karabiner-config-builder",
+  "name": "quicklinks-generator",
   "version": "1.0.0",
-  "description": "builds karabiner.json config file from karabiner.js config script",
+  "description": "builds _quicklinks.json config file from quicklinks.js config script",
   "main": "index.js",
   "scripts": {
-    "build": "node karabiner-file-watcher.js",
-    "format": "node config-formatter.js"
+    "build": "node quicklinks-file-watcher.js"
   },
   "keywords": [],
   "author": "Josh Lebedinsky",

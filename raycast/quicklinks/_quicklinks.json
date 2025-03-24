@@ -1,0 +1,54 @@
+[
+  {"link": "https://www.youtube.com/playlist?list=WL", "name": "Watch Later"},
+  {"link": "https://www.youtube.com/feed/history", "name": "Youtube History"},
+  {"link": "https://www.americanexpress.com/en-us/account/login", "name": "Amex"},
+  {"link": "https://secure.bankofamerica.com/login/sign-in/signOnV2Screen.go", "name": "BofA"},
+  {
+    "link": "https://secure.chase.com/web/auth/dashboard#/dashboard/index/index",
+    "name": "Chase Bank"
+  },
+  {"link": "https://home.personalcapital.com/page/login/app#/net-worth", "name": "Net Worth"},
+  {
+    "link": "https://home.personalcapital.com/page/login/app#/all-transactions/CREDIT_CARD",
+    "name": "Budget"
+  },
+  {"link": "https://onlinebanking.tdbank.com/#/authentication/login", "name": "TD Bank"},
+  {"link": "https://id.venmo.com/signin", "name": "Venmo"},
+  {
+    "link": "https://connect.secure.wellsfargo.com/auth/login/present?origin=cob",
+    "name": "Wells Fargo"
+  },
+  {"link": "https://1337x.to/category-search/{argument name=\"query\"}/Movies/1/", "name": "1337x"},
+  {"link": "https://www.google.com/maps", "name": "Maps"},
+  {"link": "http://localhost:3000/t/", "name": "Dev"},
+  {
+    "link": "chrome://settings/searchEngines",
+    "name": "Chrome Search Engines",
+    "openWith": "Google Chrome"
+  },
+  {"link": "chrome://extensions", "name": "Chrome Extensions", "openWith": "Google Chrome"},
+  {"link": "chrome://history/", "name": "Chrome History", "openWith": "Google Chrome"},
+  {
+    "link": "https://github.com/gentrace/gentrace/branches",
+    "name": "Branches",
+    "openWith": "Google Chrome"
+  },
+  {
+    "link": "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me",
+    "name": "PRs",
+    "openWith": "Google Chrome"
+  },
+  {
+    "link": "https://github.com/gentrace/gentrace/pull/{argument name=\"pr\"}",
+    "name": "PR",
+    "openWith": "Google Chrome"
+  },
+  {"link": "~/Downloads/", "name": "Downloads"},
+  {"link": "~/.config/", "name": "Config", "openWith": "Cursor"},
+  {"link": "~/code/gentrace/", "name": "Gentrace", "openWith": "Cursor"},
+  {
+    "link": "~/code/gentrace-dev-shell-scripts/gentrace_aliases.sh",
+    "name": "Gentrace Scripts",
+    "openWith": "Cursor"
+  }
+]

@@ -1,10 +1,10 @@
 import { exec } from "child_process";
 import fs from "fs";
 
-const fname = "./karabiner.js";
+const fname = "./quicklinks.js";
 
 const build = () => {
-  exec("node config-builder.js", (error, stdout, stderr) => {
+  exec("node quicklinks-config-builder.js", (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
