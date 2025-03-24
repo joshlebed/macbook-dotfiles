@@ -25,3 +25,4 @@ raycast/extensions
 
 raycast/config.json
 grit/grit-receipt.json
+.finicky_env_constants.js
