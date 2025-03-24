@@ -1,10 +1,8 @@
 // ~/.finicky.js
-import { personalProfile, workProfile } from "./.finicky_env_constants.js";
 
-// profiles
-// if these need to change eventually, import them from a .env/.js/.json that can be gitignored and controlled per machine
-const personal = personalProfile;
-const work = workProfile;
+// eventually figure out how to make this more portable per machine
+const personal = "Default";
+const work = "Profile 1";
 
 // browsers
 const chrome = "Google Chrome";
@@ -22,6 +20,7 @@ const personalMatches = [
   "*youtube.com*",
   "*1337x.to*",
   "*wellsfargo.com*",
+  "*www.google.com/maps*",
 ];
 
 // openers
