@@ -44,6 +44,7 @@
     "openWith": "Google Chrome"
   },
   {"link": "~/Downloads/", "name": "Downloads"},
+  {"link": "~/Music/soulseek", "name": "Soulseek"},
   {"link": "~/.config/", "name": "Config", "openWith": "Cursor"},
   {"link": "~/code/gentrace/", "name": "Gentrace", "openWith": "Cursor"},
   {
