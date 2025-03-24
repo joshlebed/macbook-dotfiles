@@ -44,7 +44,7 @@ const config = [
   },
   {
     name: "Maps",
-    link: "https://www.google.com/maps",
+    link: "https://maps.google.com/",
   },
 
   // --- work

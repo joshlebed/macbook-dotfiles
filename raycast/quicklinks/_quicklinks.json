@@ -19,7 +19,7 @@
     "name": "Wells Fargo"
   },
   {"link": "https://1337x.to/category-search/{argument name=\"query\"}/Movies/1/", "name": "1337x"},
-  {"link": "https://www.google.com/maps", "name": "Maps"},
+  {"link": "https://maps.google.com/", "name": "Maps"},
   {"link": "http://localhost:3000/t/", "name": "Dev"},
   {
     "link": "chrome://settings/searchEngines",

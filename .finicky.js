@@ -21,6 +21,7 @@ const personalMatches = [
   "*1337x.to*",
   "*wellsfargo.com*",
   "*www.google.com/maps*",
+  "*maps.google.com*",
 ];
 
 // openers
