@@ -90,6 +90,10 @@ const config = [
     name: "Downloads",
     link: "~/Downloads/",
   },
+  {
+    name: "Soulseek",
+    link: "~/Music/soulseek",
+  },
 
   // directories to open in cursor
   {
