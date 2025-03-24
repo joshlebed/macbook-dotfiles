@@ -6,10 +6,10 @@
   "eslint.validate": ["javascript"],
   "editor.codeActionsOnSave": {
     "source.addMissingImports": "always",
+    "source.organizeImports": "always",
     "source.fixAll": "always",
-    "source.organizeImports": "always"
-    // "source.organizeImports": "always",
-    // "source.addMissingImports": "always"
+    "source.fixAll.eslint": "always",
+    "source.fixAll.ts": "never"
   },
   "vscode-color-picker.languages": [
     "php",
@@ -107,7 +107,6 @@
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "terminal.integrated.defaultProfile.linux": "zsh",
-  "gitlens.mode.active": "zen",
   "security.workspace.trust.untrustedFiles": "open",
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -125,7 +124,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "terminal.integrated.scrollback": 10000,
-  "cursor.cpp.disabledLanguages": ["plaintext", "markdown", "scminput"],
+  "cursor.cpp.disabledLanguages": ["plaintext", "scminput"],
   "workbench.activityBar.orientation": "vertical",
   "workbench.activityBar.location": "hidden",
   "workbench.editor.editorActionsLocation": "titleBar",
@@ -136,5 +135,6 @@
   "editor.largeFileOptimizations": false,
   "githubPullRequests.terminalLinksHandler": "github",
   "security.promptForLocalFileProtocolHandling": false,
-  "comments.visible": false
+  "comments.visible": false,
+  "githubPullRequests.pullBranch": "never"
 }
