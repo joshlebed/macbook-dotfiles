@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import fs from "fs";
 
-const fname = "./quicklinks.js";
+const fname = "./quicklinks-generator.js";
 
 const build = () => {
   exec("node quicklinks-config-builder.js", (error, stdout, stderr) => {
