@@ -51,5 +51,6 @@
     "link": "~/code/gentrace-dev-shell-scripts/gentrace_aliases.sh",
     "name": "Gentrace Scripts",
     "openWith": "Cursor"
-  }
+  },
+  {"link": "~/code/lib-sync/", "name": "Libsync", "openWith": "Cursor"}
 ]
