@@ -111,6 +111,11 @@ const config = [
     link: "~/code/gentrace-dev-shell-scripts/gentrace_aliases.sh",
     openWith: "Cursor",
   },
+  {
+    name: "Libsync",
+    link: "~/code/lib-sync/",
+    openWith: "Cursor",
+  },
 ];
 
 export default config;
