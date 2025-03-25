@@ -1,6 +1,7 @@
-const config = [
-  // links to be handled by finicky (for specific profiles) - see .finicky.js for config
-  // --- personal
+// links to be handled by finicky (for specific profiles) - see .finicky.js for config
+
+// --- personal
+const personalLinks = [
   { link: "https://www.youtube.com/playlist?list=WL", name: "Watch Later" },
   {
     name: "Youtube History",
@@ -46,46 +47,46 @@ const config = [
     name: "Maps",
     link: "https://maps.google.com/",
   },
+];
 
-  // --- work
+// --- work
+const workLinks = [
   {
     name: "Dev",
     link: "http://localhost:3000/t/",
   },
+];
 
-  // links to send straight to chrome - use whatever the most recent chrome profile is
+// links to send straight to chrome - use whatever the most recent chrome profile is
+const chromeLinks = [
   {
     link: "chrome://settings/searchEngines",
-    openWith: "Google Chrome",
     name: "Chrome Search Engines",
   },
   {
     name: "Chrome Extensions",
     link: "chrome://extensions",
-    openWith: "Google Chrome",
   },
   {
     name: "Chrome History",
     link: "chrome://history/",
-    openWith: "Google Chrome",
   },
   {
     name: "Branches",
     link: "https://github.com/gentrace/gentrace/branches",
-    openWith: "Google Chrome",
   },
   {
     name: "PRs",
     link: "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me",
-    openWith: "Google Chrome",
   },
   {
     name: "PR",
     link: 'https://github.com/gentrace/gentrace/pull/{argument name="pr"}',
-    openWith: "Google Chrome",
   },
+];
 
-  // directories to open in finder
+// directories to open in finder
+const finderLinks = [
   {
     name: "Downloads",
     link: "~/Downloads/",
@@ -94,28 +95,40 @@ const config = [
     name: "Soulseek",
     link: "~/Music/soulseek",
   },
+];
 
-  // directories to open in cursor
+// directories to open in cursor
+const cursorLinks = [
   {
     name: "Config",
     link: "~/.config/",
-    openWith: "Cursor",
   },
   {
     name: "Gentrace",
     link: "~/code/gentrace/",
-    openWith: "Cursor",
   },
   {
     name: "Gentrace Scripts",
     link: "~/code/gentrace-dev-shell-scripts/gentrace_aliases.sh",
-    openWith: "Cursor",
   },
   {
     name: "Libsync",
     link: "~/code/lib-sync/",
-    openWith: "Cursor",
   },
+];
+
+const config = [
+  ...personalLinks,
+  ...workLinks,
+  ...chromeLinks.map((link) => ({
+    ...link,
+    openWith: "Google Chrome",
+  })),
+  ...finderLinks,
+  ...cursorLinks.map((link) => ({
+    ...link,
+    openWith: "Cursor",
+  })),
 ];
 
 export default config;
