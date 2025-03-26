@@ -1,6 +1,9 @@
 [
   {"link": "https://www.youtube.com/playlist?list=WL", "name": "Watch Later"},
   {"link": "https://www.youtube.com/feed/history", "name": "Youtube History"},
+  {"link": "https://www.youtube.com/", "name": "Youtube"},
+  {"link": "https://soundcloud.com/feed", "name": "Soundcloud"},
+  {"link": "https://order.sweetgreen.com/reorder", "name": "Sweetgreen"},
   {"link": "https://www.americanexpress.com/en-us/account/login", "name": "Amex"},
   {"link": "https://secure.bankofamerica.com/login/sign-in/signOnV2Screen.go", "name": "BofA"},
   {
@@ -20,6 +23,7 @@
   },
   {"link": "https://1337x.to/category-search/{argument name=\"query\"}/Movies/1/", "name": "1337x"},
   {"link": "https://maps.google.com/", "name": "Maps"},
+  {"link": "https://login.onemedical.com/login", "name": "One Medical"},
   {"link": "http://localhost:3000/t/", "name": "Dev"},
   {
     "link": "chrome://settings/searchEngines",

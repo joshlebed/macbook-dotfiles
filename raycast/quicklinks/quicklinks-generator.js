@@ -8,6 +8,18 @@ const personalLinks = [
     link: "https://www.youtube.com/feed/history",
   },
   {
+    name: "Youtube",
+    link: "https://www.youtube.com/",
+  },
+  {
+    name: "Soundcloud",
+    link: "https://soundcloud.com/feed",
+  },
+  {
+    name: "Sweetgreen",
+    link: "https://order.sweetgreen.com/reorder",
+  },
+  {
     name: "Amex",
     link: "https://www.americanexpress.com/en-us/account/login",
   },
@@ -46,6 +58,10 @@ const personalLinks = [
   {
     name: "Maps",
     link: "https://maps.google.com/",
+  },
+  {
+    name: "One Medical",
+    link: "https://login.onemedical.com/login",
   },
 ];
 
