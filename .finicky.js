@@ -22,6 +22,9 @@ const personalMatches = [
   "*wellsfargo.com*",
   "*www.google.com/maps*",
   "*maps.google.com*",
+  "*login.onemedical.com*",
+  "*soundcloud.com*",
+  "*sweetgreen.com*",
 ];
 
 // openers

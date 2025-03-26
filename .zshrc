@@ -52,6 +52,7 @@ alias temp='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 # other aliases
 alias karabiner-build="cd ~/.config/karabiner && pnpm run build"
 alias quicklinks-build="cd ~/.config/raycast/quicklinks && pnpm run build"
+alias quicklinks-dev="code ~/.config/raycast/quicklinks/quicklinks-generator.js && quicklinks-build"
 
 alias p="python3"
 alias kill-bluetooth="sudo pkill bluetoothd"
