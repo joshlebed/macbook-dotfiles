@@ -136,5 +136,8 @@
   "githubPullRequests.terminalLinksHandler": "github",
   "security.promptForLocalFileProtocolHandling": false,
   "comments.visible": false,
-  "githubPullRequests.pullBranch": "never"
+  "githubPullRequests.pullBranch": "never",
+  "update.releaseTrack": "prerelease",
+  "typescript.tsserver.log": "off",
+  "terminal.integrated.tabs.enabled": false
 }
