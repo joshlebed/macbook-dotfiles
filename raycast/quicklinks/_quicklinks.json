@@ -21,9 +21,13 @@
     "link": "https://connect.secure.wellsfargo.com/auth/login/present?origin=cob",
     "name": "Wells Fargo"
   },
-  {"link": "https://1337x.to/category-search/{argument name=\"query\"}/Movies/1/", "name": "1337x"},
+  {
+    "link": "https://1337x.to/category-search/{argument name=\"query\"}/Movies/1/",
+    "name": "1337x pirate"
+  },
   {"link": "https://maps.google.com/", "name": "Maps"},
   {"link": "https://login.onemedical.com/login", "name": "One Medical"},
+  {"link": "https://www.amazon.com/", "name": "Amazon"},
   {"link": "http://localhost:3000/t/", "name": "Dev"},
   {
     "link": "chrome://settings/searchEngines",

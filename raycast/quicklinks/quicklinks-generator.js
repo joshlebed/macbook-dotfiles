@@ -1,3 +1,6 @@
+// see raycast/README.md for instructions
+// quickstart: quicklinks-dev
+
 // links to be handled by finicky (for specific profiles) - see .finicky.js for config
 
 // --- personal
@@ -52,7 +55,7 @@ const personalLinks = [
     link: "https://connect.secure.wellsfargo.com/auth/login/present?origin=cob",
   },
   {
-    name: "1337x",
+    name: "1337x pirate",
     link: 'https://1337x.to/category-search/{argument name="query"}/Movies/1/',
   },
   {
@@ -62,6 +65,10 @@ const personalLinks = [
   {
     name: "One Medical",
     link: "https://login.onemedical.com/login",
+  },
+  {
+    name: "Amazon",
+    link: "https://www.amazon.com/",
   },
 ];
 

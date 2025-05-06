@@ -25,6 +25,7 @@ const personalMatches = [
   "*login.onemedical.com*",
   "*soundcloud.com*",
   "*sweetgreen.com*",
+  "*www.amazon.com*",
 ];
 
 // openers
