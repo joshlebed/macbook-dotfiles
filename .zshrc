@@ -2,7 +2,9 @@
 
 # oh-my-zsh config
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="agnoster-custom"
+ZSH_THEME="agnoster"
+DEFAULT_USER="joshlebed"
+REPORTTIME=2
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
 export EDITOR=vim
@@ -52,7 +54,7 @@ alias temp='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 # other aliases
 alias karabiner-build="cd ~/.config/karabiner && pnpm run build"
 alias quicklinks-build="cd ~/.config/raycast/quicklinks && pnpm run build"
-alias quicklinks-dev="code ~/.config/raycast/quicklinks/quicklinks-generator.js && quicklinks-build"
+alias quicklinks-dev="code ~/.config/ ~/.config/raycast/quicklinks/quicklinks-generator.js && quicklinks-build"
 
 alias p="python3"
 alias kill-bluetooth="sudo pkill bluetoothd"
@@ -85,6 +87,7 @@ alias wav-convert-mp3='for i in *.wav; do ffmpeg -i "$i" -ab 320k -map_metadata 
 alias flac-convert-mp3='for i in *.flac; do ffmpeg -i "$i" -ab 320k -map_metadata 0 -c:v copy "${i%.*}.mp3"; done # convert all flacs in this directory to mp3s at 320kbps'
 alias m4a-convert-mp3='for i in *.m4a; do ffmpeg -i "$i" -ab 320k -map_metadata 0 -c:v copy "${i%.*}.mp3"; done # convert all m4as in this directory to mp3s at 320kbps'
 alias opus-convert-mp3='for i in *.opus; do ffmpeg -i "$i" -ab 320k -map_metadata 0 -c:v copy "${i%.*}.mp3"; done # convert all opuss in this directory to mp3s at 320kbps'
+alias aif-convert-mp3='for i in *.aif; do ffmpeg -i "$i" -ab 320k -map_metadata 0 -c:v copy "${i%.*}.mp3"; done # convert all aiffs in this directory to mp3s at 320kbps'
 
 # load environment specifics if there are any (home config, work config)
 test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-specifics.zshrc" || true
