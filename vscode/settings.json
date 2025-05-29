@@ -1,7 +1,11 @@
 {
+  // often edited
   "editor.lineNumbers": "off",
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
+  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreviewFromQuickOpen": true,
+  // the rest
   "editor.rulers": [100],
   "eslint.validate": ["javascript"],
   "editor.codeActionsOnSave": {
@@ -24,8 +28,6 @@
     "vue"
   ],
   "editor.glyphMargin": false,
-  "workbench.editor.enablePreview": true,
-  "workbench.editor.enablePreviewFromQuickOpen": true,
   "window.openFoldersInNewWindow": "on",
   "window.restoreWindows": "all",
   "editor.autoClosingOvertype": "always",
