@@ -9,6 +9,7 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 export EDITOR=vim
 export VISUAL=code
+export NEXT_EDITOR=code
 
 # NVM (node version manager) setup
 export NVM_DIR="$HOME/.nvm"
@@ -91,3 +92,24 @@ alias aif-convert-mp3='for i in *.aif; do ffmpeg -i "$i" -ab 320k -map_metadata 
 
 # load environment specifics if there are any (home config, work config)
 test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-specifics.zshrc" || true
+
+#compdef gt
+###-begin-gt-completions-###
+#
+# yargs command completion script
+#
+# Installation: gt completion >> ~/.zshrc
+#    or gt completion >> ~/.zprofile on OSX.
+#
+_gt_yargs_completions() {
+  local reply
+  local si=$IFS
+  IFS=$'
+' reply=($(COMP_CWORD="$((CURRENT - 1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" gt --get-yargs-completions "${words[@]}"))
+  IFS=$si
+  _describe 'values' reply
+}
+compdef _gt_yargs_completions gt
+###-end-gt-completions-###
+
+. "$HOME/.local/bin/env"
