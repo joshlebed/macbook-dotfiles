@@ -8,7 +8,12 @@ const work = "Profile 1";
 const chrome = "Google Chrome";
 
 // matches
-const workMatches = ["*datadog*", "*localhost*", "*gentrace*"];
+const workMatches = [
+  "*datadog*",
+  "*localhost*",
+  "*gentrace*",
+  "*graphite.dev*",
+];
 const personalMatches = [
   "*www.americanexpress.com*",
   "*bankofamerica.com*",
