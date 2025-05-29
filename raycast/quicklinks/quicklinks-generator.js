@@ -1,5 +1,5 @@
-// see raycast/README.md for instructions
 // quickstart: quicklinks-dev
+// see raycast/README.md for more instructions
 
 // links to be handled by finicky (for specific profiles) - see .finicky.js for config
 
@@ -78,6 +78,14 @@ const workLinks = [
     name: "Dev",
     link: "http://localhost:3000/t/",
   },
+  {
+    name: "PRs",
+    link: "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me",
+  },
+  {
+    name: "Graphite",
+    link: "https://app.graphite.dev/",
+  },
 ];
 
 // links to send straight to chrome - use whatever the most recent chrome profile is
@@ -97,10 +105,6 @@ const chromeLinks = [
   {
     name: "Branches",
     link: "https://github.com/gentrace/gentrace/branches",
-  },
-  {
-    name: "PRs",
-    link: "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me",
   },
   {
     name: "PR",
