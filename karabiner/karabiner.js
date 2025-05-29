@@ -290,13 +290,53 @@ const nav_mappings = [
   },
   // forward/back
   {
+    conditions: [
+      {
+        type: "frontmost_application_unless",
+        bundle_identifiers: ["net.whatsapp.WhatsApp"],
+      },
+    ],
     from: { key_code: "m" },
     to: { key_code: "open_bracket", modifiers: ["left_command"] },
   },
   {
+    conditions: [
+      {
+        type: "frontmost_application_unless",
+        bundle_identifiers: ["net.whatsapp.WhatsApp"],
+      },
+    ],
     from: { key_code: "period" },
     to: { key_code: "close_bracket", modifiers: ["left_command"] },
   },
+  // forward/back for whatsapp
+  {
+    conditions: [
+      {
+        type: "frontmost_application_if",
+        bundle_identifiers: ["net.whatsapp.WhatsApp"],
+      },
+    ],
+    from: { key_code: "m" },
+    to: {
+      key_code: "open_bracket",
+      modifiers: ["left_command", "left_shift"],
+    },
+  },
+  {
+    conditions: [
+      {
+        type: "frontmost_application_if",
+        bundle_identifiers: ["net.whatsapp.WhatsApp"],
+      },
+    ],
+    from: { key_code: "period" },
+    to: {
+      key_code: "close_bracket",
+      modifiers: ["left_command", "left_shift"],
+    },
+  },
+
   // delete/backspace
   {
     from: { key_code: "delete_or_backspace" },
