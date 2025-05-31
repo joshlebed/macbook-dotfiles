@@ -113,4 +113,4 @@ _gt_yargs_completions() {
 compdef _gt_yargs_completions gt
 ###-end-gt-completions-###
 
-. "$HOME/.local/bin/env"
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
