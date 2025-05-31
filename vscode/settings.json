@@ -140,6 +140,5 @@
   "comments.visible": false,
   "githubPullRequests.pullBranch": "never",
   "update.releaseTrack": "prerelease",
-  "typescript.tsserver.log": "off",
-  "terminal.integrated.tabs.enabled": false
+  "typescript.tsserver.log": "off"
 }

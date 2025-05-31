@@ -20,6 +20,7 @@ export NVM_DIR="$HOME/.nvm"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH=/usr/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 if command -v pyenv >/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
