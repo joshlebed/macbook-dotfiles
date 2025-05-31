@@ -1,0 +1,5 @@
+
+[Default Applications]
+x-scheme-handler/magnet=TorrentDrop.desktop
+x-scheme-handler/x-bittorrent=TorrentDrop.desktop
+application/x-bittorrent=TorrentDrop.desktop
