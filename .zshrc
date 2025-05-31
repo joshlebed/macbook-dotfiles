@@ -113,6 +113,4 @@ _gt_yargs_completions() {
 compdef _gt_yargs_completions gt
 ###-end-gt-completions-###
 
-if [ -f "$HOME/.local/bin/env" ]; then
-  . "$HOME/.local/bin/env"
-fi
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
