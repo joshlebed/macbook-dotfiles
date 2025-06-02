@@ -126,7 +126,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "terminal.integrated.scrollback": 10000,
-  "cursor.cpp.disabledLanguages": ["plaintext", "scminput"],
+  "cursor.cpp.disabledLanguages": ["scminput"],
   "workbench.activityBar.orientation": "vertical",
   "workbench.activityBar.location": "hidden",
   "workbench.editor.editorActionsLocation": "titleBar",
