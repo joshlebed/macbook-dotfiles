@@ -16,14 +16,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
-# PYENV (python version manager) setup
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH=/usr/local/bin:$PATH
-export PATH=$HOME/.local/bin:$PATH
-if command -v pyenv >/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+# RYE (python version manager) setup
+source "$HOME/.rye/env"
 
 # Enable fzf key bindings and completion
 # intel mac
@@ -58,18 +52,11 @@ alias karabiner-build="cd ~/.config/karabiner && pnpm run build"
 alias quicklinks-build="cd ~/.config/raycast/quicklinks && pnpm run build"
 alias quicklinks-dev="code ~/.config/ ~/.config/raycast/quicklinks/quicklinks-generator.js && quicklinks-build"
 
-alias p="python3"
 alias kill-bluetooth="sudo pkill bluetoothd"
 
 # Function to copy the output of the last command to the clipboard
 alias copylast='(eval $(fc -ln -1) &> /dev/null | pbcopy)'
 alias c='copylast'
-
-# python virtualenvwrapper config
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.10
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/code
-[ -f /opt/homebrew/bin/virtualenvwrapper.sh ] && source /opt/homebrew/bin/virtualenvwrapper.sh
 
 # pnpm
 export PNPM_HOME="/Users/joshlebed/Library/pnpm"
@@ -78,6 +65,8 @@ case ":$PATH:" in
 *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+alias claude-danger="claude --dangerously-skip-permissions"
 
 # libsync
 LIBSYNC_REPO_DIRECTORY='/Users/joshlebed/code/lib-sync' # update to the path to the repo on your machine
