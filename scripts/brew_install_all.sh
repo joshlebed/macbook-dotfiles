@@ -31,7 +31,10 @@ brew install --cask node
 brew install --cask pnpm
 brew install --cask yarn
 brew install --cask nvm
-brew install --cask pyenv
+brew install --cask rye
+brew install --cask uv
 brew install --cask rust
 brew install --cask docker
+brew tap ibigio/tap
+brew install shell-ai
 # brew install --cask intellij-idea
