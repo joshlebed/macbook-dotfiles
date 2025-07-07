@@ -5,6 +5,7 @@
   "files.autoSave": "onFocusChange",
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": true,
+  "typescript.experimental.useTsgo": false,
   // the rest
   "editor.rulers": [100],
   "eslint.validate": ["javascript"],
