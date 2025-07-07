@@ -27,3 +27,5 @@ raycast/config.json
 grit/grit-receipt.json
 graphite/user_config
 uv/uv-receipt.json
+tmuxai/history
+tmuxai/tmuxai.log
