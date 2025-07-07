@@ -16,7 +16,7 @@ sudo apt-get update
 sudo apt-get install git
 git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
 sudo apt install zsh
-(test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln ~/.config/.zshrc ~/.zshrc # link zsh config
+(test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln -s ~/.config/.zshrc ~/.zshrc # link zsh config - has to be a symlink or it gets overwritten by some workflows
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # install omz
 ln -s ~/.config/zsh-themes/agnoster.zsh-theme ~/.oh-my-zsh/themes/agnoster.zsh-theme # link omz theme
 sudo apt install fzf
@@ -42,6 +42,7 @@ scripts/hardlink_config_files.sh
 
 # some config files need to be copied - contexts
 scripts/copy_config_files.sh
+
 # use this script to upload a new config or change a config for a stubborn program
 scripts/save_initial_config_files.sh
 ```
