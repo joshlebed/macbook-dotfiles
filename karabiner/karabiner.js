@@ -36,6 +36,11 @@ const app_bundle_identifiers_with_command_shift_w_to_close_window = [
   "com\\.apple\\.finder",
 ];
 
+const app_bundle_identifiers_with_option_f_to_toggle_case_and_word_search = [
+  "com\\.microsoft\\.VSCode",
+  "com\\.todesktop\\.230313mzl4w4u92", // cursor
+];
+
 const nav_mappings = [
   { from: { key_code: "quote" }, to: { key_code: "return_or_enter" } },
   // text nav
@@ -355,7 +360,7 @@ const nav_mode_rule = {
   })),
 };
 
-// TODO: fix this so shift + press cmd, alt + press cmd, etc does nothing
+// TODO: fix this so shift + press cmd, option + press cmd, etc does nothing
 const command_for_raycast = {
   description: "tap command to open raycast",
   manipulators: [
@@ -368,19 +373,24 @@ const command_for_raycast = {
   ],
 };
 
-const option_for_notifications = {
-  description: "tap option to open notification panel",
-  manipulators: [
+const option_f_to_toggle_case_and_word_search = {
+  type: "basic",
+  conditions: [
     {
-      type: "basic",
-      from: { key_code: "left_option", modifiers: { optional: ["any"] } },
-      to: [{ key_code: "left_option", lazy: true }],
-      to_if_alone: [
-        {
-          key_code: "f8",
-          modifiers: ["left_option", "left_control", "left_command"],
-        },
-      ],
+      type: "frontmost_application_if",
+      bundle_identifiers:
+        app_bundle_identifiers_with_option_f_to_toggle_case_and_word_search,
+    },
+  ],
+  from: { key_code: "f", modifiers: { mandatory: ["left_option"] } },
+  to: [
+    {
+      key_code: "w",
+      modifiers: ["left_command", "left_option"],
+    },
+    {
+      key_code: "c",
+      modifiers: ["left_command", "left_option"],
     },
   ],
 };
@@ -475,6 +485,7 @@ const misc_shortcuts = {
       from: { key_code: "p", modifiers: { mandatory: ["command", "shift"] } },
       to: { key_code: "j", modifiers: ["left_command", "left_shift"] },
     },
+    option_f_to_toggle_case_and_word_search,
   ],
 };
 
@@ -570,7 +581,6 @@ const global_vim_profile = {
       caps_lock_toggler,
       nav_mode_rule,
       command_for_raycast,
-      option_for_notifications,
       misc_shortcuts,
     ],
   },
