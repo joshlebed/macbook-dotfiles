@@ -409,19 +409,6 @@
             ]
           },
           {
-            "description": "tap option to open notification panel",
-            "manipulators": [
-              {
-                "from": {"key_code": "left_option", "modifiers": {"optional": ["any"]}},
-                "to": [{"key_code": "left_option", "lazy": true}],
-                "to_if_alone": [
-                  {"key_code": "f8", "modifiers": ["left_option", "left_control", "left_command"]}
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
             "description": "miscellaneous shortcuts",
             "manipulators": [
               {
@@ -501,6 +488,23 @@
                 ],
                 "from": {"key_code": "p", "modifiers": {"mandatory": ["command", "shift"]}},
                 "to": {"key_code": "j", "modifiers": ["left_command", "left_shift"]},
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "bundle_identifiers": [
+                      "com\\.microsoft\\.VSCode",
+                      "com\\.todesktop\\.230313mzl4w4u92"
+                    ],
+                    "type": "frontmost_application_if"
+                  }
+                ],
+                "from": {"key_code": "f", "modifiers": {"mandatory": ["left_option"]}},
+                "to": [
+                  {"key_code": "w", "modifiers": ["left_command", "left_option"]},
+                  {"key_code": "c", "modifiers": ["left_command", "left_option"]}
+                ],
                 "type": "basic"
               }
             ]
