@@ -398,7 +398,7 @@
             ]
           },
           {
-            "description": "tap command to open alfred",
+            "description": "tap command to open raycast",
             "manipulators": [
               {
                 "from": {"key_code": "left_command", "modifiers": {"optional": ["any"]}},
