@@ -49,6 +49,7 @@ alias temp='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 
 # other aliases
 alias karabiner-build="cd ~/.config/karabiner && pnpm run build"
+alias karabiner-dev="code ~/.config ~/.config/karabiner/karabiner.js && karabiner-build"
 alias quicklinks-build="cd ~/.config/raycast/quicklinks && pnpm run build"
 alias quicklinks-dev="code ~/.config/ ~/.config/raycast/quicklinks/quicklinks-generator.js && quicklinks-build"
 

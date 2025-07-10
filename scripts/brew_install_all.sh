@@ -33,6 +33,7 @@ brew install --cask yarn
 brew install --cask nvm
 brew install --cask rye
 brew install --cask uv
+brew install --cask pipx
 brew install --cask rust
 brew install --cask docker
 brew tap ibigio/tap

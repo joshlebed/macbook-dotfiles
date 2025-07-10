@@ -151,11 +151,6 @@
     "when": "isDevelopment"
   },
   {
-    "key": "cmd+r",
-    "command": "-workbench.action.reloadWindow",
-    "when": "isDevelopment"
-  },
-  {
     "key": "cmd+shift+j",
     "command": "workbench.action.togglePanel"
   },
@@ -215,7 +210,18 @@
   },
   {
     "key": "cmd+r",
+    "command": "-workbench.action.reloadWindow",
+    "when": "isDevelopment"
+  },
+  {
+    "key": "cmd+r",
     "command": "workbench.action.openRecent"
+  },
+  {
+    "key": "cmd+r",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u0012" },
+    "when": "terminalFocus"
   },
   {
     "key": "cmd+o",
