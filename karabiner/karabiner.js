@@ -356,8 +356,8 @@ const nav_mode_rule = {
 };
 
 // TODO: fix this so shift + press cmd, alt + press cmd, etc does nothing
-const command_for_alfred = {
-  description: "tap command to open alfred",
+const command_for_raycast = {
+  description: "tap command to open raycast",
   manipulators: [
     {
       type: "basic",
@@ -569,7 +569,7 @@ const global_vim_profile = {
     rules: [
       caps_lock_toggler,
       nav_mode_rule,
-      command_for_alfred,
+      command_for_raycast,
       option_for_notifications,
       misc_shortcuts,
     ],
