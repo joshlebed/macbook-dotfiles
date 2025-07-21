@@ -18,7 +18,6 @@ brew install --cask contexts
 brew install --cask keyboard-maestro
 brew install --cask bartender
 brew install --cask logi-options-plus
-brew install --cask amethyst
 brew install --cask hazeover
 brew install --cask slack
 brew install --cask google-drive

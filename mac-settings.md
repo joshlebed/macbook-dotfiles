@@ -23,7 +23,6 @@ settings to change
   - change "Show Spotlight Search" to `ctrl + option + command + space`
   - add App shortcuts
     - All Applications
-      - Zoom: `caps + space`
       - Show in Finder `cmd + shift + e`
       - Show Tab Bar `ctrl + alt + cmd + t`
     - Finder

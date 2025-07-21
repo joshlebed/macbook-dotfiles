@@ -82,10 +82,6 @@ automation
 
 [rectangle](https://rectangleapp.com/): move windows left and right
 
-[amethyst](https://ianyh.com/amethyst/): move windows between spaces
-([v0.15.6](https://github.com/ianyh/Amethyst/releases/tag/v0.15.6) until
-[multi monitor bug](https://github.com/ianyh/Amethyst/issues/1436) is fixed)
-
 [limelight](https://github.com/koekeishiya/limelight): highlight focused
 window - TODO: this got taken down, find a replacement - currently using
 HazeOver, tbd if it's worth it
