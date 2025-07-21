@@ -29,3 +29,5 @@ graphite/user_config
 uv/uv-receipt.json
 tmuxai/history
 tmuxai/tmuxai.log
+
+**/.claude/settings.local.json
