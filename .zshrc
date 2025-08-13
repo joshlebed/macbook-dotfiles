@@ -46,6 +46,7 @@ alias restart-ha='curl -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR
 alias reload-zsh-config="source ~/.zshrc"
 alias z="source ~/.zshrc"
 alias temp='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
+alias nit="git add --quiet -A && git commit -m 'nit' && git push"
 
 # other aliases
 alias karabiner-build="cd ~/.config/karabiner && pnpm run build"
