@@ -1,8 +1,8 @@
 // ~/.finicky.js
 
 // eventually figure out how to make this more portable per machine
-const personal = "Default";
-const work = "Profile 1";
+const personal = "Personal";
+const work = "Gentrace";
 
 // browsers
 const chrome = "Google Chrome";
@@ -37,11 +37,11 @@ const personalMatches = [
 const workOpeners = ["Slack", "Microsoft Outlook", "Linear"];
 const personalOpeners = ["Messages", "Messenger"];
 
-module.exports = {
+export default {
   defaultBrowser: chrome,
   handlers: [
     {
-      match: ({ url }) => url.protocol === "slack",
+      match: (url) => url.protocol === "slack",
       browser: "/Applications/Slack.app",
     },
     {
@@ -53,11 +53,11 @@ module.exports = {
       browser: { name: chrome, profile: personal },
     },
     {
-      match: ({ opener }) => workOpeners.includes(opener.name),
+      match: (url, options) => workOpeners.includes(options.opener.name),
       browser: { name: chrome, profile: work },
     },
     {
-      match: ({ opener }) => personalOpeners.includes(opener.name),
+      match: (url, options) => personalOpeners.includes(options.opener.name),
       browser: { name: chrome, profile: personal },
     },
   ],
