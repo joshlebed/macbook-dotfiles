@@ -336,5 +336,9 @@
   {
     "key": "alt+p",
     "command": "workbench.action.moveEditorToNextGroup"
+  },
+  {
+    "key": "cmd+e",
+    "command": "composerMode.background"
   }
 ]

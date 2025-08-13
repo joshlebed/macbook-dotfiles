@@ -6,9 +6,15 @@
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": true,
   "typescript.experimental.useTsgo": false,
+
   // the rest
   "editor.rulers": [100],
-  "eslint.validate": ["javascript"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "editor.codeActionsOnSave": {
     "source.addMissingImports": "always",
     "source.organizeImports": "always",
