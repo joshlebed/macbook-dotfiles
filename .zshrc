@@ -58,7 +58,17 @@ alias kill-bluetooth="sudo pkill bluetoothd"
 
 # Function to copy the output of the last command to the clipboard
 alias copylast='(eval $(fc -ln -1) &> /dev/null | pbcopy)'
-alias c='copylast'
+alias copy='copylast'
+pwd() {
+  builtin pwd -P | tee >(tr -d '\n' | pbcopy)
+}
+c() {
+  local dir
+  dir=$(ls -dt ~/code/*/ 2>/dev/null \
+    | xargs -n 1 basename \
+    | fzf --height=40% --reverse --border) \
+    && cd ~/code/"$dir"
+}
 
 # pnpm
 export PNPM_HOME="/Users/joshlebed/Library/pnpm"
