@@ -115,6 +115,12 @@
     "editor.formatOnType": true,
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
+  "[jupyter]": {
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "notebook.formatOnSave.enabled": true,
+
   "terminal.integrated.defaultProfile.linux": "zsh",
   "security.workspace.trust.untrustedFiles": "open",
   "[typescript]": {
@@ -147,5 +153,6 @@
   "comments.visible": false,
   "githubPullRequests.pullBranch": "never",
   "update.releaseTrack": "prerelease",
-  "typescript.tsserver.log": "off"
+  "typescript.tsserver.log": "off",
+  "terminal.external.osxExec": "iTerm.app"
 }
