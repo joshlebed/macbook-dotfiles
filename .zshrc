@@ -59,7 +59,7 @@ alias kill-bluetooth="sudo pkill bluetoothd"
 # Function to copy the output of the last command to the clipboard
 alias copylast='(eval $(fc -ln -1) &> /dev/null | pbcopy)'
 alias copy='copylast'
-pwd() {
+p() {
   builtin pwd -P | tee >(tr -d '\n' | pbcopy)
 }
 c() {
