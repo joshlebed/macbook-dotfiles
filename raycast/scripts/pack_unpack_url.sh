@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Required parameters:
-# @raycast.schemaVersion 1
+# version is set to 0 to disable it - this is a duplicate of the one in gentrace-dev-shell-scripts
+# @raycast.schemaVersion 0
 # @raycast.title Pack/Unpack URL
 # @raycast.mode silent
 # @raycast.packageName Pack/Unpack URL
