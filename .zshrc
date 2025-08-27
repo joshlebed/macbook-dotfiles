@@ -11,14 +11,6 @@ export EDITOR=vim
 export VISUAL=code
 export NEXT_EDITOR=code
 
-# NVM (node version manager) setup
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
-
-# RYE (python version manager) setup
-source "$HOME/.rye/env"
-
 # Enable fzf key bindings and completion
 # intel mac
 [ -f /usr/local/opt/fzf/shell/completion.zsh ] && source /usr/local/opt/fzf/shell/completion.zsh
