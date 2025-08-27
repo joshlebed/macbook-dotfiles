@@ -21,6 +21,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 # install agnoster theme
 (test -e ~/.oh-my-zsh/themes/agnoster.zsh-theme && mv ~/.oh-my-zsh/themes/agnoster.zsh-theme ~/.oh-my-zsh/themes/agnoster.zsh-theme.old)
 ln -s ~/.config/zsh-themes/agnoster.zsh-theme ~/.oh-my-zsh/themes/agnoster.zsh-theme # link omz theme
+(test -e ~/.shell-ai/config.yaml && mv ~/.shell-ai/config.yaml ~/.shell-ai/config.yaml.old); ln -s ~/.config/shell-ai/config.yaml ~/.shell-ai/config.yaml # link shell-ai config - has to be a symlink or it gets overwritten by some workflows
 # install fzf
 sudo apt install fzf
 ```
