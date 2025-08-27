@@ -18,7 +18,10 @@ git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this r
 sudo apt install zsh
 (test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln -s ~/.config/.zshrc ~/.zshrc # link zsh config - has to be a symlink or it gets overwritten by some workflows
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # install omz
+# install agnoster theme
+(test -e ~/.oh-my-zsh/themes/agnoster.zsh-theme && mv ~/.oh-my-zsh/themes/agnoster.zsh-theme ~/.oh-my-zsh/themes/agnoster.zsh-theme.old)
 ln -s ~/.config/zsh-themes/agnoster.zsh-theme ~/.oh-my-zsh/themes/agnoster.zsh-theme # link omz theme
+# install fzf
 sudo apt install fzf
 ```
 

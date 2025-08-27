@@ -47,6 +47,7 @@ alias reload-zsh-config="source ~/.zshrc"
 alias z="source ~/.zshrc"
 alias temp='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 alias nit="git add -A && git commit -m 'nit' && git push"
+alias main="git checkout main && git pull"
 
 # other aliases
 alias karabiner-build="cd ~/.config/karabiner && pnpm run build"
@@ -99,24 +100,5 @@ alias aif-convert-mp3='for i in *.aif; do ffmpeg -i "$i" -ab 320k -map_metadata 
 
 # load environment specifics if there are any (home config, work config)
 test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-specifics.zshrc" || true
-
-#compdef gt
-###-begin-gt-completions-###
-#
-# yargs command completion script
-#
-# Installation: gt completion >> ~/.zshrc
-#    or gt completion >> ~/.zprofile on OSX.
-#
-_gt_yargs_completions() {
-  local reply
-  local si=$IFS
-  IFS=$'
-' reply=($(COMP_CWORD="$((CURRENT - 1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" gt --get-yargs-completions "${words[@]}"))
-  IFS=$si
-  _describe 'values' reply
-}
-compdef _gt_yargs_completions gt
-###-end-gt-completions-###
 
 [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
