@@ -30,7 +30,7 @@ _get_repo_path() {
     return 0
   fi
 
-  printf '\e[33m⚠️ Not currently in a git repo\e[0m\n' >&2
+  printf '\e[33m⚠️  Not currently in a git repo\e[0m\n' >&2
   return 1
 }
 
@@ -66,7 +66,8 @@ claude-danger-repo() {
   if go-to-root-of-current-git-repo 2>/dev/null; then
     printf '\e[32m✅ navigated to top of git repo at: %s\e[0m\n' "$PWD" >&2
   else
-    gt-repo
+    printf '\e[33m⚠️  Not currently in a git repo\e[0m\n' >&2
+    return 1
   fi
   claude-danger "$@"
 }
