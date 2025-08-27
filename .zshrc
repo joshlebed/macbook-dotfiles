@@ -68,6 +68,7 @@ c() {
     | fzf --height=40% --reverse --border) \
     && cd ~/code/"$dir"
 }
+alias e="exit"
 
 # pnpm
 export PNPM_HOME="/Users/joshlebed/Library/pnpm"
