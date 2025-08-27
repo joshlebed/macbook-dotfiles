@@ -96,6 +96,7 @@ alias m4a-convert-mp3='for i in *.m4a; do ffmpeg -i "$i" -ab 320k -map_metadata 
 alias opus-convert-mp3='for i in *.opus; do ffmpeg -i "$i" -ab 320k -map_metadata 0 -c:v copy "${i%.*}.mp3"; done # convert all opuss in this directory to mp3s at 320kbps'
 alias aif-convert-mp3='for i in *.aif; do ffmpeg -i "$i" -ab 320k -map_metadata 0 -c:v copy "${i%.*}.mp3"; done # convert all aiffs in this directory to mp3s at 320kbps'
 
+test -e "${HOME}/.config/dev-aliases.sh" && source "${HOME}/.config/dev-aliases.sh" || true
 # load environment specifics if there are any (home config, work config)
 test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-specifics.zshrc" || true
 
