@@ -8,8 +8,15 @@ REPORTTIME=2
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
 export EDITOR=vim
-export VISUAL=code
-export NEXT_EDITOR=code
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS-specific
+  export VISUAL=code
+  export NEXT_EDITOR=code
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  # Linux-specific
+  export VISUAL=vim
+fi
 
 # Enable fzf key bindings and completion
 # intel mac
