@@ -2,7 +2,9 @@
 
 // eventually figure out how to make this more portable per machine
 const personal = "Personal";
-const work = "Gentrace";
+// const work = "Gentrace";
+// OVERRIDE WHILE NOT WORKING
+const work = "Personal";
 
 // browsers
 const chrome = "Google Chrome";
