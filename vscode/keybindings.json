@@ -338,10 +338,6 @@
     "command": "workbench.action.moveEditorToNextGroup"
   },
   {
-    "key": "cmd+e",
-    "command": "composerMode.background"
-  },
-  {
     "key": "shift+enter",
     "command": "workbench.action.terminal.sendSequence",
     "args": {
