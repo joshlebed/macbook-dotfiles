@@ -44,3 +44,28 @@ INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/
 SESSION_DIR: .config
 TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
 MSG: Then pick your preferred integration method from the concise
+⚠️ iTerm2 API not set up. Running setup...
+🚀 Setting up Claude Code + iTerm2 integration...
+
+✅ terminal-notifier already installed
+✅ Virtual environment already exists
+📦 Installing/upgrading iterm2 Python module...
+✅ iterm2 module ready
+📦 Creating runpython wrapper...
+✅ runpython wrapper created
+
+🧪 Testing setup...
+✅ iTerm2 Python API ready
+
+✨ Setup complete!
+
+📝 Next steps:
+   1. Ensure iTerm2 hotkey window is configured:
+      iTerm2 → Preferences → Keys → Hotkey Window
+
+   2. Test the integration:
+      echo '{"transcript_path": "/tmp/test"}' | ~/.config/claude/notify-end.sh
+
+   3. Claude Code notifications will now open iTerm2 when clicked!
+
+💡 Add a handy alias? (y/n)

@@ -1,64 +1,54 @@
-# Claude Code + iTerm2 Hotkey Window Integration
+# Claude Code + iTerm2 Integration
 
-## Quick Setup
+Click Claude Code notifications → Opens iTerm2 hotkey window
 
-Run the setup script to enable iTerm2 API:
+## ✨ One-Command Setup
+
 ```bash
 bash ~/.config/claude/setup-iterm2-api.sh
 ```
 
-This creates a Python venv with the iTerm2 module and a `runpython` wrapper that auto-heals if anything breaks.
+That's it! The script handles everything:
+- ✅ Installs terminal-notifier (if Homebrew is available)
+- ✅ Creates Python venv at `~/.iterm2/venv/`
+- ✅ Installs iTerm2 Python module
+- ✅ Creates self-healing `runpython` wrapper
+- ✅ Optionally adds `it2hw` alias
 
-## Configure Claude Code to Open iTerm2 Automatically
+## 📋 Prerequisites
 
-### Option 1: Session Start Hook
-Add to `~/.config/claude/settings.json`:
-```json
-{
-  "hooks": {
-    "on_session_start": "~/.iterm2/runpython ~/.iterm2/it2api hotkey-window"
-  }
-}
-```
+1. **iTerm2** with hotkey window configured:
+   - iTerm2 → Preferences → Keys → Hotkey Window
+   - Set your preferred hotkey (e.g., ⌥Space)
 
-### Option 2: Custom Command
-Create a Claude Code custom command at `~/.claude/commands/iterm.md`:
-```markdown
----
-name: iterm
-description: Open iTerm2 hotkey window
----
-Open the iTerm2 hotkey window
-```
+2. **Python 3** installed (usually comes with macOS)
+   - If missing: `brew install python3`
 
-Then add a hook to execute on this command:
-```json
-{
-  "hooks": {
-    "on_command_iterm": "~/.iterm2/runpython ~/.iterm2/it2api hotkey-window"
-  }
-}
-```
-
-### Option 3: Shell Alias
-Add to `~/.zshrc`:
-```bash
-# Auto-open iTerm when starting Claude Code
-alias cc='claude-code && ~/.iterm2/runpython ~/.iterm2/it2api hotkey-window'
-```
-
-## Test It Works
+## 🧪 Test It Works
 
 ```bash
-# Test the command directly
-~/.iterm2/runpython ~/.iterm2/it2api hotkey-window
-
-# Or use the alias (if you added it during setup)
-it2hw
+# Test the notification (click it to open iTerm2)
+echo '{"transcript_path": "/tmp/test"}' | ~/.config/claude/notify-end.sh
 ```
 
-## Troubleshooting
+## 📁 What Gets Installed
 
-- **Python not found**: Install with `brew install python3`
-- **Module errors**: Re-run `bash ~/.config/claude/setup-iterm2-api.sh`
-- **Nothing happens**: Check iTerm2 → Preferences → Keys → Hotkey Window is configured
+| Component | Location | Purpose |
+|-----------|----------|---------|
+| Python venv | `~/.iterm2/venv/` | Isolated Python with iTerm2 module |
+| runpython | `~/.iterm2/runpython` | Wrapper that auto-heals if things break |
+| Notify hook | `~/.config/claude/notify-end.sh` | Creates clickable notifications |
+
+## 🔧 Troubleshooting
+
+```bash
+# If anything goes wrong, just re-run:
+bash ~/.config/claude/setup-iterm2-api.sh
+
+# Missing dependencies?
+brew install python3 terminal-notifier
+
+# iTerm2 not opening? Check:
+# iTerm2 → Preferences → Keys → Hotkey Window is configured
+# iTerm2 → Preferences → General → Magic → Enable Python API
+```
