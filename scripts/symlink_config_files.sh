@@ -8,7 +8,9 @@ for SOURCE_TARGET_PAIR in \
   "${HOME}/.config/vscode/settings.json|${HOME}/Library/Application Support/Cursor/User/settings.json" \
   "${HOME}/.config/vscode/keybindings.json|${HOME}/Library/Application Support/Code/User/keybindings.json" \
   "${HOME}/.config/vscode/keybindings.json|${HOME}/Library/Application Support/Cursor/User/keybindings.json" \
-  "${HOME}/.config/shell-ai/config.yaml|${HOME}/.shell-ai/config.yaml"; do
+  "${HOME}/.config/shell-ai/config.yaml|${HOME}/.shell-ai/config.yaml" \
+  "${HOME}/.config/claude/settings.json|${HOME}/.claude/settings.json"; \
+    do
   IFS='|' read -r SOURCE TARGET <<<"$SOURCE_TARGET_PAIR"
   echo "SOURCE: $SOURCE"
   echo "TARGET: $TARGET"

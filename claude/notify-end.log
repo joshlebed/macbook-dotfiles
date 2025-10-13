@@ -1,0 +1,46 @@
+INPUT: {"session_id":"0af4fd25-f6d6-4386-b6a9-cab39c3cc756","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed-code-take-home-assignment-external/0af4fd25-f6d6-4386-b6a9-cab39c3cc756.jsonl","cwd":"/Users/joshlebed/code/take-home-assignment-external","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: take-home-assignment-external
+TRANSCRIPT_PATH: 
+MSG: Task completed...2
+INPUT: {"session_id":"0af4fd25-f6d6-4386-b6a9-cab39c3cc756","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed-code-take-home-assignment-external/0af4fd25-f6d6-4386-b6a9-cab39c3cc756.jsonl","cwd":"/Users/joshlebed/code/take-home-assignment-external","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: take-home-assignment-external
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed-code-take-home-assignment-external/0af4fd25-f6d6-4386-b6a9-cab39c3cc756.jsonl
+MSG: test message 
+INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl","cwd":"/Users/joshlebed/.config","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: .config
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
+MSG: The script at `/Users/joshlebed/.config/claude/notify-end.sh
+INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl","cwd":"/Users/joshlebed/.config","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: .config
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
+MSG: test 
+INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl","cwd":"/Users/joshlebed/.config","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: .config
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
+MSG: test 
+* Removing previously sent notification, which was sent on: 2025-10-13 16:10:59 +0000
+INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl","cwd":"/Users/joshlebed/.config","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: .config
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
+MSG: test 
+INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl","cwd":"/Users/joshlebed/.config","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: .config
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
+MSG: test 
+* Removing previously sent notification, which was sent on: 2025-10-13 16:12:18 +0000
+INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl","cwd":"/Users/joshlebed/.config","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: .config
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
+MSG: You can easily change the click action by editing the config
+INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl","cwd":"/Users/joshlebed/.config","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: .config
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
+MSG: The case statement at `/Users/joshlebed/.config/claude/notif
+INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl","cwd":"/Users/joshlebed/.config","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: .config
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
+MSG: The setup is completely hands-off and will automatically fix
+INPUT: {"session_id":"3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8","transcript_path":"/Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl","cwd":"/Users/joshlebed/.config","permission_mode":"bypassPermissions","hook_event_name":"Stop","stop_hook_active":false}
+SESSION_DIR: .config
+TRANSCRIPT_PATH: /Users/joshlebed/.claude/projects/-Users-joshlebed--config/3e1cd9d9-c2f5-43a7-92b2-efe266eb76a8.jsonl
+MSG: Then pick your preferred integration method from the concise
