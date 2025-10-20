@@ -154,5 +154,8 @@
   "githubPullRequests.pullBranch": "never",
   "update.releaseTrack": "prerelease",
   "typescript.tsserver.log": "off",
-  "terminal.external.osxExec": "iTerm.app"
+  "terminal.external.osxExec": "iTerm.app",
+  "remote.SSH.remotePlatform": {
+    "sd": "linux"
+  }
 }

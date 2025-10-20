@@ -11,6 +11,10 @@ will assume you clone this repo in `~/.config`:
 on debian/ubuntu (apt-get):
 
 ```zsh
+curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scripts/setup-linux-dev.sh | sudo bash
+```
+
+```zsh
 # set up brew, git, zsh, and omz
 sudo apt-get update
 sudo apt-get install git
