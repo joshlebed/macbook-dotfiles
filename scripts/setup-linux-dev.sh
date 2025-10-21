@@ -457,9 +457,9 @@ install_dev_tools() {
                 fi
             else
                 if command -v curl >/dev/null 2>&1; then
-                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash </dev/null
+                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh 2>/dev/null | bash
                 else
-                    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash </dev/null
+                    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh 2>/dev/null | bash
                 fi
             fi
             log_success "NVM installed"
@@ -471,23 +471,167 @@ install_dev_tools() {
         log_info "NVM already installed"
     fi
 
-    # Install shell-ai if pip is available (user install)
-    if command -v pip3 >/dev/null 2>&1 || command -v pip >/dev/null 2>&1; then
-        log_info "Installing shell-ai..."
-        if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-            su - "$ACTUAL_USER" -c 'pip3 install --user shell-ai 2>/dev/null || pip install --user shell-ai 2>/dev/null' </dev/null || {
-                log_warning "Could not install shell-ai"
-                SKIPPED_OPERATIONS+=("shell-ai installation")
-            }
+    # Install Claude Code
+    log_info "Installing Claude Code..."
+
+    # Check if claude-code is already installed
+    if command -v claude-code >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/claude-code" ]] || [[ -f "$USER_HOME/.claude/bin/claude" ]]; then
+        log_info "Claude Code is already installed"
+    else
+        # If NVM is available, we need to source it and ensure Node.js is installed
+        if [[ -f "$USER_HOME/.nvm/nvm.sh" ]]; then
+            log_info "Setting up Node.js via NVM..."
+            if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
+                if su - "$ACTUAL_USER" -c "source \"$USER_HOME/.nvm/nvm.sh\" && (nvm current || nvm install --lts) && nvm use --lts && npm --version" </dev/null 2>&1; then
+                    log_success "Node.js is ready via NVM"
+                    # Re-check for npm after sourcing nvm
+                    eval "$(su - "$ACTUAL_USER" -c "source \"$USER_HOME/.nvm/nvm.sh\" && nvm use --lts && echo 'export PATH=\$PATH'" 2>/dev/null)" || true
+                else
+                    log_warning "Failed to setup Node.js via NVM"
+                fi
+            else
+                # shellcheck source=/dev/null
+                if (source "$USER_HOME/.nvm/nvm.sh" && (nvm current || nvm install --lts) && nvm use --lts && npm --version) </dev/null 2>&1; then
+                    log_success "Node.js is ready via NVM"
+                    # shellcheck source=/dev/null
+                    source "$USER_HOME/.nvm/nvm.sh" 2>/dev/null && nvm use --lts 2>/dev/null || true
+                else
+                    log_warning "Failed to setup Node.js via NVM"
+                fi
+            fi
+        fi
+
+        # Now check if npm is available (either system npm or from nvm)
+        if command -v npm >/dev/null 2>&1; then
+            log_info "Installing Claude Code via npm..."
+            if [[ "$HAS_SUDO" == true ]]; then
+                # With sudo: install globally
+                if [[ "$IS_ROOT" == true ]]; then
+                    npm install -g @anthropic-ai/claude-code </dev/null 2>&1 || {
+                        log_warning "Failed to install Claude Code globally"
+                        SKIPPED_OPERATIONS+=("Claude Code installation (npm error)")
+                    }
+                else
+                    sudo npm install -g @anthropic-ai/claude-code </dev/null 2>&1 || {
+                        log_warning "Failed to install Claude Code globally"
+                        SKIPPED_OPERATIONS+=("Claude Code installation (npm error)")
+                    }
+                fi
+                log_success "Claude Code installed globally via npm"
+            else
+                # Without sudo: install to user directory
+                log_info "Installing Claude Code to user directory..."
+                if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
+                    su - "$ACTUAL_USER" -c "npm config set prefix \"$USER_HOME/.local\" && npm install -g @anthropic-ai/claude-code" </dev/null 2>&1 || {
+                        log_warning "Failed to install Claude Code to user directory"
+                        SKIPPED_OPERATIONS+=("Claude Code installation (npm error)")
+                    }
+                else
+                    npm config set prefix "$USER_HOME/.local" </dev/null 2>&1
+                    npm install -g @anthropic-ai/claude-code </dev/null 2>&1 || {
+                        log_warning "Failed to install Claude Code to user directory"
+                        SKIPPED_OPERATIONS+=("Claude Code installation (npm error)")
+                    }
+                fi
+                log_success "Claude Code installed to ~/.local via npm"
+                log_info "Make sure ~/.local/bin is in your PATH"
+            fi
+        elif command -v curl >/dev/null 2>&1; then
+            # No npm available, use the install script
+            log_info "Installing Claude Code via install script..."
+            if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
+                su - "$ACTUAL_USER" -c 'curl -fsSL https://claude.ai/install.sh | bash' </dev/null 2>&1 || {
+                    log_warning "Failed to install Claude Code via install script"
+                    SKIPPED_OPERATIONS+=("Claude Code installation (install script error)")
+                }
+            else
+                curl -fsSL https://claude.ai/install.sh | bash </dev/null 2>&1 || {
+                    log_warning "Failed to install Claude Code via install script"
+                    SKIPPED_OPERATIONS+=("Claude Code installation (install script error)")
+                }
+            fi
+            log_success "Claude Code installed via install script"
         else
-            pip3 install --user shell-ai 2>/dev/null || pip install --user shell-ai 2>/dev/null </dev/null || {
-                log_warning "Could not install shell-ai"
-                SKIPPED_OPERATIONS+=("shell-ai installation")
-            }
+            log_warning "Cannot install Claude Code (no npm or curl available)"
+            SKIPPED_OPERATIONS+=("Claude Code installation (missing dependencies)")
+        fi
+    fi
+
+    # Install shell-ai (q) binary from GitHub releases
+    log_info "Installing shell-ai (q command)..."
+
+    if command -v curl >/dev/null 2>&1; then
+        # Check if already installed
+        if command -v q >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/q" ]]; then
+            log_info "shell-ai (q) is already installed"
+        else
+            # Install shell-ai binary
+            local INSTALL_CMD='
+            set -e
+            TARGET_DIR="$HOME/.local/bin"
+            REPO_OWNER="ibigio"
+            REPO_NAME="shell-ai"
+            TOOL_NAME="shell-ai"
+            TOOL_SYMLINK="q"
+
+            mkdir -p "$TARGET_DIR"
+
+            ARCH="$(uname -m)"
+            OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
+
+            case "$ARCH" in
+                x86_64|amd64) ARCH="x86_64";;
+                aarch64|arm64) ARCH="aarch64";;
+            esac
+
+            LATEST_TAG=$(curl -fsSL "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/latest" 2>/dev/null | sed -nE "s/.*\"tag_name\": *\"([^\"]+)\".*/\1/p")
+
+            if [[ -z "$LATEST_TAG" ]]; then
+                echo "Failed to get latest release tag"
+                exit 1
+            fi
+
+            URL="https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$LATEST_TAG/${TOOL_NAME}_${OS}_${ARCH}.tar.gz"
+
+            echo "Downloading shell-ai from $URL"
+
+            tmp=$(mktemp -d)
+            trap "rm -rf \"$tmp\"" EXIT
+
+            curl -fsSL "$URL" -o "$tmp/$TOOL_NAME.tgz" 2>/dev/null
+            tar xzf "$tmp/$TOOL_NAME.tgz" -C "$tmp"
+
+            if command -v install >/dev/null 2>&1; then
+                install -m 0755 "$tmp/$TOOL_NAME" "$TARGET_DIR/$TOOL_SYMLINK"
+            else
+                cp "$tmp/$TOOL_NAME" "$TARGET_DIR/$TOOL_SYMLINK"
+                chmod 0755 "$TARGET_DIR/$TOOL_SYMLINK"
+            fi
+
+            echo "Installed $TOOL_NAME $LATEST_TAG to $TARGET_DIR/$TOOL_SYMLINK"
+            '
+
+            if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
+                if su - "$ACTUAL_USER" -c "$INSTALL_CMD" </dev/null 2>&1; then
+                    log_success "shell-ai (q) installed to ~/.local/bin/q"
+                else
+                    log_warning "Failed to install shell-ai"
+                    SKIPPED_OPERATIONS+=("shell-ai installation")
+                fi
+            else
+                if bash -c "$INSTALL_CMD" </dev/null 2>&1; then
+                    log_success "shell-ai (q) installed to ~/.local/bin/q"
+                else
+                    log_warning "Failed to install shell-ai"
+                    SKIPPED_OPERATIONS+=("shell-ai installation")
+                fi
+            fi
+
+            log_info "Make sure ~/.local/bin is in your PATH to use 'q' command"
         fi
     else
-        log_info "Pip not available, skipping shell-ai installation"
-        SKIPPED_OPERATIONS+=("shell-ai installation (pip not available)")
+        log_warning "Cannot install shell-ai (curl not available)"
+        SKIPPED_OPERATIONS+=("shell-ai installation (curl not available)")
     fi
 }
 
@@ -500,6 +644,7 @@ final_setup() {
         if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
             su - "$ACTUAL_USER" -c "source \"$USER_HOME/.zshrc\" </dev/null" 2>/dev/null || true
         else
+            # shellcheck source=/dev/null
             source "$USER_HOME/.zshrc" </dev/null 2>/dev/null || true
         fi
     fi
@@ -555,6 +700,18 @@ final_setup() {
         echo "  ✓ FZF key bindings ready (CTRL-R for history, CTRL-T for files)"
     else
         echo "  ⚠ Install fzf for fuzzy search capabilities"
+    fi
+
+    if command -v claude-code >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/claude-code" ]] || [[ -f "$USER_HOME/.claude/bin/claude" ]]; then
+        echo "  ✓ Claude Code CLI is ready to use"
+    else
+        echo "  ⚠ Claude Code installation may require PATH update or re-login"
+    fi
+
+    if command -v q >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/q" ]]; then
+        echo "  ✓ shell-ai (q command) is ready for AI-powered shell assistance"
+    else
+        echo "  ⚠ shell-ai may require adding ~/.local/bin to PATH"
     fi
 
     echo "  ✓ Custom aliases available (type 'alias' to see them)"
