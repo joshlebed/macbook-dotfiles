@@ -229,6 +229,10 @@ clone_config_repo() {
         return 1
     fi
 
+    # Set git to non-interactive mode
+    export GIT_EDITOR=true
+    export GIT_MERGE_AUTOEDIT=no
+
     # Backup existing .config if it exists and is not a git repo
     if [[ -d "$CONFIG_DIR" ]] && [[ ! -d "$CONFIG_DIR/.git" ]]; then
         log_warning "Backing up existing .config directory..."
@@ -238,18 +242,23 @@ clone_config_repo() {
     # Clone the repository if it doesn't exist
     if [[ ! -d "$CONFIG_DIR/.git" ]]; then
         if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-            su - "$ACTUAL_USER" -c "git clone https://github.com/joshlebed/macbook-dotfiles.git \"$CONFIG_DIR\""
+            su - "$ACTUAL_USER" -c "GIT_EDITOR=true git clone https://github.com/joshlebed/macbook-dotfiles.git \"$CONFIG_DIR\"" </dev/null
         else
-            git clone https://github.com/joshlebed/macbook-dotfiles.git "$CONFIG_DIR"
+            git clone https://github.com/joshlebed/macbook-dotfiles.git "$CONFIG_DIR" </dev/null
         fi
         log_success "Configuration repository cloned"
     else
         log_info "Configuration repository already exists, pulling latest..."
         if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-            su - "$ACTUAL_USER" -c "cd \"$CONFIG_DIR\" && git pull"
+            # Use fetch and reset to avoid merge conflicts and editor prompts
+            su - "$ACTUAL_USER" -c "cd \"$CONFIG_DIR\" && GIT_EDITOR=true git fetch origin && git reset --hard origin/\$(git symbolic-ref --short HEAD 2>/dev/null || echo main)" </dev/null 2>&1 || \
+            su - "$ACTUAL_USER" -c "cd \"$CONFIG_DIR\" && GIT_EDITOR=true git fetch origin && git reset --hard origin/main" </dev/null 2>&1
         else
-            (cd "$CONFIG_DIR" && git pull)
+            # Use fetch and reset to avoid merge conflicts and editor prompts
+            (cd "$CONFIG_DIR" && git fetch origin && git reset --hard origin/$(git symbolic-ref --short HEAD 2>/dev/null || echo main)) </dev/null 2>&1 || \
+            (cd "$CONFIG_DIR" && git fetch origin && git reset --hard origin/main) </dev/null 2>&1
         fi
+        log_success "Configuration repository updated"
     fi
 
     # Ensure proper ownership if running as root
@@ -279,18 +288,23 @@ install_oh_my_zsh() {
     if [[ -d "$OMZ_DIR" ]]; then
         log_info "Oh My Zsh already installed"
     else
+        # Set environment variables to ensure non-interactive installation
+        export RUNZSH=no
+        export CHSH=no
+        export KEEP_ZSHRC=yes
+
         # Download and run the installer as the actual user
         if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
             if command -v curl >/dev/null 2>&1; then
-                su - "$ACTUAL_USER" -c 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'
+                su - "$ACTUAL_USER" -c 'export RUNZSH=no CHSH=no KEEP_ZSHRC=yes; sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended' </dev/null
             else
-                su - "$ACTUAL_USER" -c 'sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'
+                su - "$ACTUAL_USER" -c 'export RUNZSH=no CHSH=no KEEP_ZSHRC=yes; sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended' </dev/null
             fi
         else
             if command -v curl >/dev/null 2>&1; then
-                sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+                sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended </dev/null
             else
-                sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+                sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended </dev/null
             fi
         fi
         log_success "Oh My Zsh installed"
@@ -433,17 +447,19 @@ install_dev_tools() {
     if [[ ! -d "$USER_HOME/.nvm" ]]; then
         if command -v curl >/dev/null 2>&1 || command -v wget >/dev/null 2>&1; then
             log_info "Installing NVM..."
+            # Set PROFILE to prevent interactive prompt
+            export PROFILE=/dev/null
             if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
                 if command -v curl >/dev/null 2>&1; then
-                    su - "$ACTUAL_USER" -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash'
+                    su - "$ACTUAL_USER" -c 'export PROFILE=/dev/null; curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash' </dev/null
                 else
-                    su - "$ACTUAL_USER" -c 'wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash'
+                    su - "$ACTUAL_USER" -c 'export PROFILE=/dev/null; wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash' </dev/null
                 fi
             else
                 if command -v curl >/dev/null 2>&1; then
-                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash </dev/null
                 else
-                    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+                    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash </dev/null
                 fi
             fi
             log_success "NVM installed"
@@ -459,12 +475,12 @@ install_dev_tools() {
     if command -v pip3 >/dev/null 2>&1 || command -v pip >/dev/null 2>&1; then
         log_info "Installing shell-ai..."
         if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-            su - "$ACTUAL_USER" -c 'pip3 install --user shell-ai 2>/dev/null || pip install --user shell-ai 2>/dev/null' || {
+            su - "$ACTUAL_USER" -c 'pip3 install --user shell-ai 2>/dev/null || pip install --user shell-ai 2>/dev/null' </dev/null || {
                 log_warning "Could not install shell-ai"
                 SKIPPED_OPERATIONS+=("shell-ai installation")
             }
         else
-            pip3 install --user shell-ai 2>/dev/null || pip install --user shell-ai 2>/dev/null || {
+            pip3 install --user shell-ai 2>/dev/null || pip install --user shell-ai 2>/dev/null </dev/null || {
                 log_warning "Could not install shell-ai"
                 SKIPPED_OPERATIONS+=("shell-ai installation")
             }
@@ -479,12 +495,12 @@ install_dev_tools() {
 final_setup() {
     log_section "SETUP SUMMARY"
 
-    # Try to source the new configuration if zsh is available
+    # Try to source the new configuration if zsh is available (non-interactive)
     if command -v zsh >/dev/null 2>&1 && [[ -f "$USER_HOME/.zshrc" ]]; then
         if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-            su - "$ACTUAL_USER" -c "source \"$USER_HOME/.zshrc\"" 2>/dev/null || true
+            su - "$ACTUAL_USER" -c "source \"$USER_HOME/.zshrc\" </dev/null" 2>/dev/null || true
         else
-            source "$USER_HOME/.zshrc" 2>/dev/null || true
+            source "$USER_HOME/.zshrc" </dev/null 2>/dev/null || true
         fi
     fi
 
