@@ -8,29 +8,69 @@ my ~/.config directory on a Macbook or other
 some files here are hardlinked system files from other locations. These commands
 will assume you clone this repo in `~/.config`:
 
-on debian/ubuntu (apt-get):
+### Linux Setup (Debian/Ubuntu/Fedora/Alpine/Arch)
 
-```zsh
+The Linux setup script now works **with or without sudo privileges**! It will automatically detect what's available and adapt accordingly.
+
+#### Quick Setup (Recommended)
+
+**With sudo (full installation):**
+```bash
 curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scripts/setup-linux-dev.sh | sudo bash
 ```
 
-```zsh
-# set up brew, git, zsh, and omz
-sudo apt-get update
-sudo apt-get install git
-git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
-sudo apt install zsh
-(test -e ~/.zshrc && mv ~/.zshrc ~/.zshrc.old); ln -s ~/.config/.zshrc ~/.zshrc # link zsh config - has to be a symlink or it gets overwritten by some workflows
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" # install omz
-# install agnoster theme
-(test -e ~/.oh-my-zsh/themes/agnoster.zsh-theme && mv ~/.oh-my-zsh/themes/agnoster.zsh-theme ~/.oh-my-zsh/themes/agnoster.zsh-theme.old)
-ln -s ~/.config/zsh-themes/agnoster.zsh-theme ~/.oh-my-zsh/themes/agnoster.zsh-theme # link omz theme
-(test -e ~/.shell-ai/config.yaml && mv ~/.shell-ai/config.yaml ~/.shell-ai/config.yaml.old); ln -s ~/.config/shell-ai/config.yaml ~/.shell-ai/config.yaml # link shell-ai config - has to be a symlink or it gets overwritten by some workflows
-# install fzf
-sudo apt install fzf
+**Without sudo (limited installation):**
+```bash
+curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scripts/setup-linux-dev.sh | bash
 ```
 
-on macOS:
+#### What the script does
+
+**With sudo privileges:**
+- ✅ Installs system packages (git, zsh, tmux, fzf, curl, wget, fonts)
+- ✅ Configures system locale settings
+- ✅ Sets zsh as your default shell
+- ✅ Clones this dotfiles repository to ~/.config
+- ✅ Installs Oh My Zsh with custom theme
+- ✅ Creates all necessary symlinks
+- ✅ Installs development tools (NVM, shell-ai)
+
+**Without sudo privileges:**
+- ⚠️ SKIPS system package installation (requires manual install)
+- ⚠️ SKIPS system locale configuration
+- ⚠️ SKIPS setting zsh as default shell
+- ✅ Clones this dotfiles repository to ~/.config
+- ✅ Installs Oh My Zsh with custom theme
+- ✅ Creates all necessary symlinks
+- ✅ Installs development tools (NVM, shell-ai)
+
+The script will clearly inform you what was skipped and provide instructions for completing the setup manually if needed.
+
+#### Manual Setup (Alternative)
+
+If you prefer to set things up manually:
+
+```bash
+# Install required packages (needs sudo)
+sudo apt-get update
+sudo apt-get install git zsh tmux fzf curl wget fonts-powerline
+
+# Clone this repository
+git clone https://github.com/joshlebed/macbook-dotfiles ~/.config
+
+# Install Oh My Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Create symlinks
+ln -sf ~/.config/.zshrc ~/.zshrc
+ln -sf ~/.config/.tmux.conf ~/.tmux.conf
+ln -sf ~/.config/zsh-themes/agnoster.zsh-theme ~/.oh-my-zsh/themes/agnoster.zsh-theme
+
+# Set zsh as default shell (needs sudo)
+sudo chsh -s $(which zsh) $USER
+```
+
+### macOS Setup
 
 ```zsh
 git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
