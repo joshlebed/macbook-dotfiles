@@ -113,3 +113,6 @@ test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-s
 
 alias python="python3"
 # alias pip="pip3"
+#
+alias jump-into-structify-docker="cd ~/code/agent && mdk zsh"
+
