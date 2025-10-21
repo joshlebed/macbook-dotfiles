@@ -737,6 +737,50 @@ install_claude_code() {
     return 1
 }
 
+# Install Graphite CLI
+install_graphite_cli() {
+    log_info "Installing Graphite CLI..."
+
+    # Check if already installed
+    if command -v gt >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/gt" ]]; then
+        log_info "Graphite CLI is already installed"
+        return 0
+    fi
+
+    # Try to setup Node.js via NVM first if not already available
+    if ! command -v npm >/dev/null 2>&1; then
+        setup_nodejs_via_nvm
+    fi
+
+    # Check if npm is available
+    if ! command -v npm >/dev/null 2>&1; then
+        log_warning "Cannot install Graphite CLI (npm not available)"
+        SKIPPED_OPERATIONS+=("Graphite CLI installation (npm not available)")
+        return 1
+    fi
+
+    log_info "Installing Graphite CLI to user directory..."
+
+    # Install to user directory using npm with prefix
+    if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
+        if su - "$ACTUAL_USER" -c "npm install -g @withgraphite/graphite-cli@stable --prefix \"$USER_HOME/.local\"" </dev/null 2>&1; then
+            log_success "Graphite CLI installed to ~/.local"
+            log_info "Make sure ~/.local/bin is in your PATH to use 'gt' command"
+            return 0
+        fi
+    else
+        if npm install -g @withgraphite/graphite-cli@stable --prefix "$USER_HOME/.local" </dev/null 2>&1; then
+            log_success "Graphite CLI installed to ~/.local"
+            log_info "Make sure ~/.local/bin is in your PATH to use 'gt' command"
+            return 0
+        fi
+    fi
+
+    log_warning "Failed to install Graphite CLI"
+    SKIPPED_OPERATIONS+=("Graphite CLI installation")
+    return 1
+}
+
 # Install additional development tools (NO SUDO REQUIRED for user installs)
 install_dev_tools() {
     log_info "Installing additional development tools..."
@@ -749,6 +793,9 @@ install_dev_tools() {
 
     # Install shell-ai
     install_shell_ai
+
+    # Install Graphite CLI
+    install_graphite_cli
 }
 
 # ============================================================================
@@ -832,6 +879,12 @@ final_setup() {
         echo "  ✓ shell-ai (q command) is ready for AI-powered shell assistance"
     else
         echo "  ⚠ shell-ai may require adding ~/.local/bin to PATH"
+    fi
+
+    if command -v gt >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/gt" ]]; then
+        echo "  ✓ Graphite CLI (gt command) is ready for stacked pull requests"
+    else
+        echo "  ⚠ Graphite CLI may require adding ~/.local/bin to PATH"
     fi
 
     echo "  ✓ Custom aliases available (type 'alias' to see them)"
