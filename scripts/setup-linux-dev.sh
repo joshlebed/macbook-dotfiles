@@ -35,7 +35,7 @@ log_error() {
 
 log_section() {
     echo -e "\n${MAGENTA}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${MAGENTA}  $1${NC}"
+    echo -e "${MAGENTA}  $1${NC} v2"
     echo -e "${MAGENTA}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 }
 
