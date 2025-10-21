@@ -34,7 +34,7 @@ curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scr
 - ✅ Clones this dotfiles repository to ~/.config
 - ✅ Installs Oh My Zsh with custom theme
 - ✅ Creates all necessary symlinks
-- ✅ Installs development tools (NVM, shell-ai)
+- ✅ Installs development tools (NVM, Node.js, Claude Code CLI, shell-ai/q)
 
 **Without sudo privileges:**
 
@@ -44,10 +44,20 @@ curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scr
 - ✅ Clones this dotfiles repository to ~/.config
 - ✅ Installs Oh My Zsh with custom theme
 - ✅ Creates all necessary symlinks
-- ✅ Installs development tools (NVM, shell-ai)
+- ✅ Installs development tools (NVM, Node.js, Claude Code CLI, shell-ai/q)
 
 The script will clearly inform you what was skipped and provide instructions for
 completing the setup manually if needed.
+
+**Claude Code Installation Methods:**
+- With sudo + npm: Installs globally via `npm install -g @anthropic-ai/claude-code`
+- Without sudo + npm: Installs to `~/.local` via npm with custom prefix
+- Without npm: Falls back to `curl -fsSL https://claude.ai/install.sh | bash`
+
+**shell-ai Installation:**
+- Installs the `q` command directly from GitHub releases as a binary to `~/.local/bin/`
+- No Python or pip dependencies required
+- Works on x86_64 and aarch64 architectures
 
 #### Manual Setup (Alternative)
 
