@@ -66,11 +66,21 @@ check_sudo_availability() {
         echo "  1. Re-run with sudo: curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scripts/setup-linux-dev.sh | sudo bash"
         echo "  2. Ask your system administrator to install: git, zsh, fzf, tmux, curl, wget"
         echo ""
-        read -p "Continue with limited installation? (y/N): " -n 1 -r
-        echo ""
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            log_info "Installation cancelled"
-            exit 0
+
+        # Check if we're running through a pipe or non-interactive shell
+        if [[ -t 0 ]] && [[ -t 1 ]]; then
+            # Interactive terminal - can ask for user input
+            read -p "Continue with limited installation? (y/N): " -n 1 -r
+            echo ""
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                log_info "Installation cancelled"
+                exit 0
+            fi
+        else
+            # Non-interactive (piped from curl) - auto-continue
+            log_info "Running in non-interactive mode - continuing with limited installation..."
+            log_info "The script will install what it can without sudo privileges."
+            echo ""
         fi
     fi
 }
