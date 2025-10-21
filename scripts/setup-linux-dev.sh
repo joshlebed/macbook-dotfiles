@@ -143,9 +143,29 @@ install_packages() {
         if [[ "$IS_ROOT" == true ]]; then
             apt-get update
             apt-get install -y git curl wget zsh fzf tmux fonts-powerline build-essential locales
+
+            # Install GitHub CLI (gh)
+            log_info "Adding GitHub CLI repository..."
+            (type -p wget >/dev/null || (apt-get update && apt-get install -y wget)) \
+            && mkdir -p -m 755 /etc/apt/keyrings \
+            && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+            && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+            && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+            && apt-get update \
+            && apt-get install -y gh
         else
             sudo apt-get update
             sudo apt-get install -y git curl wget zsh fzf tmux fonts-powerline build-essential locales
+
+            # Install GitHub CLI (gh)
+            log_info "Adding GitHub CLI repository..."
+            (type -p wget >/dev/null || (sudo apt-get update && sudo apt-get install -y wget)) \
+            && sudo mkdir -p -m 755 /etc/apt/keyrings \
+            && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+            && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+            && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+            && sudo apt-get update \
+            && sudo apt-get install -y gh
         fi
         log_success "Packages installed via apt"
     elif [[ "$ID" == "fedora" ]] || [[ "$ID" == "rhel" ]] || [[ "$ID" == "centos" ]] || [[ "$ID_LIKE" == *"fedora"* ]] || [[ "$ID_LIKE" == *"rhel"* ]]; then
@@ -737,6 +757,112 @@ install_claude_code() {
     return 1
 }
 
+# Helper function to install GitHub CLI binary
+install_gh_for_user() {
+    local TARGET_DIR="$1/.local/bin"
+    local TOOL_NAME="gh"
+
+    # Create target directory
+    mkdir -p "$TARGET_DIR" || return 1
+
+    # Detect architecture and OS
+    local ARCH OS
+    ARCH="$(uname -m)"
+    OS="$(uname -s | tr '[:upper:]' '[:lower:]')"
+
+    case "$ARCH" in
+        x86_64|amd64) ARCH="amd64";;
+        aarch64|arm64) ARCH="arm64";;
+        armv7l|armv7) ARCH="armv6";;
+        *)
+            log_warning "Unsupported architecture for gh: $ARCH"
+            return 1
+            ;;
+    esac
+
+    # Get latest release version
+    local LATEST_VERSION
+    LATEST_VERSION=$(curl -fsSL "https://api.github.com/repos/cli/cli/releases/latest" 2>/dev/null | \
+                     sed -nE 's/.*"tag_name": *"v([^"]+)".*/\1/p')
+
+    if [[ -z "$LATEST_VERSION" ]]; then
+        log_warning "Failed to get latest gh release version"
+        return 1
+    fi
+
+    # Build download URL
+    local URL="https://github.com/cli/cli/releases/download/v${LATEST_VERSION}/gh_${LATEST_VERSION}_${OS}_${ARCH}.tar.gz"
+    log_info "Downloading GitHub CLI from $URL"
+
+    # Create temp directory for download
+    local tmp
+    tmp=$(mktemp -d) || return 1
+    trap 'rm -rf "$tmp"' RETURN
+
+    # Download and extract
+    if ! curl -fsSL "$URL" -o "$tmp/$TOOL_NAME.tgz" 2>/dev/null; then
+        log_warning "Failed to download GitHub CLI"
+        return 1
+    fi
+
+    if ! tar xzf "$tmp/$TOOL_NAME.tgz" -C "$tmp" 2>/dev/null; then
+        log_warning "Failed to extract GitHub CLI"
+        return 1
+    fi
+
+    # Install binary
+    local extracted_dir="gh_${LATEST_VERSION}_${OS}_${ARCH}"
+    if command -v install >/dev/null 2>&1; then
+        install -m 0755 "$tmp/$extracted_dir/bin/gh" "$TARGET_DIR/gh" || return 1
+    else
+        cp "$tmp/$extracted_dir/bin/gh" "$TARGET_DIR/gh" || return 1
+        chmod 0755 "$TARGET_DIR/gh" || return 1
+    fi
+
+    log_success "GitHub CLI $LATEST_VERSION installed to $TARGET_DIR/gh"
+    return 0
+}
+
+# Install GitHub CLI (gh)
+install_github_cli() {
+    log_info "Installing GitHub CLI (gh)..."
+
+    # Check if already installed
+    if command -v gh >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/gh" ]]; then
+        log_info "GitHub CLI is already installed"
+        return 0
+    fi
+
+    # If we have sudo and are on a system with package manager support, it should be installed already
+    # via the install_packages function. This function is mainly for the fallback case.
+
+    # Check if curl is available for fallback installation
+    if ! command -v curl >/dev/null 2>&1; then
+        log_warning "Cannot install GitHub CLI (curl not available)"
+        SKIPPED_OPERATIONS+=("GitHub CLI installation (curl not available)")
+        return 0
+    fi
+
+    # Install based on user context
+    if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
+        # Running as root for a different user
+        if su - "$ACTUAL_USER" -c "$(declare -f log_info log_success log_warning); $(declare -f install_gh_for_user); install_gh_for_user \"$USER_HOME\"" </dev/null 2>&1; then
+            log_info "Make sure ~/.local/bin is in your PATH to use 'gh' command"
+        else
+            log_warning "Failed to install GitHub CLI"
+            SKIPPED_OPERATIONS+=("GitHub CLI installation")
+        fi
+    else
+        # Running as regular user
+        if install_gh_for_user "$USER_HOME"; then
+            log_info "Make sure ~/.local/bin is in your PATH to use 'gh' command"
+        else
+            log_warning "Failed to install GitHub CLI"
+            SKIPPED_OPERATIONS+=("GitHub CLI installation")
+        fi
+    fi
+}
+
 # Install Graphite CLI
 install_graphite_cli() {
     log_info "Installing Graphite CLI..."
@@ -793,6 +919,9 @@ install_dev_tools() {
 
     # Install shell-ai
     install_shell_ai
+
+    # Install GitHub CLI
+    install_github_cli
 
     # Install Graphite CLI
     install_graphite_cli
@@ -879,6 +1008,12 @@ final_setup() {
         echo "  ✓ shell-ai (q command) is ready for AI-powered shell assistance"
     else
         echo "  ⚠ shell-ai may require adding ~/.local/bin to PATH"
+    fi
+
+    if command -v gh >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/gh" ]]; then
+        echo "  ✓ GitHub CLI (gh command) is ready for GitHub operations"
+    else
+        echo "  ⚠ GitHub CLI may require adding ~/.local/bin to PATH"
     fi
 
     if command -v gt >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/gt" ]]; then
