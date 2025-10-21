@@ -34,6 +34,7 @@ on macOS:
 
 ```zsh
 git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
+# Includes configs for: zsh, tmux, slate, finicky, VS Code, iTerm2, and more
 
 # install shell
 scripts/install_zsh_and_omz.sh
@@ -45,7 +46,7 @@ scripts/brew_install_all.sh
 # TODO: maybe make this rely on zsh or bash 4+, or figure out a way to make this code work with spaces in file paths
 scripts/symlink_config_files.sh
 
-# hardlink config files - slate, finicky
+# hardlink config files - slate, finicky, tmux
 scripts/hardlink_config_files.sh
 
 # some config files need to be copied - contexts
@@ -79,6 +80,9 @@ bash
 
 [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh): extension for managing zsh
 
+[tmux](https://github.com/tmux/tmux): terminal multiplexer for managing multiple
+terminal sessions
+
 ## macbook tools
 
 [karabiner-elements](https://karabiner-elements.pqrs.org/): keybindings
@@ -101,6 +105,9 @@ HazeOver, tbd if it's worth it
 [bartender](https://www.macbartender.com/Bartender4/): to hide menu bar icons
 
 [iterm](https://iterm2.com/): replace terminal
+
+[tmux](https://github.com/tmux/tmux): terminal multiplexer for managing multiple
+terminal sessions
 
 [brew](https://brew.sh/): package manager
 

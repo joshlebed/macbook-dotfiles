@@ -64,6 +64,7 @@ install_packages() {
             wget \
             zsh \
             fzf \
+            tmux \
             fonts-powerline \
             build-essential \
             locales
@@ -75,6 +76,7 @@ install_packages() {
             wget \
             zsh \
             fzf \
+            tmux \
             powerline-fonts \
             gcc \
             make \
@@ -89,6 +91,7 @@ install_packages() {
             wget \
             zsh \
             fzf \
+            tmux \
             build-base \
             musl-locales
         # Note: Powerline fonts may need manual installation on Alpine
@@ -101,12 +104,13 @@ install_packages() {
             wget \
             zsh \
             fzf \
+            tmux \
             powerline-fonts \
             base-devel
         log_success "Packages installed via pacman"
     else
         log_error "Unsupported distribution: $ID"
-        log_info "Please manually install: git, curl, wget, zsh, fzf, powerline-fonts"
+        log_info "Please manually install: git, curl, wget, zsh, fzf, tmux, powerline-fonts"
         exit 1
     fi
 }
@@ -204,7 +208,7 @@ create_symlinks() {
 
         # Backup existing file if it's not a symlink
         if [[ -e "$target" ]] && [[ ! -L "$target" ]]; then
-            log_warning "Backing up existing $(basename $target)..."
+            log_warning "Backing up existing $(basename "$target")..."
             su - "$ACTUAL_USER" -c "mv $target $target.backup.$(date +%Y%m%d_%H%M%S)"
         fi
 
@@ -215,11 +219,12 @@ create_symlinks() {
 
         # Create new symlink
         su - "$ACTUAL_USER" -c "ln -sf $source $target"
-        log_success "Linked: $(basename $target)"
+        log_success "Linked: $(basename "$target")"
     }
 
     # Essential symlinks
     create_link "$USER_HOME/.config/.zshrc" "$USER_HOME/.zshrc"
+    create_link "$USER_HOME/.config/.tmux.conf" "$USER_HOME/.tmux.conf"
 
     # Oh My Zsh theme
     create_link "$USER_HOME/.config/zsh-themes/agnoster.zsh-theme" "$USER_HOME/.oh-my-zsh/themes/agnoster.zsh-theme"
