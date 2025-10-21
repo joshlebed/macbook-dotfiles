@@ -86,9 +86,8 @@ esac
 # pnpm end
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/joshlebed/.lmstudio/bin"
+[[ -f "$HOME/.lmstudio/bin" ]] && export PATH="$HOME/.lmstudio/bin:$PATH"
 # End of LM Studio CLI section
-
 
 alias claude-danger="claude --dangerously-skip-permissions"
 
@@ -110,6 +109,8 @@ test -e "${HOME}/.config/dev-aliases.sh" && source "${HOME}/.config/dev-aliases.
 test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-specifics.zshrc" || true
 
 [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
+[[ -f "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
+
 
 alias python="python3"
 # alias pip="pip3"
