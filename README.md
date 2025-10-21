@@ -10,16 +10,16 @@ will assume you clone this repo in `~/.config`:
 
 ### Linux Setup (Debian/Ubuntu/Fedora/Alpine/Arch)
 
-The Linux setup script now works **with or without sudo privileges**! It will automatically detect what's available and adapt accordingly.
-
 #### Quick Setup (Recommended)
 
 **With sudo (full installation):**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scripts/setup-linux-dev.sh | sudo bash
 ```
 
 **Without sudo (limited installation):**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scripts/setup-linux-dev.sh | bash
 ```
@@ -27,6 +27,7 @@ curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scr
 #### What the script does
 
 **With sudo privileges:**
+
 - ✅ Installs system packages (git, zsh, tmux, fzf, curl, wget, fonts)
 - ✅ Configures system locale settings
 - ✅ Sets zsh as your default shell
@@ -36,6 +37,7 @@ curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scr
 - ✅ Installs development tools (NVM, shell-ai)
 
 **Without sudo privileges:**
+
 - ⚠️ SKIPS system package installation (requires manual install)
 - ⚠️ SKIPS system locale configuration
 - ⚠️ SKIPS setting zsh as default shell
@@ -44,7 +46,8 @@ curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scr
 - ✅ Creates all necessary symlinks
 - ✅ Installs development tools (NVM, shell-ai)
 
-The script will clearly inform you what was skipped and provide instructions for completing the setup manually if needed.
+The script will clearly inform you what was skipped and provide instructions for
+completing the setup manually if needed.
 
 #### Manual Setup (Alternative)
 
