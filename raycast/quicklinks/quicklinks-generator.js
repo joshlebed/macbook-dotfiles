@@ -80,7 +80,8 @@ const workLinks = [
   },
   {
     name: "PRs",
-    link: "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me",
+    // link: "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me",
+    link: "https://github.com/StructifyAI/agent/pulls?q=is%3Apr+author%3A%40me",
   },
   {
     name: "Graphite",
