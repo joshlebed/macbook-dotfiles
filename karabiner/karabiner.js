@@ -487,6 +487,7 @@ const misc_shortcuts = {
     },
     option_f_to_toggle_case_and_word_search,
     // excel formatting
+    // relies on the cmd + option + n/b shortcuts as excel macros
     {
       type: "basic",
       conditions: [
