@@ -486,6 +486,29 @@ const misc_shortcuts = {
       to: { key_code: "j", modifiers: ["left_command", "left_shift"] },
     },
     option_f_to_toggle_case_and_word_search,
+    // excel formatting
+    {
+      type: "basic",
+      conditions: [
+        {
+          type: "frontmost_application_if",
+          bundle_identifiers: ["com\\.microsoft\\.Excel"],
+        },
+      ],
+      from: { key_code: "hyphen", modifiers: { mandatory: ["command"] } },
+      to: { key_code: "b", modifiers: ["left_command", "left_option"] },
+    },
+    {
+      type: "basic",
+      conditions: [
+        {
+          type: "frontmost_application_if",
+          bundle_identifiers: ["com\\.microsoft\\.Excel"],
+        },
+      ],
+      from: { key_code: "equal_sign", modifiers: { mandatory: ["command"] } },
+      to: { key_code: "n", modifiers: ["left_command", "left_option"] },
+    },
   ],
 };
 
