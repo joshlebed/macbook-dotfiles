@@ -36,7 +36,7 @@ const personalLinks = [
   },
   {
     name: "Net Worth",
-    link: "https://home.personalcapital.com/page/login/app#/net-worth",
+    link: "https://ira.empower-retirement.com",
   },
   {
     name: "Budget",
