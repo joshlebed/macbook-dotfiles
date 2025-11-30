@@ -85,6 +85,8 @@ sudo chsh -s $(which zsh) $USER
 
 ### macOS Setup
 
+<!-- TODO: branch this file into mac and linux, and add more in depth mac instructions -->
+
 ```zsh
 git clone https://github.com/joshlebed/macbook-dotfiles ~/.config # clone this repo
 # Includes configs for: zsh, tmux, slate, finicky, VS Code, iTerm2, and more

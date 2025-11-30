@@ -29,5 +29,6 @@ graphite/user_config
 uv/uv-receipt.json
 tmuxai/history
 tmuxai/tmuxai.log
+AWSVPNClient
 
 **/.claude/settings.local.json

@@ -506,6 +506,28 @@
                   {"key_code": "c", "modifiers": ["left_command", "left_option"]}
                 ],
                 "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "bundle_identifiers": ["com\\.microsoft\\.Excel"],
+                    "type": "frontmost_application_if"
+                  }
+                ],
+                "from": {"key_code": "hyphen", "modifiers": {"mandatory": ["command"]}},
+                "to": {"key_code": "b", "modifiers": ["left_command", "left_option"]},
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "bundle_identifiers": ["com\\.microsoft\\.Excel"],
+                    "type": "frontmost_application_if"
+                  }
+                ],
+                "from": {"key_code": "equal_sign", "modifiers": {"mandatory": ["command"]}},
+                "to": {"key_code": "n", "modifiers": ["left_command", "left_option"]},
+                "type": "basic"
               }
             ]
           }
