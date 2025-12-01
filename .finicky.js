@@ -1,10 +1,10 @@
 // ~/.finicky.js
 
 // eventually figure out how to make this more portable per machine
-const personal = "Personal";
+const personal = "Josh";
 // const work = "Gentrace";
 // OVERRIDE WHILE NOT WORKING
-const work = "Personal";
+const work = "Kepler";
 
 // browsers
 const chrome = "Google Chrome";
