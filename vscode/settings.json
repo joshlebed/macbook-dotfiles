@@ -157,5 +157,6 @@
   "terminal.external.osxExec": "iTerm.app",
   "remote.SSH.remotePlatform": {
     "sd": "linux"
-  }
+  },
+  "claudeCode.preferredLocation": "panel"
 }
