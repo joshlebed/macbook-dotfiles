@@ -32,3 +32,6 @@ tmuxai/tmuxai.log
 AWSVPNClient
 
 **/.claude/settings.local.json
+
+# one password
+op

@@ -81,7 +81,9 @@ const workLinks = [
   {
     name: "PRs",
     // link: "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me",
-    link: "https://github.com/StructifyAI/agent/pulls?q=is%3Apr+author%3A%40me",
+    // link: "https://github.com/StructifyAI/agent/pulls?q=is%3Apr+author%3A%40me",
+    // link: "https://github.com/keru-ai/dev-runner/issues?q=is%3Apr+author%3Ajosh-kepler",
+    link: "https://github.com/pulls?q=is%3Apr+org%3Akeru-ai+author%3Ajosh-kepler+",
   },
   {
     name: "Graphite",
