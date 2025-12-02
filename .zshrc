@@ -58,7 +58,7 @@ alias main="git checkout main && git pull"
 alias karabiner-build="cd ~/.config/karabiner && pnpm run build"
 alias karabiner-dev="code ~/.config ~/.config/karabiner/karabiner.js && karabiner-build"
 alias quicklinks-build="cd ~/.config/raycast/quicklinks && pnpm run build"
-alias quicklinks-dev="code ~/.config/ ~/.config/raycast/quicklinks/quicklinks-generator.js && quicklinks-build"
+alias quicklinks-dev="code ~/.config/ ~/.config/raycast/quicklinks/quicklinks-generator.js ~/.config/raycast/README.md && quicklinks-build"
 
 alias kill-bluetooth="sudo pkill bluetoothd"
 
@@ -117,3 +117,6 @@ alias python="python3"
 #
 alias jump-into-structify-docker="cd ~/code/agent && mdk zsh"
 
+
+# iTerm2 hotkey window alias
+alias it2hw='~/.iterm2/runpython ~/.iterm2/it2api hotkey-window'
