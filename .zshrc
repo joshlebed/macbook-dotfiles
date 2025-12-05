@@ -122,3 +122,4 @@ alias jump-into-structify-docker="cd ~/code/agent && mdk zsh"
 alias it2hw='~/.iterm2/runpython ~/.iterm2/it2api hotkey-window'
 
 alias timeout=gtimeout
+alias aic=oco
