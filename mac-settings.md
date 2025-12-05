@@ -18,7 +18,7 @@ settings to change
   - disable keyboard shortcuts
   - disable screenshots shortcuts, except change "Save picture of selected area
     as a file" shortcut to `F13`
-  - change Services -> Files and Folders -> New iTerm2 Window Here to
+  - change Services -> Files and Folders -> New iTerm2 Tab Here to
     `cmd + shift + t`
   - change "Show Spotlight Search" to `ctrl + option + command + space`
   - add App shortcuts
@@ -30,6 +30,8 @@ settings to change
     - Spotify
       - Go Back: `cmd + [`
       - Go Forward: `cmd + ]`
+    - iTerm
+      - New Tmux Tab: `ctrl + t`
 - change scrollbars to disappear: "Show scroll bars" -> "When scrolling"
 - change lock screen settings - timing
 - change wallpaper + screen saver

@@ -50,12 +50,16 @@ The script will clearly inform you what was skipped and provide instructions for
 completing the setup manually if needed.
 
 **Claude Code Installation Methods:**
-- With sudo + npm: Installs globally via `npm install -g @anthropic-ai/claude-code`
+
+- With sudo + npm: Installs globally via
+  `npm install -g @anthropic-ai/claude-code`
 - Without sudo + npm: Installs to `~/.local` via npm with custom prefix
 - Without npm: Falls back to `curl -fsSL https://claude.ai/install.sh | bash`
 
 **shell-ai Installation:**
-- Installs the `q` command directly from GitHub releases as a binary to `~/.local/bin/`
+
+- Installs the `q` command directly from GitHub releases as a binary to
+  `~/.local/bin/`
 - No Python or pip dependencies required
 - Works on x86_64 and aarch64 architectures
 
@@ -127,6 +131,12 @@ google drive manually set up ticktick manually
 
 - see .finicky.js for config
 - see .finicky_env_constants.js for browser profiles
+
+### aicommits setup
+
+```bash
+aicommits config set OPENAI_KEY=<your-openai-key>
+```
 
 ## linux tools
 
