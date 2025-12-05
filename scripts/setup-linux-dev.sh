@@ -363,85 +363,25 @@ install_oh_my_zsh() {
 }
 
 # Create symlinks for configuration files (NO SUDO REQUIRED)
+# Uses the unified link-files.sh script with config/file-mappings.conf
 create_symlinks() {
     log_info "Creating configuration symlinks..."
 
-    # Function to create a symlink with backup
-    create_link() {
-        local source="$1"
-        local target="$2"
-        local target_dir
-        target_dir=$(dirname "$target")
+    local LINK_SCRIPT="$USER_HOME/.config/scripts/link-files.sh"
 
-        # Check if source exists
-        if [[ ! -e "$source" ]]; then
-            log_warning "Source file doesn't exist: $source"
-            return 1
-        fi
-
-        # Create target directory if it doesn't exist
-        if [[ ! -d "$target_dir" ]]; then
-            if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-                su - "$ACTUAL_USER" -c "mkdir -p \"$target_dir\""
-            else
-                mkdir -p "$target_dir"
-            fi
-        fi
-
-        # Backup existing file if it's not a symlink
-        if [[ -e "$target" ]] && [[ ! -L "$target" ]]; then
-            log_warning "Backing up existing $(basename "$target")..."
-            if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-                su - "$ACTUAL_USER" -c "mv \"$target\" \"$target.backup.$(date +%Y%m%d_%H%M%S)\""
-            else
-                mv "$target" "$target.backup.$(date +%Y%m%d_%H%M%S)"
-            fi
-        fi
-
-        # Remove existing symlink if it exists
-        if [[ -L "$target" ]]; then
-            if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-                su - "$ACTUAL_USER" -c "rm \"$target\""
-            else
-                rm "$target"
-            fi
-        fi
-
-        # Create new symlink
-        if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-            su - "$ACTUAL_USER" -c "ln -sf \"$source\" \"$target\""
-        else
-            ln -sf "$source" "$target"
-        fi
-        log_success "Linked: $(basename "$target")"
-    }
-
-    # Essential symlinks
-    create_link "$USER_HOME/.config/.zshrc" "$USER_HOME/.zshrc"
-    create_link "$USER_HOME/.config/.tmux.conf" "$USER_HOME/.tmux.conf"
-
-    # Oh My Zsh theme
-    create_link "$USER_HOME/.config/zsh-themes/agnoster.zsh-theme" "$USER_HOME/.oh-my-zsh/themes/agnoster.zsh-theme"
-
-    # Shell-AI config (if directory exists or create it)
-    if [[ -d "$USER_HOME/.config/shell-ai" ]]; then
-        create_link "$USER_HOME/.config/shell-ai/config.yaml" "$USER_HOME/.shell-ai/config.yaml"
+    if [[ ! -f "$LINK_SCRIPT" ]]; then
+        log_error "link-files.sh not found at $LINK_SCRIPT"
+        return 1
     fi
 
-    # VS Code settings (for Linux path)
-    if [[ -d "$USER_HOME/.config/vscode" ]]; then
-        create_link "$USER_HOME/.config/vscode/settings.json" "$USER_HOME/.config/Code/User/settings.json"
-        create_link "$USER_HOME/.config/vscode/keybindings.json" "$USER_HOME/.config/Code/User/keybindings.json"
-
-        # For Cursor
-        create_link "$USER_HOME/.config/vscode/settings.json" "$USER_HOME/.config/Cursor/User/settings.json"
-        create_link "$USER_HOME/.config/vscode/keybindings.json" "$USER_HOME/.config/Cursor/User/keybindings.json"
+    # Run link-files.sh as the actual user
+    if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
+        su - "$ACTUAL_USER" -c "bash \"$LINK_SCRIPT\"" </dev/null
+    else
+        bash "$LINK_SCRIPT"
     fi
 
-    # Claude config (if exists)
-    if [[ -d "$USER_HOME/.config/claude" ]]; then
-        create_link "$USER_HOME/.config/claude/settings.json" "$USER_HOME/.config/claude-code/settings.json"
-    fi
+    log_success "Configuration symlinks created"
 }
 
 # ============================================================================
@@ -969,6 +909,17 @@ final_setup() {
         echo "  • Zsh: NOT INSTALLED"
     fi
     echo ""
+
+    # Run verification
+    local VERIFY_SCRIPT="$USER_HOME/.config/scripts/verify-setup.sh"
+    if [[ -f "$VERIFY_SCRIPT" ]]; then
+        log_info "Running verification..."
+        if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
+            su - "$ACTUAL_USER" -c "bash \"$VERIFY_SCRIPT\" --quick" </dev/null 2>&1 || true
+        else
+            bash "$VERIFY_SCRIPT" --quick || true
+        fi
+    fi
 
     # Show skipped operations if any
     if [[ ${#SKIPPED_OPERATIONS[@]} -gt 0 ]]; then

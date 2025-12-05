@@ -32,6 +32,7 @@ tmuxai/tmuxai.log
 AWSVPNClient
 
 **/.claude/settings.local.json
+claude/notify-end.log
 
 # one password
 op

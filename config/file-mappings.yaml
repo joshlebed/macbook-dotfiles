@@ -1,0 +1,90 @@
+# File Mappings Configuration
+#
+# Defines how config files are linked from this repo to the system.
+# Run: ./scripts/link-files.sh
+
+symlinks:
+  # Both platforms
+  - source: .zshrc
+    target: ~/.zshrc
+
+  - source: .tmux.conf
+    target: ~/.tmux.conf
+
+  - source: zsh-themes/agnoster.zsh-theme
+    target: ~/.oh-my-zsh/themes/agnoster.zsh-theme
+    reason: Custom theme
+
+  - source: claude/settings.json
+    target: ~/.claude/settings.json
+    reason: Claude Code settings
+
+  # VS Code / Cursor - macOS
+  - source: vscode/settings.json
+    target: ~/Library/Application Support/Code/User/settings.json
+    os: macos
+
+  - source: vscode/settings.json
+    target: ~/Library/Application Support/Cursor/User/settings.json
+    os: macos
+
+  - source: vscode/keybindings.json
+    target: ~/Library/Application Support/Code/User/keybindings.json
+    os: macos
+
+  - source: vscode/keybindings.json
+    target: ~/Library/Application Support/Cursor/User/keybindings.json
+    os: macos
+
+  - source: qq
+    target: ~/.qq
+    os: macos
+    reason: QQ config directory
+
+  # VS Code / Cursor - Linux
+  - source: vscode/settings.json
+    target: ~/.config/Code/User/settings.json
+    os: linux
+
+  - source: vscode/settings.json
+    target: ~/.config/Cursor/User/settings.json
+    os: linux
+
+  - source: vscode/keybindings.json
+    target: ~/.config/Code/User/keybindings.json
+    os: linux
+
+  - source: vscode/keybindings.json
+    target: ~/.config/Cursor/User/keybindings.json
+    os: linux
+
+hardlinks:
+  # Apps that don't follow symlinks
+  - source: .slate.js
+    target: ~/.slate.js
+    os: macos
+    reason: Slate doesn't follow symlinks
+
+  - source: .finicky.js
+    target: ~/.finicky.js
+    os: macos
+    reason: Finicky doesn't follow symlinks
+
+copies:
+  # Plist files - apps overwrite these, so we copy instead of link
+  # Use ./scripts/export-preferences.sh to sync changes back to repo
+  - source: preferences/com.contextsformac.Contexts.plist
+    target: ~/Library/Preferences/com.contextsformac.Contexts.plist
+    os: macos
+
+  - source: preferences/com.knollsoft.Rectangle.plist
+    target: ~/Library/Preferences/com.knollsoft.Rectangle.plist
+    os: macos
+
+  - source: preferences/com.raycast.macos.plist
+    target: ~/Library/Preferences/com.raycast.macos.plist
+    os: macos
+
+  - source: preferences/com.surteesstudios.Bartender.plist
+    target: ~/Library/Preferences/com.surteesstudios.Bartender.plist
+    os: macos
