@@ -99,5 +99,5 @@
     }
   },
   "include_history": false,
-  "copy_first_command": false
+  "copy_first_command": true
 }
