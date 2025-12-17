@@ -158,5 +158,11 @@
   "remote.SSH.remotePlatform": {
     "sd": "linux"
   },
-  "claudeCode.preferredLocation": "panel"
+  "claudeCode.preferredLocation": "panel",
+
+  // rust-analyzer optimizations for faster checks
+  "rust-analyzer.cargo.targetDir": true,
+  "rust-analyzer.check.command": "check",
+  "git.blame.statusBarItem.enabled": true
+  // "biome.lsp.trace.server": "verbose"
 }
