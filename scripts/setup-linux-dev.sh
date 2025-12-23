@@ -617,20 +617,20 @@ setup_nodejs_via_nvm() {
     return 1
 }
 
-# Install Claude Code CLI
+# Install Claude Code CLI via npm (enables auto-updates)
 install_claude_code() {
-    log_info "Installing Claude Code..."
+    log_info "Installing Claude Code via npm (enables auto-updates)..."
 
-    # Check if already installed
-    if command -v claude-code >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/claude-code" ]] || [[ -f "$USER_HOME/.claude/bin/claude" ]]; then
-        log_info "Claude Code is already installed"
+    # Check if already installed via npm
+    if npm list -g @anthropic-ai/claude-code &>/dev/null 2>&1; then
+        log_info "Claude Code is already installed via npm"
         return 0
     fi
 
     # Try to setup Node.js via NVM first
     setup_nodejs_via_nvm
 
-    # Method 1: Install via npm if available
+    # Install via npm (required for auto-updates)
     if command -v npm >/dev/null 2>&1; then
         log_info "Installing Claude Code via npm..."
 
@@ -669,31 +669,12 @@ install_claude_code() {
 
         log_warning "Failed to install Claude Code via npm"
         SKIPPED_OPERATIONS+=("Claude Code installation (npm error)")
-    fi
-
-    # Method 2: Use install script if curl is available
-    if command -v curl >/dev/null 2>&1; then
-        log_info "Installing Claude Code via install script..."
-
-        if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-            if su - "$ACTUAL_USER" -c 'curl -fsSL https://claude.ai/install.sh | bash' </dev/null 2>&1; then
-                log_success "Claude Code installed via install script"
-                return 0
-            fi
-        else
-            if curl -fsSL https://claude.ai/install.sh | bash </dev/null 2>&1; then
-                log_success "Claude Code installed via install script"
-                return 0
-            fi
-        fi
-
-        log_warning "Failed to install Claude Code via install script"
-        SKIPPED_OPERATIONS+=("Claude Code installation (install script error)")
         return 1
     fi
 
-    log_warning "Cannot install Claude Code (no npm or curl available)"
-    SKIPPED_OPERATIONS+=("Claude Code installation (missing dependencies)")
+    log_warning "Cannot install Claude Code (npm not available)"
+    log_info "Install Node.js/npm first, then run: npm install -g @anthropic-ai/claude-code"
+    SKIPPED_OPERATIONS+=("Claude Code installation (npm not available)")
     return 1
 }
 
@@ -949,10 +930,10 @@ final_setup() {
         echo "  ⚠ Install fzf for fuzzy search capabilities"
     fi
 
-    if command -v claude-code >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/claude-code" ]] || [[ -f "$USER_HOME/.claude/bin/claude" ]]; then
-        echo "  ✓ Claude Code CLI is ready to use"
+    if npm list -g @anthropic-ai/claude-code &>/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/claude" ]]; then
+        echo "  ✓ Claude Code CLI is ready to use (installed via npm)"
     else
-        echo "  ⚠ Claude Code installation may require PATH update or re-login"
+        echo "  ⚠ Claude Code not installed. Run: npm install -g @anthropic-ai/claude-code"
     fi
 
     if command -v q >/dev/null 2>&1 || [[ -f "$USER_HOME/.local/bin/q" ]]; then
