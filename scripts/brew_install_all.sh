@@ -109,4 +109,23 @@ for cask in "${CASKS[@]}"; do
     fi
 done
 
+# ============================================================================
+# Claude Code via npm (enables auto-updates)
+# ============================================================================
+
+log_info "Installing Claude Code via npm..."
+
+if command -v npm >/dev/null 2>&1; then
+    if npm list -g @anthropic-ai/claude-code &>/dev/null; then
+        log_info "Claude Code already installed via npm"
+    else
+        log_info "Installing @anthropic-ai/claude-code..."
+        npm install -g @anthropic-ai/claude-code
+        log_success "Claude Code installed via npm"
+    fi
+else
+    log_warning "npm not found, skipping Claude Code installation"
+    log_info "Install Node.js first, then run: npm install -g @anthropic-ai/claude-code"
+fi
+
 log_success "All packages installed!"

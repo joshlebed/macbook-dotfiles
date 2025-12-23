@@ -163,6 +163,9 @@
   // rust-analyzer optimizations for faster checks
   "rust-analyzer.cargo.targetDir": true,
   "rust-analyzer.check.command": "check",
-  "git.blame.statusBarItem.enabled": true
+  "git.blame.statusBarItem.enabled": true,
+  "workbench.editorAssociations": {
+    "git-rebase-todo": "default"
+  }
   // "biome.lsp.trace.server": "verbose"
 }
