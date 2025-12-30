@@ -218,8 +218,26 @@ step_shell() {
     run_script "$SCRIPT_DIR/install_zsh_and_omz.sh" "zsh and oh-my-zsh installation"
 }
 
+step_hushlogin() {
+    log_section "Step 3: Terminal Cleanup"
+
+    log_step "Creating ~/.hushlogin to suppress 'Last login' message"
+
+    if [[ "$DRY_RUN" == true ]]; then
+        log_step "[DRY-RUN] Would create ~/.hushlogin"
+        return 0
+    fi
+
+    if [[ -f "$HOME/.hushlogin" ]]; then
+        log_info "~/.hushlogin already exists"
+    else
+        touch "$HOME/.hushlogin"
+        log_success "Created ~/.hushlogin"
+    fi
+}
+
 step_file_mappings() {
-    log_section "Step 3: File Mappings"
+    log_section "Step 4: File Mappings"
 
     if [[ "$DRY_RUN" == true ]]; then
         run_script_with_args "$SCRIPT_DIR/link-files.sh" "--dry-run" "file mappings (dry run)"
@@ -265,6 +283,7 @@ show_summary() {
     echo "What was configured:"
     echo "  ✓ Homebrew and packages"
     echo "  ✓ Zsh with Oh My Zsh"
+    echo "  ✓ Terminal cleanup (~/.hushlogin)"
     echo "  ✓ All file mappings (symlinks, hardlinks, copies)"
     echo ""
     echo "Next steps:"
@@ -312,6 +331,7 @@ main() {
     # Run setup steps
     step_homebrew
     step_shell
+    step_hushlogin
     step_file_mappings
 
     # Show manual steps and summary
