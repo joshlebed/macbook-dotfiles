@@ -69,11 +69,14 @@ p() {
   builtin pwd -P | tee >(tr -d '\n' | pbcopy)
 }
 c() {
-  local dir
-  dir=$(ls -dt ~/code/*/ 2>/dev/null \
-    | xargs -n 1 basename \
-    | fzf --height=40% --reverse --border) \
-    && cd ~/code/"$dir"
+  local dirs=(~/code ~/code/scripts)  # edit this list
+  local selected
+  selected=$(stat -f '%m %N' ${^dirs}/*/.git/logs/HEAD 2>/dev/null \
+    | sort -rn \
+    | cut -d' ' -f2- \
+    | sed 's|/\.git/logs/HEAD||' \
+    | fzf --height=40% --reverse --border --delimiter='/' --with-nth=-1) \
+    && cd "$selected"
 }
 alias e="exit"
 
