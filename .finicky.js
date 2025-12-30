@@ -14,6 +14,8 @@ const workMatches = [
   "*datadog*",
   "*localhost*",
   "*gentrace*",
+  "*keru*",
+  "*kepler*",
   "*graphite.dev*",
 ];
 const personalMatches = [
