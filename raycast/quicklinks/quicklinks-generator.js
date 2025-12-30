@@ -70,6 +70,10 @@ const personalLinks = [
     name: "Amazon",
     link: "https://www.amazon.com/",
   },
+  {
+    name: "BPM",
+    link: "https://www.beatsperminuteonline.com/",
+  },
 ];
 
 // --- work
