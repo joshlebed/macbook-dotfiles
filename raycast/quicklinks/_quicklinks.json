@@ -33,7 +33,7 @@
     "link": "https://github.com/pulls?q=is%3Apr+org%3Akeru-ai+author%3Ajosh-kepler+created%3A2025-01-01..2028-01-01",
     "name": "PRs"
   },
-  {"link": "https://app.graphite.dev/", "name": "Graphite"},
+  {"link": "https://app.graphite.com/", "name": "Graphite"},
   {
     "link": "chrome://settings/searchEngines",
     "name": "Chrome Search Engines",

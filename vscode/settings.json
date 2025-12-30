@@ -156,7 +156,8 @@
   "typescript.tsserver.log": "off",
   "terminal.external.osxExec": "iTerm.app",
   "remote.SSH.remotePlatform": {
-    "sd": "linux"
+    "sd": "linux",
+    "pi": "linux"
   },
   "claudeCode.preferredLocation": "panel",
 
@@ -166,6 +167,9 @@
   "git.blame.statusBarItem.enabled": true,
   "workbench.editorAssociations": {
     "git-rebase-todo": "default"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   }
   // "biome.lsp.trace.server": "verbose"
 }

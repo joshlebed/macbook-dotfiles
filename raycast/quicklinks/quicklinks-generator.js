@@ -87,7 +87,7 @@ const workLinks = [
   },
   {
     name: "Graphite",
-    link: "https://app.graphite.dev/",
+    link: "https://app.graphite.com/",
   },
 ];
 
