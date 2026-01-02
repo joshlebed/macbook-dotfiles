@@ -12,4 +12,5 @@ ll log long
 # ss submit --stack
 
 ss submit --stack --ai --no-edit --publish
+
 c create --ai
