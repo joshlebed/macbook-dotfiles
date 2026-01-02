@@ -72,7 +72,13 @@ p() {
 c() {
   local dirs=(~/code ~/code/scripts)  # edit this list
   local selected
-  selected=$(stat -f '%m %N' ${^dirs}/*/.git/logs/HEAD(N) 2>/dev/null \
+  local stat_cmd
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    stat_cmd="stat -f '%m %N'"
+  else
+    stat_cmd="stat -c '%Y %n'"
+  fi
+  selected=$(eval "$stat_cmd" ${^dirs}/*/.git/logs/HEAD(N) 2>/dev/null \
     | sort -rn \
     | cut -d' ' -f2- \
     | sed 's|/\.git/logs/HEAD||' \
