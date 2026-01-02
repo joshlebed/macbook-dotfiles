@@ -81,6 +81,20 @@ c() {
 }
 alias e="exit"
 
+# SSH + tmux integration for iTerm2
+# Usage: ssh-tmux-iterm hostname [session-name]
+ssh-tmux-iterm() {
+  local host="$1"
+  local session="${2:-main}"
+
+  if [[ -z "$host" ]]; then
+    echo "Usage: ssh-tmux-iterm hostname [session-name]"
+    return 1
+  fi
+
+  ssh -t "$host" "tmux -CC new -A -s $session"
+}
+
 # pnpm
 export PNPM_HOME="/Users/joshlebed/Library/pnpm"
 case ":$PATH:" in
