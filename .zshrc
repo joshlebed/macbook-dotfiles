@@ -30,6 +30,7 @@ fi
 [ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
 
 # iterm config
+export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=1
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
 # nvm
@@ -114,16 +115,7 @@ test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-s
 [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 [[ -f "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 
-
 alias python="python3"
-# alias pip="pip3"
-#
-alias jump-into-structify-docker="cd ~/code/agent && mdk zsh"
-
-
-# iTerm2 hotkey window alias
-alias it2hw='~/.iterm2/runpython ~/.iterm2/it2api hotkey-window'
-
 alias timeout=gtimeout
 alias aic=oco
 
