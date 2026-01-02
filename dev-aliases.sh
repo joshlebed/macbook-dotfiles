@@ -66,8 +66,7 @@ claude-danger-repo() {
   if go-to-root-of-current-git-repo 2>/dev/null; then
     printf '\e[32m✅ navigated to top of git repo at: %s\e[0m\n' "$PWD" >&2
   else
-    printf '\e[33m⚠️  Not currently in a git repo\e[0m\n' >&2
-    return 1
+    printf '\e[33m⚠️  Not currently in a git repo, opening claude in current directory\e[0m\n' >&2
   fi
   claude-danger "$@"
 }
