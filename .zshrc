@@ -72,7 +72,7 @@ p() {
 c() {
   local dirs=(~/code ~/code/scripts)  # edit this list
   local selected
-  selected=$(stat -f '%m %N' ${^dirs}/*/.git/logs/HEAD 2>/dev/null \
+  selected=$(stat -f '%m %N' ${^dirs}/*/.git/logs/HEAD(N) 2>/dev/null \
     | sort -rn \
     | cut -d' ' -f2- \
     | sed 's|/\.git/logs/HEAD||' \
