@@ -10,12 +10,14 @@ git clone https://github.com/joshlebed/macbook-dotfiles ~/.config
 ```
 
 That's it! The script handles everything:
+
 - Xcode CLI tools
 - Homebrew + all packages
 - Zsh + Oh My Zsh
 - All config file symlinks/hardlinks
 
 **Options:**
+
 ```bash
 ./scripts/setup-macos.sh --dry-run   # Preview changes
 ./scripts/setup-macos.sh --skip-brew # Skip Homebrew
@@ -26,12 +28,12 @@ That's it! The script handles everything:
 
 Some apps need manual setup after running the script:
 
-| App | Setup |
-|-----|-------|
-| Keyboard Maestro | File → Start Syncing Macros → `km_macros.kmsync` |
-| iTerm2 | Preferences → General → Load from `~/.config/iterm2` |
-| Slate | [Download DMG](https://github.com/jigish/slate) |
-| Google Drive | Sign in |
+| App              | Setup                                                |
+| ---------------- | ---------------------------------------------------- |
+| Keyboard Maestro | File → Start Syncing Macros → `km_macros.kmsync`     |
+| iTerm2           | Preferences → General → Load from `~/.config/iterm2` |
+| Slate            | [Download DMG](https://github.com/jigish/slate)      |
+| Google Drive     | Sign in                                              |
 
 ### Adding New Config Files
 
@@ -52,15 +54,18 @@ Then run `./scripts/link-files.sh`.
 
 ### Syncing Preferences Between Machines
 
-Some macOS apps (Contexts, Rectangle, Raycast, Bartender) store settings in plist files that get copied (not symlinked) because the apps overwrite them.
+Some macOS apps (Contexts, Rectangle, Raycast, Bartender) store settings in
+plist files that get copied (not symlinked) because the apps overwrite them.
 
 **To sync settings from this machine to the repo:**
+
 ```bash
 ./scripts/export-preferences.sh   # Copies system plists to repo
 git add -A && git commit -m "Update preferences" && git push
 ```
 
 **On another machine:**
+
 ```bash
 git pull
 ./scripts/link-files.sh           # Copies repo plists to system
@@ -73,7 +78,8 @@ git pull
 curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scripts/setup-linux-dev.sh | sudo bash
 ```
 
-Works on Debian/Ubuntu, Fedora/RHEL, Alpine, and Arch. Run without `sudo` for limited install (skips system packages).
+Works on Debian/Ubuntu, Fedora/RHEL, Alpine, and Arch. Run without `sudo` for
+limited install (skips system packages).
 
 ## Repository Structure
 
@@ -99,12 +105,16 @@ Works on Debian/Ubuntu, Fedora/RHEL, Alpine, and Arch. Run without `sudo` for li
 ## Tools
 
 ### Shell
-- [zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH) + [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
+
+- [zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH) +
+  [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
 - [tmux](https://github.com/tmux/tmux) - terminal multiplexer
 - [fzf](https://github.com/junegunn/fzf) - fuzzy finder
 
 ### macOS Apps
-- [Karabiner-Elements](https://karabiner-elements.pqrs.org/) - keyboard remapping
+
+- [Karabiner-Elements](https://karabiner-elements.pqrs.org/) - keyboard
+  remapping
 - [Keyboard Maestro](https://www.keyboardmaestro.com/) - automation
 - [Raycast](https://www.raycast.com/) - launcher (Spotlight replacement)
 - [Rectangle](https://rectangleapp.com/) - window management
@@ -114,10 +124,20 @@ Works on Debian/Ubuntu, Fedora/RHEL, Alpine, and Arch. Run without `sudo` for li
 - [Finicky](https://github.com/johnste/finicky) - browser routing
 
 ### Editors
+
 - [VS Code](https://code.visualstudio.com/)
 - [Cursor](https://www.cursor.com/) - VS Code with AI
 
 ### Chrome Extensions
+
 - [uBlock Origin](https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm)
 - [Dark Reader](https://chrome.google.com/webstore/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh)
 - [Bitwarden](https://chrome.google.com/webstore/detail/bitwarden-free-password-m/nngceckbapebfimnlniiiahkandclblb)
+
+## Git Multi-Account Setup
+
+Seamlessly use both work and personal GitHub accounts with automatic SSH key and
+email selection based on repo owner.
+
+See [docs/git-multi-account-setup.md](docs/git-multi-account-setup.md) for full
+setup instructions.

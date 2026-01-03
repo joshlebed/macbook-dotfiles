@@ -41,6 +41,17 @@ export NVM_DIR="$HOME/.nvm"
 
 # git aliases
 alias gs="git status"
+
+# Graphite CLI wrapper - auto-switch profile based on repo
+gt() {
+    local email=$(git config user.email 2>/dev/null)
+    if [[ "$email" == "josh.lebedinsky@keru.ai" ]]; then
+        GRAPHITE_PROFILE=kepler command gt "$@"
+    else
+        command gt "$@"
+    fi
+}
+
 alias la="ls -a"
 alias gc="git commit -m"
 alias gch="git checkout"
