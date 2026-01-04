@@ -52,6 +52,16 @@ gt() {
     fi
 }
 
+# AWS CLI wrapper - auto-switch profile based on repo
+aws() {
+    local remote_url=$(git config --get remote.origin.url 2>/dev/null)
+    if [[ "$remote_url" =~ joshlebed ]]; then
+        AWS_PROFILE=josh-personal command aws "$@"
+    else
+        command aws "$@"
+    fi
+}
+
 alias la="ls -a"
 alias gc="git commit -m"
 alias gch="git checkout"
