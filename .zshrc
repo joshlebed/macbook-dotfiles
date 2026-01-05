@@ -46,8 +46,10 @@ alias gs="git status"
 gt() {
     local email=$(git config user.email 2>/dev/null)
     if [[ "$email" == "josh.lebedinsky@keru.ai" ]]; then
+        echo "running gt with kepler profile"
         GRAPHITE_PROFILE=kepler command gt "$@"
     else
+        echo "running gt with default profile"
         command gt "$@"
     fi
 }
@@ -56,8 +58,10 @@ gt() {
 aws() {
     local remote_url=$(git config --get remote.origin.url 2>/dev/null)
     if [[ "$remote_url" =~ joshlebed ]]; then
+        echo "running aws with josh-personal profile"
         AWS_PROFILE=josh-personal command aws "$@"
     else
+        echo "running aws with default profile"
         command aws "$@"
     fi
 }
