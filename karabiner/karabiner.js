@@ -347,6 +347,16 @@ const nav_mappings = [
     from: { key_code: "delete_or_backspace" },
     to: { key_code: "delete_forward" },
   },
+
+  // caps + v for chatgpt hotkey
+  {
+    type: "basic",
+    from: { key_code: "v" },
+    to: {
+      key_code: "v",
+      modifiers: ["left_command", "left_option", "left_control"],
+    },
+  },
 ];
 
 const nav_mode_rule = {
@@ -509,14 +519,6 @@ const misc_shortcuts = {
       ],
       from: { key_code: "equal_sign", modifiers: { mandatory: ["command"] } },
       to: { key_code: "n", modifiers: ["left_command", "left_option"] },
-    },
-    {
-      type: "basic",
-      from: { key_code: "v" },
-      to: {
-        key_code: "v",
-        modifiers: ["left_command", "left_option", "left_control"],
-      },
     },
   ],
 };
