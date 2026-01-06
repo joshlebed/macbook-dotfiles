@@ -510,6 +510,14 @@ const misc_shortcuts = {
       from: { key_code: "equal_sign", modifiers: { mandatory: ["command"] } },
       to: { key_code: "n", modifiers: ["left_command", "left_option"] },
     },
+    {
+      type: "basic",
+      from: { key_code: "v" },
+      to: {
+        key_code: "v",
+        modifiers: ["left_command", "left_option", "left_control"],
+      },
+    },
   ],
 };
 
