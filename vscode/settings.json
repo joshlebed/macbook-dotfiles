@@ -85,6 +85,7 @@
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "prettier.tabWidth": 2,
+  "prettier.proseWrap": "always",
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -174,6 +175,7 @@
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "claudeCode.allowDangerouslySkipPermissions": true,
-  "claudeCode.initialPermissionMode": "bypassPermissions"
+  "claudeCode.initialPermissionMode": "bypassPermissions",
+  "makefile.configureOnOpen": true
   // "biome.lsp.trace.server": "verbose"
 }
