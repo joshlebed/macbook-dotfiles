@@ -1,9 +1,17 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "model": "opus",
   "enabledPlugins": {
-    "pyright-lsp@claude-plugins-official": true,
-    "github@claude-plugins-official": true
+    "github@claude-plugins-official": true,
+    "project-plan@claude-extras": false,
+    "pr-workflow@claude-extras": false
+  },
+  "extraKnownMarketplaces": {
+    "claude-extras": {
+      "source": {
+        "source": "github",
+        "repo": "joshlebed/claude-extras"
+      }
+    }
   },
   "alwaysThinkingEnabled": true,
   "feedbackSurveyState": {
