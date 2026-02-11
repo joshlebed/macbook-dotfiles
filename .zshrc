@@ -110,6 +110,48 @@ c() {
     | fzf --height=40% --reverse --border --delimiter='/' --with-nth=-1) \
     && cd "$selected"
 }
+
+# vdiff: show commit/branch BASE -> TIP as "unstaged changes" in the current working directory.
+# Usage:
+#   vdiff <base> <tip>
+#   vdiff --restore
+vdiff () (
+  set -euo pipefail
+
+  local gitdir state
+  gitdir="$(git rev-parse --git-dir)"
+  state="$gitdir/.vdiff_state"
+
+  if [[ "${1-}" == "--restore" ]]; then
+    [[ -f "$state" ]] || { echo "vdiff: no saved state to restore"; return 1; }
+
+    local orig
+    orig="$(cat "$state")"
+
+    # Drop the synthetic diff and go back
+    git reset --hard -q
+    git clean -fd -q
+    git switch -q "$orig" 2>/dev/null || git switch -q -
+    rm -f "$state"
+    return 0
+  fi
+
+  local base="${1-}"
+  local tip="${2-}"
+  [[ -n "$base" && -n "$tip" ]] || { echo "Usage: vdiff <base> <tip>   or: vdiff --restore"; return 1; }
+
+  # Save where you are (branch name if possible; else current commit)
+  local orig
+  orig="$(git symbolic-ref --quiet --short HEAD || git rev-parse HEAD)"
+  echo "$orig" > "$state"
+
+  # Detached checkout so branches are not affected
+  git switch --detach -q "$tip"
+
+  # Make working tree look like "changes from base to tip"
+  git reset --mixed -q "$base"
+)
+
 alias e="exit"
 
 # SSH + tmux integration for iTerm2
