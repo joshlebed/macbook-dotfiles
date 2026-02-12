@@ -17,7 +17,7 @@
 # Repository: https://github.com/joshlebed/macbook-dotfiles
 # ============================================================================
 
-set -e  # Exit on error
+# Don't use set -e: we want to continue through failures and report them at the end
 
 # ============================================================================
 # CONFIGURATION
@@ -30,6 +30,9 @@ CONFIG_DIR="$(dirname "$SCRIPT_DIR")"
 DRY_RUN=false
 SKIP_BREW=false
 SKIP_APPS=false
+
+# Track failed steps
+FAILED_STEPS=()
 
 # ============================================================================
 # LOGGING AND OUTPUT FUNCTIONS
@@ -131,7 +134,7 @@ run_script_with_args() {
     fi
 
     log_step "Running: $description"
-    if bash "$script" $args; then
+    if bash "$script" "$args"; then
         return 0
     else
         log_error "Script failed: $script"
@@ -328,15 +331,26 @@ main() {
     # Check for Xcode CLI tools (required for git, brew, etc.)
     check_xcode_cli
 
-    # Run setup steps
-    step_homebrew
-    step_shell
-    step_hushlogin
-    step_file_mappings
+    # Run setup steps (continue on failure)
+    step_homebrew   || FAILED_STEPS+=("Homebrew & Packages")
+    step_shell      || FAILED_STEPS+=("Shell Setup")
+    step_hushlogin  || FAILED_STEPS+=("Terminal Cleanup")
+    step_file_mappings || FAILED_STEPS+=("File Mappings")
 
     # Show manual steps and summary
     show_manual_steps
     show_summary
+
+    # Report any failures
+    if [[ ${#FAILED_STEPS[@]} -gt 0 ]]; then
+        log_section "Failures"
+        log_warning "The following steps had errors (but the rest completed):"
+        for step in "${FAILED_STEPS[@]}"; do
+            echo "  - $step"
+        done
+        echo ""
+        log_info "Review the errors above and re-run or fix manually."
+    fi
 
     # Run verification
     log_section "Verification"
@@ -346,10 +360,12 @@ main() {
     else
         log_step "[DRY-RUN] Would run verification"
     fi
-}
 
-# Trap to handle errors
-trap 'log_error "Setup failed! Check the errors above."' ERR
+    # Exit with error if any steps failed
+    if [[ ${#FAILED_STEPS[@]} -gt 0 ]]; then
+        exit 1
+    fi
+}
 
 # Run main
 main "$@"
