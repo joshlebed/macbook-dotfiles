@@ -33,6 +33,9 @@ fi
 export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=1
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
+# corepack: prevent auto-pinning packageManager into package.json
+export COREPACK_ENABLE_AUTO_PIN=0
+
 # nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -224,3 +227,6 @@ _gt_yargs_completions() {
 }
 compdef _gt_yargs_completions gt
 ###-end-gt-completions-###
+
+# opencode
+export PATH=/Users/joshlebed/.opencode/bin:$PATH
