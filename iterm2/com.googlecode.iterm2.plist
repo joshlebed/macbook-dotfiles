@@ -1939,8 +1939,6 @@
 				<key>Red Component</key>
 				<real>0.18823529779911041</real>
 			</dict>
-			<key>Background Image Location</key>
-			<string></string>
 			<key>Background Image Mode</key>
 			<integer>0</integer>
 			<key>Badge Color</key>
@@ -2147,7 +2145,7 @@
 			<key>Silence Bell</key>
 			<false/>
 			<key>Space</key>
-			<integer>0</integer>
+			<integer>-1</integer>
 			<key>Sync Title</key>
 			<false/>
 			<key>Tags</key>
@@ -4582,7 +4580,7 @@
 	<key>PromptOnQuit</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>TimeBetweenTips</key>
@@ -4593,6 +4591,8 @@
 	<false/>
 	<key>URLHandlersByGuid</key>
 	<dict/>
+	<key>UseLionStyleFullscreen</key>
+	<true/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>Window Arrangements</key>
