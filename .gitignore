@@ -43,3 +43,8 @@ btop
 gh/hosts.yml
 cagent/.cagent_first_run
 temporalio/version-info.yaml
+
+# private app license artifacts (keep local only)
+Alfred/alfred-license.txt
+Alfred/keyboard-maestro-license.txt
+Alfred/*.contexts-license
