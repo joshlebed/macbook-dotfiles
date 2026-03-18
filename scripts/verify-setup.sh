@@ -149,6 +149,49 @@ verify_file_mappings() {
     fi
 }
 
+verify_keyboard_shortcuts() {
+    [[ "$CURRENT_OS" != "macos" ]] && return
+
+    log_section "Keyboard Shortcuts"
+
+    local yaml_file="$SCRIPT_DIR/../config/keyboard-shortcuts.yaml"
+    if [[ ! -f "$yaml_file" ]]; then
+        log_fail "keyboard-shortcuts.yaml missing"
+        return
+    fi
+
+    # Count domains in YAML
+    local yaml_domains
+    yaml_domains=$(grep -c '^[a-zA-Z][a-zA-Z0-9._-]*:$' "$yaml_file" 2>/dev/null || echo 0)
+
+    # Count non-empty domains on system
+    local nonempty_system=0
+    local in_domain=false
+    local has_entries=false
+    while IFS= read -r line; do
+        if [[ "$line" =~ ^Found ]]; then
+            if [[ "$in_domain" == true && "$has_entries" == true ]]; then
+                ((nonempty_system++))
+            fi
+            in_domain=true
+            has_entries=false
+        elif [[ "$in_domain" == true && "$line" =~ =[[:space:]]*\" ]]; then
+            has_entries=true
+        fi
+    done < <(defaults find NSUserKeyEquivalents 2>/dev/null)
+    # Process last domain
+    if [[ "$in_domain" == true && "$has_entries" == true ]]; then
+        ((nonempty_system++))
+    fi
+
+    if [[ "$yaml_domains" -eq "$nonempty_system" ]]; then
+        log_pass "Keyboard shortcuts: $yaml_domains domains tracked"
+    else
+        log_warn "Keyboard shortcuts: $yaml_domains in YAML, $nonempty_system on system"
+        echo -e "${DIM}    Run: ./scripts/export-keyboard-shortcuts.sh${NC}"
+    fi
+}
+
 # ============================================================================
 # SUMMARY
 # ============================================================================
@@ -183,6 +226,7 @@ verify_shell
 verify_tools
 verify_apps
 verify_file_mappings
+verify_keyboard_shortcuts
 
 show_summary
 
