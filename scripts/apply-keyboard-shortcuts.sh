@@ -3,8 +3,10 @@
 # Apply Keyboard Shortcuts
 # ============================================================================
 #
-# Reads config/keyboard-shortcuts.yaml and writes shortcuts via defaults write.
+# Reads config/keyboard-shortcuts.yaml and writes shortcuts via PlistBuddy.
 # The YAML is authoritative: existing shortcuts are deleted before writing.
+# Uses PlistBuddy instead of `defaults write -dict-add` because the defaults
+# CLI cannot handle parentheses in menu names or brackets in shortcuts.
 #
 # Usage:
 #   ./scripts/apply-keyboard-shortcuts.sh           # Apply all shortcuts
@@ -72,10 +74,12 @@ domain_entries=()
 apply_domain() {
     [[ -z "$current_domain" || ${#domain_entries[@]} -eq 0 ]] && return
 
-    # Determine the defaults domain argument
+    # Determine the defaults domain arg and plist path
     local domain_arg="$current_domain"
+    local plist_path="$HOME/Library/Preferences/${current_domain}.plist"
     if [[ "$current_domain" == "NSGlobalDomain" ]]; then
         domain_arg="-g"
+        plist_path="$HOME/Library/Preferences/.GlobalPreferences.plist"
     fi
 
     if [[ "$DRY_RUN" == true ]]; then
@@ -89,11 +93,18 @@ apply_domain() {
         # Delete existing shortcuts for this domain
         defaults delete "$domain_arg" NSUserKeyEquivalents 2>/dev/null || true
 
-        # Write each shortcut
+        # Create the NSUserKeyEquivalents dict (ignore error if plist doesn't exist yet)
+        /usr/libexec/PlistBuddy -c "Add :NSUserKeyEquivalents dict" "$plist_path" 2>/dev/null || true
+
+        # Write each shortcut via PlistBuddy (handles parens, brackets, etc.)
         for entry in "${domain_entries[@]}"; do
             local name="${entry%%=*}"
             local shortcut="${entry#*=}"
-            defaults write "$domain_arg" NSUserKeyEquivalents -dict-add "$name" "$shortcut"
+            # Escape spaces and parens for PlistBuddy key path
+            local escaped_name="${name// /\\ }"
+            escaped_name="${escaped_name//(/\\(}"
+            escaped_name="${escaped_name//)/\\)}"
+            /usr/libexec/PlistBuddy -c "Add :NSUserKeyEquivalents:${escaped_name} string ${shortcut}" "$plist_path"
         done
         log_apply "$current_domain (${#domain_entries[@]} shortcuts)"
     fi
