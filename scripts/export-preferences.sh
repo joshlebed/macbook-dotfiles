@@ -182,6 +182,15 @@ done < "$MAPPINGS_FILE"
 # Process final entry
 process_entry
 
+# Export keyboard shortcuts
+echo ""
+log_info "Exporting keyboard shortcuts..."
+if [[ "$DRY_RUN" == true ]]; then
+    bash "$SCRIPT_DIR/export-keyboard-shortcuts.sh" --dry-run
+else
+    bash "$SCRIPT_DIR/export-keyboard-shortcuts.sh"
+fi
+
 # Summary
 echo ""
 if [[ "$DRY_RUN" == true ]]; then
