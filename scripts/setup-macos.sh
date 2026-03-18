@@ -249,6 +249,16 @@ step_file_mappings() {
     fi
 }
 
+step_keyboard_shortcuts() {
+    log_section "Step 5: Keyboard Shortcuts"
+
+    if [[ "$DRY_RUN" == true ]]; then
+        run_script_with_args "$SCRIPT_DIR/apply-keyboard-shortcuts.sh" "--dry-run" "keyboard shortcuts (dry run)"
+    else
+        run_script "$SCRIPT_DIR/apply-keyboard-shortcuts.sh" "keyboard shortcuts"
+    fi
+}
+
 show_manual_steps() {
     log_section "Manual Configuration Required"
 
@@ -288,6 +298,7 @@ show_summary() {
     echo "  ✓ Zsh with Oh My Zsh"
     echo "  ✓ Terminal cleanup (~/.hushlogin)"
     echo "  ✓ All file mappings (symlinks, hardlinks, copies)"
+    echo "  ✓ Keyboard shortcuts"
     echo ""
     echo "Next steps:"
     echo "  1. Open a new terminal or run: exec zsh"
@@ -336,6 +347,7 @@ main() {
     step_shell      || FAILED_STEPS+=("Shell Setup")
     step_hushlogin  || FAILED_STEPS+=("Terminal Cleanup")
     step_file_mappings || FAILED_STEPS+=("File Mappings")
+    step_keyboard_shortcuts || FAILED_STEPS+=("Keyboard Shortcuts")
 
     # Show manual steps and summary
     show_manual_steps
