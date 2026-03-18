@@ -1,0 +1,29 @@
+# Keyboard Shortcuts (NSUserKeyEquivalents)
+#
+# Managed by:
+#   Apply:  scripts/apply-keyboard-shortcuts.sh
+#   Export: scripts/export-keyboard-shortcuts.sh
+#
+# Key notation: @ = Cmd, ~ = Option, ^ = Control, $ = Shift
+
+NSGlobalDomain:
+  Minimize: "@~^m"
+  Show Tab Bar: "@~^t"
+
+com.apple.finder:
+  Close Window: "@$w"
+
+com.facebook.archon.developerID:
+  Next Chat: "^\U21e5"
+  Previous Chat: "^$\U21e5"
+
+com.google.Chrome:
+  Josh (Niteshift): "@~^i"
+  Josh (Personal): "@~^u"
+
+com.googlecode.iterm2:
+  New Tmux Tab: "^t"
+
+com.spotify.client:
+  Go Back: "@["
+  Go Forward: "@]"
