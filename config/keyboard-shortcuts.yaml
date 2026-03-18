@@ -14,8 +14,8 @@ com.apple.finder:
   Close Window: "@$w"
 
 com.facebook.archon.developerID:
-  Next Chat: "^\U21e5"
-  Previous Chat: "^$\U21e5"
+  Next Chat: "^U21e5"
+  Previous Chat: "^$U21e5"
 
 com.google.Chrome:
   Josh (Niteshift): "@~^i"

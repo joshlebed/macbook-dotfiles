@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ============================================================================
 # Export Keyboard Shortcuts
 # ============================================================================
+# Requires bash 4+ for associative arrays (macOS: brew install bash)
 #
 # Discovers all NSUserKeyEquivalents on the system and writes them to
 # config/keyboard-shortcuts.yaml. This is the reverse of apply-keyboard-shortcuts.sh.
