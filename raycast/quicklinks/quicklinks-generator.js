@@ -82,12 +82,20 @@ const workLinks = [
     name: "Dev",
     link: "http://localhost:3000/t/",
   },
+  // {
+  //   name: "PRs",
+  //   // link: "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me",
+  //   // link: "https://github.com/StructifyAI/agent/pulls?q=is%3Apr+author%3A%40me",
+  //   // link: "https://github.com/keru-ai/dev-runner/issues?q=is%3Apr+author%3Ajosh-kepler",
+  //   link: "https://github.com/pulls?q=is%3Apr+org%3Akeru-ai+author%3Ajosh-kepler+created%3A2025-01-01..2028-01-01",
+  // },
   {
-    name: "PRs",
-    // link: "https://github.com/gentrace/gentrace/pulls?q=is%3Apr+author%3A%40me",
-    // link: "https://github.com/StructifyAI/agent/pulls?q=is%3Apr+author%3A%40me",
-    // link: "https://github.com/keru-ai/dev-runner/issues?q=is%3Apr+author%3Ajosh-kepler",
-    link: "https://github.com/pulls?q=is%3Apr+org%3Akeru-ai+author%3Ajosh-kepler+created%3A2025-01-01..2028-01-01",
+    name: "my open niteshift PRs",
+    link: "https://github.com/niteshiftdev/niteshift/pulls?q=is%3Aopen+is%3Apr+author%3Ajoshlebed+draft%3Afalse+",
+  },
+  {
+    name: "my draft niteshift PRs",
+    link: "https://github.com/niteshiftdev/niteshift/pulls?q=is%3Aopen+is%3Apr+author%3Ajoshlebed+draft%3Atrue+",
   },
   {
     name: "Graphite",
@@ -144,6 +152,10 @@ const cursorLinks = [
   {
     name: "Gentrace Scripts",
     link: "~/code/gentrace-dev-shell-scripts/gentrace_aliases.sh",
+  },
+  {
+    name: "Niteshift",
+    link: "~/code/niteshift/",
   },
   {
     name: "Libsync",
