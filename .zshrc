@@ -233,3 +233,6 @@ export PATH=/Users/joshlebed/.opencode/bin:$PATH
 
 alias ncl="cd ~/code/niteshift && cl"
 alias n="ncl"
+
+alias vim="nvim"
+alias vi="nvim"
