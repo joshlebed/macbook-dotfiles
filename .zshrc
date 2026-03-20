@@ -45,17 +45,17 @@ export NVM_DIR="$HOME/.nvm"
 # git aliases
 alias gs="git status"
 
-# Graphite CLI wrapper - auto-switch profile based on repo
-gt() {
-    local email=$(git config user.email 2>/dev/null)
-    if [[ "$email" == "josh.lebedinsky@keru.ai" ]]; then
-        echo "running gt with kepler profile"
-        GRAPHITE_PROFILE=kepler command gt "$@"
-    else
-        echo "running gt with default profile"
-        command gt "$@"
-    fi
-}
+# # Graphite CLI wrapper - auto-switch profile based on repo
+# gt() {
+#     local email=$(git config user.email 2>/dev/null)
+#     if [[ "$email" == "josh.lebedinsky@keru.ai" ]]; then
+#         echo "running gt with kepler profile"
+#         GRAPHITE_PROFILE=kepler command gt "$@"
+#     else
+#         echo "running gt with default profile"
+#         command gt "$@"
+#     fi
+# }
 
 # AWS CLI wrapper - auto-switch profile based on repo
 aws() {
@@ -230,3 +230,6 @@ compdef _gt_yargs_completions gt
 
 # opencode
 export PATH=/Users/joshlebed/.opencode/bin:$PATH
+
+alias ncl="cd ~/code/niteshift && cl"
+alias n="ncl"
