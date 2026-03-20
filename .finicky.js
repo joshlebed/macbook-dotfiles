@@ -1,10 +1,10 @@
 // ~/.finicky.js
 
 // eventually figure out how to make this more portable per machine
-const personal = "Josh";
+const personal = "Niteshift";
 // const work = "Gentrace";
-// OVERRIDE WHILE NOT WORKING
-const work = "Kepler";
+// const work = "Kepler";
+const work = "Niteshift";
 
 // browsers
 const chrome = "Google Chrome";
@@ -17,6 +17,8 @@ const workMatches = [
   "*keru*",
   "*kepler*",
   "*graphite.dev*",
+  "*niteshift.dev*",
+  "*niteshift.local*",
 ];
 const personalMatches = [
   "*www.americanexpress.com*",
@@ -60,19 +62,19 @@ export default {
     },
     {
       match: workMatches,
-      browser: { name: chrome, profile: work },
+      browser: `${chrome}:${work}`,
     },
     {
       match: personalMatches,
-      browser: { name: chrome, profile: personal },
+      browser: `${chrome}:${personal}`,
     },
     {
       match: (url, options) => workOpeners.includes(options.opener.name),
-      browser: { name: chrome, profile: work },
+      browser: `${chrome}:${work}`,
     },
     {
       match: (url, options) => personalOpeners.includes(options.opener.name),
-      browser: { name: chrome, profile: personal },
+      browser: `${chrome}:${personal}`,
     },
   ],
 };

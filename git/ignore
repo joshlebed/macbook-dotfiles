@@ -1,0 +1,5 @@
+# Global gitignore — applies to all repos on this machine
+# (git reads ~/.config/git/ignore automatically via XDG convention)
+**/.claude/settings.local.json
+**/superpowers/**
+

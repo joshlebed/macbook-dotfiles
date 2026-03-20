@@ -31,8 +31,12 @@
   {"link": "https://www.beatsperminuteonline.com/", "name": "BPM"},
   {"link": "http://localhost:3000/t/", "name": "Dev"},
   {
-    "link": "https://github.com/pulls?q=is%3Apr+org%3Akeru-ai+author%3Ajosh-kepler+created%3A2025-01-01..2028-01-01",
-    "name": "PRs"
+    "link": "https://github.com/niteshiftdev/niteshift/pulls?q=is%3Aopen+is%3Apr+author%3Ajoshlebed+draft%3Afalse+",
+    "name": "my open niteshift PRs"
+  },
+  {
+    "link": "https://github.com/niteshiftdev/niteshift/pulls?q=is%3Aopen+is%3Apr+author%3Ajoshlebed+draft%3Atrue+",
+    "name": "my draft niteshift PRs"
   },
   {"link": "https://app.graphite.com/", "name": "Graphite"},
   {
@@ -56,5 +60,6 @@
     "name": "Gentrace Scripts",
     "openWith": "Cursor"
   },
+  {"link": "~/code/niteshift/", "name": "Niteshift", "openWith": "Cursor"},
   {"link": "~/code/lib-sync/", "name": "Libsync", "openWith": "Cursor"}
 ]
