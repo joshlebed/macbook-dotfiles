@@ -68,8 +68,9 @@ claude-danger-repo() {
   else
     printf '\e[33m⚠️  Not currently in a git repo, opening claude in current directory\e[0m\n' >&2
   fi
-  local colors=(red blue green yellow purple orange pink cyan)
-  local random_color=${colors[$((RANDOM % ${#colors[@]} + 1))]}
-  claude-danger "/color $random_color" "$@"
+  # local colors=(red blue green yellow purple orange pink cyan)
+  # local random_color=${colors[$((RANDOM % ${#colors[@]} + 1))]}
+  # claude-danger "/color $random_color" "$@"
+  claude-danger
 }
 alias cl="claude-danger-repo"

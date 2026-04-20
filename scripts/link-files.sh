@@ -216,9 +216,13 @@ create_hardlink() {
     fi
 
     ensure_parent_dir "$target"
-    [[ -e "$target" ]] && mv "$target" "${target}.old"
-    ln "$source" "$target"
-    log_create "Hardlinked: $name"; ((TOTAL_CREATED++))
+    [[ -e "$target" ]] && rm -f "$target"
+    if ln "$source" "$target"; then
+        log_create "Hardlinked: $name"; ((TOTAL_CREATED++))
+    else
+        log_warning "Failed to hardlink: $name"; ((TOTAL_FAILED++))
+        return 1
+    fi
 }
 
 copy_file() {

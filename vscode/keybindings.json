@@ -352,10 +352,5 @@
   {
     "key": "cmd+i",
     "command": "claude-code.insertAtMentioned"
-  },
-  {
-    "key": "alt+cmd+s",
-    "command": "workbench.action.toggleUnifiedSidebarFromKeyboard",
-    "when": "cursor.agentIdeUnification.enabled == true && !isAuxiliaryWindowFocusedContext"
   }
 ]

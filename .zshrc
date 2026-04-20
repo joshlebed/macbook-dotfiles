@@ -157,6 +157,7 @@ vdiff () (
 
 alias e="exit"
 
+
 # SSH + tmux integration for iTerm2
 # Usage: ssh-tmux-iterm hostname [session-name]
 ssh-tmux-iterm() {
@@ -197,6 +198,43 @@ alias m4a-convert-mp3='for i in *.m4a; do ffmpeg -i "$i" -ab 320k -map_metadata 
 alias opus-convert-mp3='for i in *.opus; do ffmpeg -i "$i" -ab 320k -map_metadata 0 -c:v copy "${i%.*}.mp3"; done # convert all opuss in this directory to mp3s at 320kbps'
 alias aif-convert-mp3='for i in *.aif; do ffmpeg -i "$i" -ab 320k -map_metadata 0 -c:v copy "${i%.*}.mp3"; done # convert all aiffs in this directory to mp3s at 320kbps'
 
+# Upload a file to a secret GitHub gist and copy the link to clipboard
+gist() {
+  local file="$1"
+  if [[ -z "$file" ]]; then
+    echo "Usage: gist <file>"
+    return 1
+  fi
+  if [[ ! -f "$file" ]]; then
+    echo "Error: File not found: $file"
+    return 1
+  fi
+  command -v gh >/dev/null 2>&1 || { echo "Error: gh CLI is required. Install with: brew install gh"; return 1; }
+
+  echo "Creating gist..."
+  local output url
+  output=$(gh gist create "$file" 2>&1)
+  if [[ $? -ne 0 ]]; then
+    echo "Error creating gist: $output"
+    return 1
+  fi
+  url=$(echo "$output" | grep -o 'https://gist.github.com/[^ ]*')
+  if [[ -z "$url" ]]; then
+    echo "Error: Could not extract gist URL from output: $output"
+    return 1
+  fi
+
+  if command -v pbcopy >/dev/null 2>&1; then
+    echo "$url" | pbcopy
+    echo "Copied link to clipboard: $url"
+  elif command -v xclip >/dev/null 2>&1; then
+    echo "$url" | xclip -selection clipboard
+    echo "Copied link to clipboard: $url"
+  else
+    echo "Gist link (no clipboard command found, copy manually): $url"
+  fi
+}
+
 # TODO: move other stuff from above to dev-aliases.sh
 test -e "${HOME}/.config/dev-aliases.sh" && source "${HOME}/.config/dev-aliases.sh" || true
 # load environment specifics if there are any (home config, work config)
@@ -234,5 +272,11 @@ export PATH=/Users/joshlebed/.opencode/bin:$PATH
 alias ncl="cd ~/code/niteshift && cl"
 alias n="ncl"
 
+alias codex='codex -s danger-full-access -a never --search'
+alias claude='claude --dangerously-skip-permissions'
+
 alias vim="nvim"
 alias vi="nvim"
+
+# raise macOS file descriptor limit (default 256 is too low for Next.js dev server)
+# ulimit -n unlimited
