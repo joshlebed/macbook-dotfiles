@@ -79,8 +79,12 @@ const personalLinks = [
 // --- work
 const workLinks = [
   {
-    name: "Dev",
-    link: "http://localhost:3000/t/",
+    name: "Prod Niteshift",
+    link: "https://niteshift.dev/",
+  },
+  {
+    name: "Local Niteshift",
+    link: "http://niteshift.local/",
   },
   // {
   //   name: "PRs",

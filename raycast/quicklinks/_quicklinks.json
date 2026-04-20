@@ -29,7 +29,8 @@
   {"link": "https://login.onemedical.com/login", "name": "One Medical"},
   {"link": "https://www.amazon.com/", "name": "Amazon"},
   {"link": "https://www.beatsperminuteonline.com/", "name": "BPM"},
-  {"link": "http://localhost:3000/t/", "name": "Dev"},
+  {"link": "https://niteshift.dev/", "name": "Prod Niteshift"},
+  {"link": "http://niteshift.local/", "name": "Local Niteshift"},
   {
     "link": "https://github.com/niteshiftdev/niteshift/pulls?q=is%3Aopen+is%3Apr+author%3Ajoshlebed+draft%3Afalse+",
     "name": "my open niteshift PRs"
