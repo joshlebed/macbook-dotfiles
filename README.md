@@ -94,9 +94,10 @@ limited install (skips system packages).
 │   ├── verify-setup.sh       # Check setup status
 │   ├── export-preferences.sh # Export app prefs to repo
 │   ├── brew_install_all.sh   # Homebrew packages
-│   └── install_zsh_and_omz.sh
+│   ├── install_zsh_and_omz.sh
+│   └── clear-notifications.sh  # Clear all macOS notifications
 ├── vscode/                  # VS Code / Cursor settings
-├── karabiner/               # Keyboard remapping
+├── karabiner/               # Keyboard remapping (see [karabiner/README.md](karabiner/README.md))
 ├── claude/                  # Claude Code settings
 ├── iterm2/                  # iTerm preferences
 └── ...

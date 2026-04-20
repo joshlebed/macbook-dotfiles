@@ -500,26 +500,6 @@ const misc_shortcuts = {
     {
       type: "basic",
       from: {
-        key_code: "f11",
-        modifiers: { mandatory: ["left_option"] },
-      },
-      to: {
-        shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh down",
-      },
-    },
-    {
-      type: "basic",
-      from: {
-        key_code: "f12",
-        modifiers: { mandatory: ["left_option"] },
-      },
-      to: {
-        shell_command: "/Users/joshlebed/code/ddcctl/ddcctl.sh up",
-      },
-    },
-    {
-      type: "basic",
-      from: {
         key_code: "h",
         modifiers: { mandatory: ["left_option"] },
       },

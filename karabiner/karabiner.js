@@ -421,16 +421,6 @@ const misc_shortcuts = {
     },
     {
       type: "basic",
-      from: { key_code: "f11", modifiers: { mandatory: ["left_command"] } },
-      to: { shell_command: "~/code/ddcctl/ddcctl.sh down" },
-    },
-    {
-      type: "basic",
-      from: { key_code: "f12", modifiers: { mandatory: ["left_command"] } },
-      to: { shell_command: "~/code/ddcctl/ddcctl.sh up" },
-    },
-    {
-      type: "basic",
       from: { key_code: "h", modifiers: { mandatory: ["left_command"] } },
       to: { key_code: "f", modifiers: ["left_command", "left_option"] },
     },
@@ -496,6 +486,18 @@ const misc_shortcuts = {
       to: { key_code: "j", modifiers: ["left_command", "left_shift"] },
     },
     option_f_to_toggle_case_and_word_search,
+    // clear all notifications
+    {
+      type: "basic",
+      from: {
+        key_code: "4",
+        modifiers: { mandatory: ["option", "shift"] },
+      },
+      to: {
+        shell_command:
+          "/Users/joshlebed/.config/scripts/clear-notifications.sh",
+      },
+    },
     // excel formatting
     // relies on the cmd + option + n/b shortcuts as excel macros
     {
