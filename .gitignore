@@ -48,3 +48,11 @@ temporalio/version-info.yaml
 Alfred/alfred-license.txt
 Alfred/keyboard-maestro-license.txt
 Alfred/*.contexts-license
+
+# CLI auth tokens / credentials (never commit)
+neonctl/
+niteshift/
+
+# Nested Raycast extensions fork — its own git repo; .git/config embeds an
+# OAuth token in the remote URL, so it must never be added from this repo.
+raycast/public-extensions-fork/
