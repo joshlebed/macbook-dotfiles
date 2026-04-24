@@ -36,6 +36,11 @@ symlinks:
     target: ~/Library/Application Support/Cursor/User/keybindings.json
     os: macos
 
+  - source: .hammerspoon/init.lua
+    target: ~/.hammerspoon/init.lua
+    os: macos
+    reason: Hammerspoon config (replaces Slate for window switching)
+
   - source: qq
     target: ~/.qq
     os: macos
