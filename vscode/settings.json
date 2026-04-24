@@ -155,7 +155,7 @@
   "security.promptForLocalFileProtocolHandling": false,
   "comments.visible": false,
   "githubPullRequests.pullBranch": "never",
-  "update.releaseTrack": "prerelease",
+  "update.releaseTrack": "dev",
   "typescript.tsserver.log": "off",
   "terminal.external.osxExec": "iTerm.app",
   "remote.SSH.remotePlatform": {
@@ -177,6 +177,7 @@
   },
   "claudeCode.allowDangerouslySkipPermissions": true,
   "claudeCode.initialPermissionMode": "bypassPermissions",
-  "makefile.configureOnOpen": true
+  "makefile.configureOnOpen": true,
+  "update.mode": "silentlyApplyOnQuit"
   // "biome.lsp.trace.server": "verbose"
 }
