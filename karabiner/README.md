@@ -97,8 +97,8 @@ the one you want active.
 
 Several nav_mode bindings emit F-key combinations that are **not final
 actions** — they're intermediate signals consumed by other automation tools
-(Keyboard Maestro, AeroSpace, etc.). If you see a mapping that outputs an F16,
-F17, or F18 combo, check what downstream tool is listening for it before
+(Keyboard Maestro, Hammerspoon, etc.). If you see a mapping that outputs an
+F16, F17, or F18 combo, check what downstream tool is listening for it before
 changing it.
 
 ## Devices
@@ -107,19 +107,10 @@ The config includes device entries with vendor/product IDs. Devices with
 `simple_modifications: switch_command_and_option` are external keyboards that
 need Cmd/Option swapped (non-Apple layout).
 
-## AeroSpace integration (work in progress)
-
-AeroSpace (tiling window manager) is configured in `~/.config/.aerospace.toml`
-but **not yet active by default**. It consumes several F16 combos from
-Karabiner's nav_mode bindings for window focus, move, and workspace switching.
-See `aerospace-setup-todo.md` in the repo root for the remaining manual steps
-and verification checklist needed before switching it on. Until then, those F16
-signals are still consumed by Keyboard Maestro.
-
 ## TODO: document these
 
 - [ ] Map which downstream tool consumes each F16/F17/F18 combo (KM macro names
-      or AeroSpace bindings) so the connection is traceable
+      or Hammerspoon bindings) so the connection is traceable
 - [ ] Identify the 3 device vendor/product IDs (which physical keyboards are
       1452:832, 9494:4, 12951:6505?)
 - [ ] Clarify what `quickfire_karabiner.js` is — still used or dead code?
