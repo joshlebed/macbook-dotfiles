@@ -94,6 +94,7 @@ CASKS=(
     raycast
     rectangle
     contexts
+    hammerspoon
     keyboard-maestro
     bartender
     logi-options-plus

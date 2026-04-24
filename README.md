@@ -28,12 +28,12 @@ That's it! The script handles everything:
 
 Some apps need manual setup after running the script:
 
-| App              | Setup                                                |
-| ---------------- | ---------------------------------------------------- |
-| Keyboard Maestro | File → Start Syncing Macros → `km_macros.kmsync`     |
-| iTerm2           | Preferences → General → Load from `~/.config/iterm2` |
-| Slate            | [Download DMG](https://github.com/jigish/slate)      |
-| Google Drive     | Sign in                                              |
+| App              | Setup                                                        |
+| ---------------- | ------------------------------------------------------------ |
+| Keyboard Maestro | File → Start Syncing Macros → `km_macros.kmsync`             |
+| iTerm2           | Preferences → General → Load from `~/.config/iterm2`         |
+| Hammerspoon      | Grant Accessibility permission; enable "Launch at login"     |
+| Google Drive     | Sign in                                                      |
 
 ### Adding New Config Files
 
@@ -120,6 +120,7 @@ limited install (skips system packages).
 - [Raycast](https://www.raycast.com/) - launcher (Spotlight replacement)
 - [Rectangle](https://rectangleapp.com/) - window management
 - [Contexts](https://contexts.co/) - window switcher (alt-tab replacement)
+- [Hammerspoon](https://www.hammerspoon.org/) - Lua-scripted automation; runs the directional window switcher (successor to [Slate](https://github.com/jigish/slate))
 - [iTerm2](https://iterm2.com/) - terminal
 - [Bartender](https://www.macbartender.com/) - menu bar management
 - [Finicky](https://github.com/johnste/finicky) - browser routing
