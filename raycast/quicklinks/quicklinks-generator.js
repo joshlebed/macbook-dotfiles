@@ -141,6 +141,18 @@ const finderLinks = [
     name: "Soulseek",
     link: "~/Music/soulseek",
   },
+  {
+    name: "Applications",
+    link: "/Applications/",
+  },
+  {
+    name: "Documents",
+    link: "~/Documents/",
+  },
+  {
+    name: "Screenshots",
+    link: "~/Documents/screenshots/",
+  },
 ];
 
 // directories to open in cursor
@@ -156,10 +168,6 @@ const cursorLinks = [
   {
     name: "Gentrace Scripts",
     link: "~/code/gentrace-dev-shell-scripts/gentrace_aliases.sh",
-  },
-  {
-    name: "Niteshift",
-    link: "~/code/niteshift/",
   },
   {
     name: "Libsync",

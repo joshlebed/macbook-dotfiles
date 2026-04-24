@@ -54,6 +54,9 @@
   },
   {"link": "~/Downloads/", "name": "Downloads"},
   {"link": "~/Music/soulseek", "name": "Soulseek"},
+  {"link": "/Applications/", "name": "Applications"},
+  {"link": "~/Documents/", "name": "Documents"},
+  {"link": "~/Documents/screenshots/", "name": "Screenshots"},
   {"link": "~/.config/", "name": "Config", "openWith": "Cursor"},
   {"link": "~/code/gentrace/", "name": "Gentrace", "openWith": "Cursor"},
   {
@@ -61,6 +64,5 @@
     "name": "Gentrace Scripts",
     "openWith": "Cursor"
   },
-  {"link": "~/code/niteshift/", "name": "Niteshift", "openWith": "Cursor"},
   {"link": "~/code/lib-sync/", "name": "Libsync", "openWith": "Cursor"}
 ]
