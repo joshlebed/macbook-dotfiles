@@ -19,6 +19,14 @@ symlinks:
     target: ~/.claude/settings.json
     reason: Claude Code settings
 
+  - source: claude/skills
+    target: ~/.claude/skills
+    reason: User-level Claude Code skills
+
+  - source: claude/commands
+    target: ~/.claude/commands
+    reason: User-level Claude Code slash commands
+
   # VS Code / Cursor - macOS
   - source: vscode/settings.json
     target: ~/Library/Application Support/Code/User/settings.json
@@ -71,6 +79,24 @@ hardlinks:
     reason: Finicky doesn't follow symlinks
 
 copies:
+  # Claude Code plugin state — Claude writes to these, so we copy instead of link
+  # Caches/marketplaces/repos live under ~/.claude/plugins/ and are NOT synced
+  - source: claude/plugins/installed_plugins.json
+    target: ~/.claude/plugins/installed_plugins.json
+    reason: Declarative list of installed plugins
+
+  - source: claude/plugins/known_marketplaces.json
+    target: ~/.claude/plugins/known_marketplaces.json
+    reason: Configured plugin marketplaces
+
+  - source: claude/plugins/config.json
+    target: ~/.claude/plugins/config.json
+    reason: Plugin config
+
+  - source: claude/plugins/blocklist.json
+    target: ~/.claude/plugins/blocklist.json
+    reason: Plugin blocklist
+
   # Plist files - apps overwrite these, so we copy instead of link
   # Use ./scripts/export-preferences.sh to sync changes back to repo
   - source: preferences/com.contextsformac.Contexts.plist

@@ -1,0 +1,18 @@
+{
+  "claude-extras": {
+    "source": {
+      "source": "github",
+      "repo": "joshlebed/claude-extras"
+    },
+    "installLocation": "/Users/joshlebed/.claude/plugins/marketplaces/claude-extras",
+    "lastUpdated": "2026-04-16T08:33:52.573Z"
+  },
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "/Users/joshlebed/.claude/plugins/marketplaces/claude-plugins-official",
+    "lastUpdated": "2026-04-23T21:55:45.081Z"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "version": 2,
+  "plugins": {
+    "project-plan@claude-extras": [
+      {
+        "scope": "user",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-extras/project-plan/1.0.10",
+        "version": "1.0.10",
+        "installedAt": "2026-02-12T21:01:35.681Z",
+        "lastUpdated": "2026-02-12T21:02:18.412Z",
+        "gitCommitSha": "eb4526d1e5d5f18b4634357ac77f3d604ca99236"
+      }
+    ],
+    "pr-workflow@claude-extras": [
+      {
+        "scope": "user",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-extras/pr-workflow/1.0.4",
+        "version": "1.0.4",
+        "installedAt": "2026-02-12T21:01:35.681Z",
+        "lastUpdated": "2026-02-12T21:02:18.412Z",
+        "gitCommitSha": "eb4526d1e5d5f18b4634357ac77f3d604ca99236"
+      }
+    ],
+    "github@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/github/unknown",
+        "version": "unknown",
+        "installedAt": "2026-02-12T21:02:18.486Z",
+        "lastUpdated": "2026-03-27T21:59:42.909Z",
+        "gitCommitSha": "2cd88e7947b7382e045666abee790c7f55f669f3"
+      }
+    ],
+    "superpowers@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7",
+        "version": "5.0.7",
+        "installedAt": "2026-03-15T20:42:01.053Z",
+        "lastUpdated": "2026-03-31T20:26:36.344Z",
+        "gitCommitSha": "363923f74aa9cd7b470c0aaa73dee629a8bfdc90"
+      }
+    ],
+    "slack@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/slack/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-02T00:13:04.345Z",
+        "lastUpdated": "2026-04-02T00:13:04.345Z",
+        "gitCommitSha": "7b9458950d38bb01ddb48b669f9fa89bcdfd98b8"
+      }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/joshlebed/code/citibike-checker",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/frontend-design/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-07T17:18:14.876Z",
+        "lastUpdated": "2026-04-07T17:18:14.876Z"
+      },
+      {
+        "scope": "project",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/frontend-design/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-23T03:18:56.939Z",
+        "lastUpdated": "2026-04-23T03:18:56.939Z",
+        "projectPath": "/Users/joshlebed/code/workshop"
+      }
+    ],
+    "clangd-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/clangd-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-21T09:15:08.496Z",
+        "lastUpdated": "2026-04-21T09:15:08.496Z"
+      }
+    ]
+  }
+}
