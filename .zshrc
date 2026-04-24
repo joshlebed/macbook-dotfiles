@@ -280,3 +280,44 @@ alias vi="nvim"
 
 # raise macOS file descriptor limit (default 256 is too low for Next.js dev server)
 # ulimit -n unlimited
+
+doc-from-task () {
+	local remote_path task_input task_id local_file niteshift_root
+	niteshift_root="${_NITESHIFT_ROOT:-$HOME/code/niteshift}"
+
+	printf "Remote file path inside the task (e.g. docs/plans/foo.md): "
+	read -r remote_path
+	if [ -z "$remote_path" ]; then
+		echo "doc-from-task: remote path is required" >&2
+		return 1
+	fi
+
+	printf "Task URL or task ID: "
+	read -r task_input
+	if [ -z "$task_input" ]; then
+		echo "doc-from-task: task is required" >&2
+		return 1
+	fi
+
+	task_id="${task_input##*/}"
+	if [[ "$task_id" != task_int_* ]]; then
+		echo "doc-from-task: could not parse task ID from '$task_input'" >&2
+		return 1
+	fi
+
+	case "$remote_path" in
+		/*) ;;
+		*) remote_path="/root/niteshift/$remote_path" ;;
+	esac
+
+	local_file="/tmp/$(basename "$remote_path")"
+
+	echo "Copying $task_id:$remote_path -> $local_file"
+	if ! niteshift cp "$task_id:$remote_path" "$local_file"; then
+		echo "doc-from-task: niteshift cp failed" >&2
+		return 1
+	fi
+
+	echo "Uploading $local_file to Notion..."
+	make -C "$niteshift_root" doc FILE="$local_file"
+}
