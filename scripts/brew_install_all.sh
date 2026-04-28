@@ -96,7 +96,7 @@ CASKS=(
     contexts
     hammerspoon
     keyboard-maestro
-    bartender
+    thaw
     logi-options-plus
     hazeover
     slack

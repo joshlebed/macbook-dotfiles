@@ -111,6 +111,6 @@ copies:
     target: ~/Library/Preferences/com.raycast.macos.plist
     os: macos
 
-  - source: preferences/com.surteesstudios.Bartender.plist
-    target: ~/Library/Preferences/com.surteesstudios.Bartender.plist
+  - source: preferences/com.stonerl.Thaw.plist
+    target: ~/Library/Preferences/com.stonerl.Thaw.plist
     os: macos

@@ -33,6 +33,7 @@ Some apps need manual setup after running the script:
 | Keyboard Maestro | File → Start Syncing Macros → `km_macros.kmsync`             |
 | iTerm2           | Preferences → General → Load from `~/.config/iterm2`         |
 | Hammerspoon      | Grant Accessibility permission; enable "Launch at login"     |
+| Thaw             | Grant Accessibility/Screen Recording; enable launch at login |
 | Google Drive     | Sign in                                                      |
 
 ### Adding New Config Files
@@ -54,7 +55,7 @@ Then run `./scripts/link-files.sh`.
 
 ### Syncing Preferences Between Machines
 
-Some macOS apps (Contexts, Rectangle, Raycast, Bartender) store settings in
+Some macOS apps (Contexts, Rectangle, Raycast, Thaw) store settings in
 plist files that get copied (not symlinked) because the apps overwrite them.
 
 **To sync settings from this machine to the repo:**
@@ -122,7 +123,7 @@ limited install (skips system packages).
 - [Contexts](https://contexts.co/) - window switcher (alt-tab replacement)
 - [Hammerspoon](https://www.hammerspoon.org/) - Lua-scripted automation; runs the directional window switcher (successor to [Slate](https://github.com/jigish/slate))
 - [iTerm2](https://iterm2.com/) - terminal
-- [Bartender](https://www.macbartender.com/) - menu bar management
+- [Thaw](https://github.com/stonerl/Thaw/) - menu bar management
 - [Finicky](https://github.com/johnste/finicky) - browser routing
 
 ### Editors
