@@ -178,6 +178,9 @@
   "claudeCode.allowDangerouslySkipPermissions": true,
   "claudeCode.initialPermissionMode": "bypassPermissions",
   "makefile.configureOnOpen": true,
-  "update.mode": "silentlyApplyOnQuit"
+  "update.mode": "silentlyApplyOnQuit",
+  "[mdx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
   // "biome.lsp.trace.server": "verbose"
 }

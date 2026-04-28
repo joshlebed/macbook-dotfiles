@@ -30,6 +30,7 @@ uv/uv-receipt.json
 tmuxai/history
 tmuxai/tmuxai.log
 AWSVPNClient
+mintlify/
 
 **/.claude/settings.local.json
 claude/notify-end.log

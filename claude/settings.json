@@ -84,14 +84,15 @@
     "enabled": true,
     "mode": "hold"
   },
+  "autoMemoryEnabled": false,
   "autoDreamEnabled": true,
   "skipDangerousModePermissionPrompt": true,
+  "preferredNotifChannel": "iterm2",
+  "teammateMode": "tmux",
+  "remoteControlAtStartup": false,
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754086973944
-  },
-  "preferredNotifChannel": "iterm2",
-  "teammateMode": "tmux",
-  "remoteControlAtStartup": false
+  }
 }

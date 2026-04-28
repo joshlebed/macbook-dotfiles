@@ -57,14 +57,19 @@ alias gs="git status"
 #     fi
 # }
 
-# AWS CLI wrapper - auto-switch profile based on repo
+# AWS CLI wrapper - auto-switch profile based on repo, but only if the caller
+# hasn't set AWS_PROFILE explicitly. Banners go to stderr so they don't
+# pollute stdout when output is piped/captured.
 aws() {
+    if [[ -n "$AWS_PROFILE" ]]; then
+        command aws "$@"
+        return
+    fi
     local remote_url=$(git config --get remote.origin.url 2>/dev/null)
     if [[ "$remote_url" =~ joshlebed ]]; then
-        echo "running aws with josh-personal profile"
+        echo "running aws with josh-personal profile" >&2
         AWS_PROFILE=josh-personal command aws "$@"
     else
-        echo "running aws with default profile"
         command aws "$@"
     fi
 }
