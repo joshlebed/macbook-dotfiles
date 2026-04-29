@@ -159,13 +159,32 @@ ensure_parent_dir() {
 backup_existing() {
     local target="$1"
     if [[ -e "$target" ]] && [[ ! -L "$target" ]]; then
-        mv "$target" "${target}.old"
+        local backup
+        backup=$(timestamped_backup_path "$target")
+        mv "$target" "$backup"
         return 0
     elif [[ -L "$target" ]]; then
         rm "$target"
         return 0
     fi
     return 1
+}
+
+timestamped_backup_path() {
+    local target="$1"
+    local timestamp
+    local backup
+    local counter=1
+
+    timestamp=$(date +%Y%m%d-%H%M%S)
+    backup="${target}.old.${timestamp}"
+
+    while [[ -e "$backup" ]]; do
+        backup="${target}.old.${timestamp}.${counter}"
+        ((counter++))
+    done
+
+    echo "$backup"
 }
 
 create_symlink() {
@@ -246,7 +265,11 @@ copy_file() {
     fi
 
     ensure_parent_dir "$target"
-    [[ -f "$target" ]] && mv "$target" "${target}.old"
+    if [[ -f "$target" ]]; then
+        local backup
+        backup=$(timestamped_backup_path "$target")
+        mv "$target" "$backup"
+    fi
     cp "$source" "$target"
     log_create "Copied: $name"; ((TOTAL_CREATED++))
 }

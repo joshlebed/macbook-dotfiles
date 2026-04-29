@@ -81,7 +81,18 @@ alias gcb="git checkout -b"
 alias gpp="git push --set-upstream origin"
 alias config="cd ~/.config"
 alias history="code ~/.zsh_history"
-alias restart-ha='curl -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhOWE5YmVkMDQ5YTY0MjUxOGY0OTc1ZTYzMTIxNjA3NCIsImlhdCI6MTY2NjA3MDIyMSwiZXhwIjoxOTgxNDMwMjIxfQ.Dz_oPS2tIup2PB89bi6SFAZHxortQh3kZ5hrw-gWdu4" -H "Content-Type: application/json" 192.168.0.181:8123/api/services/homeassistant/restart'
+restart-ha() {
+  if [[ -z "${HOME_ASSISTANT_TOKEN:-}" ]]; then
+    echo "restart-ha: HOME_ASSISTANT_TOKEN is not set. Add it to ~/.environment-specifics.zshrc." >&2
+    return 1
+  fi
+
+  local home_assistant_url="${HOME_ASSISTANT_URL:-http://192.168.0.181:8123}"
+  curl -X POST \
+    -H "Authorization: Bearer ${HOME_ASSISTANT_TOKEN}" \
+    -H "Content-Type: application/json" \
+    "${home_assistant_url%/}/api/services/homeassistant/restart"
+}
 alias reload-zsh-config="source ~/.zshrc"
 alias z="source ~/.zshrc"
 alias temp='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'

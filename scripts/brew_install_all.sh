@@ -16,7 +16,45 @@ log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
 log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_DIR="$(dirname "$SCRIPT_DIR")"
+BREWFILE="$CONFIG_DIR/Brewfile"
+
 FAILURES=()
+SKIP_APPS=false
+
+show_help() {
+    cat << EOF
+Homebrew Installation and Package Setup for macOS
+
+Usage: $(basename "$0") [OPTIONS]
+
+Options:
+    -h, --help       Show this help message
+    --skip-apps      Skip GUI application casks
+
+Uses: $BREWFILE
+
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            show_help
+            exit 0
+            ;;
+        --skip-apps)
+            SKIP_APPS=true
+            shift
+            ;;
+        *)
+            log_error "Unknown option: $1"
+            echo "Use --help for usage information"
+            exit 1
+            ;;
+    esac
+done
 
 # ============================================================================
 # Install Homebrew (if not already installed)
@@ -36,88 +74,31 @@ else
 fi
 
 # ============================================================================
-# CLI Tools (formulae)
+# Packages from Brewfile
 # ============================================================================
 
-log_info "Installing CLI tools..."
-
-FORMULAE=(
-    git
-    gh
-    fzf
-    tmux
-    node
-    pnpm
-    yarn
-    nvm
-    rye
-    uv
-    pipx
-    rustup-init
-)
-
-for formula in "${FORMULAE[@]}"; do
-    if brew list "$formula" &>/dev/null; then
-        log_info "$formula already installed"
-    else
-        log_info "Installing $formula..."
-        if ! brew install "$formula"; then
-            log_error "Failed to install $formula"
-            FAILURES+=("$formula")
-        fi
-    fi
-done
-
-# shell-ai from tap
-if ! brew list shell-ai &>/dev/null; then
-    if ! (brew tap ibigio/tap && brew install shell-ai); then
-        log_error "Failed to install shell-ai"
-        FAILURES+=("shell-ai")
-    fi
-else
-    log_info "shell-ai already installed"
+if [[ ! -f "$BREWFILE" ]]; then
+    log_error "Brewfile not found: $BREWFILE"
+    exit 1
 fi
 
-# ============================================================================
-# GUI Applications (casks)
-# ============================================================================
+bundle_file="$BREWFILE"
+temp_brewfile=""
 
-log_info "Installing GUI applications..."
+if [[ "$SKIP_APPS" == true ]]; then
+    log_warning "Skipping GUI applications (--skip-apps)"
+    temp_brewfile=$(mktemp)
+    awk '$1 != "cask" { print }' "$BREWFILE" > "$temp_brewfile"
+    bundle_file="$temp_brewfile"
+fi
 
-CASKS=(
-    iterm2
-    google-chrome
-    visual-studio-code
-    cursor
-    font-fira-code
-    karabiner-elements
-    raycast
-    rectangle
-    contexts
-    hammerspoon
-    keyboard-maestro
-    thaw
-    logi-options-plus
-    hazeover
-    slack
-    google-drive
-    finicky
-    ticktick
-    docker
-    # intellij-idea
-)
+log_info "Installing Homebrew packages from $(basename "$BREWFILE")..."
+if ! brew bundle --file "$bundle_file" --no-upgrade; then
+    log_error "Failed to install Homebrew packages from Brewfile"
+    FAILURES+=("brew-bundle")
+fi
 
-for cask in "${CASKS[@]}"; do
-    if brew list --cask "$cask" &>/dev/null; then
-        log_info "$cask already installed"
-    else
-        log_info "Installing $cask..."
-        if ! brew install --cask "$cask"; then
-            log_error "Failed to install $cask"
-            FAILURES+=("$cask")
-        fi
-    fi
-done
+[[ -n "$temp_brewfile" ]] && rm -f "$temp_brewfile"
 
 # ============================================================================
 # Claude Code via npm (enables auto-updates)

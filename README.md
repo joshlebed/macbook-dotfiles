@@ -21,7 +21,9 @@ That's it! The script handles everything:
 ```bash
 ./scripts/setup-macos.sh --dry-run   # Preview changes
 ./scripts/setup-macos.sh --skip-brew # Skip Homebrew
+./scripts/setup-macos.sh --skip-apps # Install CLI tools, skip GUI apps
 ./scripts/verify-setup.sh            # Check setup status
+./scripts/audit-brew.sh              # Compare installed Homebrew packages to Brewfile
 ```
 
 ### Manual App Configuration
@@ -53,10 +55,35 @@ symlinks:
 
 Then run `./scripts/link-files.sh`.
 
+### Local Environment Secrets
+
+Local-only shell secrets live in `~/.environment-specifics.zshrc`, which is
+ignored by git and sourced from `.zshrc`.
+
+```bash
+cp ~/.config/.environment-specifics.example.zshrc ~/.environment-specifics.zshrc
+chmod 600 ~/.environment-specifics.zshrc
+```
+
+### Homebrew Packages
+
+`Brewfile` is the curated Homebrew baseline used by the macOS setup script.
+
+```bash
+./scripts/brew_install_all.sh        # Install Brewfile packages
+./scripts/brew_install_all.sh --skip-apps
+./scripts/audit-brew.sh              # Report installed-vs-declared drift
+```
+
+If `audit-brew.sh` reports an installed package that should be part of the
+baseline, add it to `Brewfile`. If it reports a stale package, uninstall it.
+
 ### Syncing Preferences Between Machines
 
 Some macOS apps (Contexts, Rectangle, Raycast, Thaw) store settings in
 plist files that get copied (not symlinked) because the apps overwrite them.
+When `link-files.sh` overwrites an existing copied file, it first saves a
+timestamped backup next to the target, for example `com.raycast.macos.plist.old.20260429-113000`.
 
 **To sync settings from this machine to the repo:**
 
@@ -88,12 +115,14 @@ limited install (skips system packages).
 ~/.config/
 ├── config/
 │   └── file-mappings.yaml   # All symlink/hardlink/copy definitions
+├── Brewfile                  # Declarative Homebrew baseline
 ├── scripts/
 │   ├── setup-macos.sh        # macOS setup (run this)
 │   ├── setup-linux-dev.sh    # Linux setup
 │   ├── link-files.sh         # Apply file mappings
 │   ├── verify-setup.sh       # Check setup status
 │   ├── export-preferences.sh # Export app prefs to repo
+│   ├── audit-brew.sh         # Report Homebrew drift from Brewfile
 │   ├── brew_install_all.sh   # Homebrew packages
 │   ├── install_zsh_and_omz.sh
 │   └── clear-notifications.sh  # Clear all macOS notifications

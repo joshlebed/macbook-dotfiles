@@ -37,10 +37,10 @@ MAGENTA='\033[0;35m'
 DIM='\033[2m'
 NC='\033[0m'
 
-log_pass() { echo -e "${GREEN}  ✓${NC} $1"; ((PASS++)); }
-log_warn() { echo -e "${YELLOW}  ⚠${NC} $1"; ((WARN++)); }
-log_fail() { echo -e "${RED}  ✗${NC} $1"; ((FAIL++)); }
-log_info() { echo -e "${DIM}  ○${NC} $1"; }
+log_pass() { echo -e "${GREEN}  ✓${NC} $1"; ((PASS++)); return 0; }
+log_warn() { echo -e "${YELLOW}  ⚠${NC} $1"; ((WARN++)); return 0; }
+log_fail() { echo -e "${RED}  ✗${NC} $1"; ((FAIL++)); return 0; }
+log_info() { echo -e "${DIM}  ○${NC} $1"; return 0; }
 log_section() { echo -e "\n${MAGENTA}$1${NC}"; }
 
 # ============================================================================
@@ -59,11 +59,23 @@ done
 # ============================================================================
 
 check_command() {
-    command -v "$1" >/dev/null 2>&1 && log_pass "${2:-$1} installed" || log_fail "${2:-$1} not installed"
+    if command -v "$1" >/dev/null 2>&1; then
+        log_pass "${2:-$1} installed"
+        return 0
+    else
+        log_fail "${2:-$1} not installed"
+        return 1
+    fi
 }
 
 check_dir() {
-    [[ -d "$1" ]] && log_pass "$2 exists" || log_fail "$2 missing"
+    if [[ -d "$1" ]]; then
+        log_pass "$2 exists"
+        return 0
+    else
+        log_fail "$2 missing"
+        return 1
+    fi
 }
 
 # ============================================================================
@@ -74,7 +86,11 @@ verify_prerequisites() {
     log_section "Prerequisites"
 
     if [[ "$CURRENT_OS" == "macos" ]]; then
-        command -v xcode-select >/dev/null 2>&1 && xcode-select -p &>/dev/null && log_pass "Xcode CLI tools" || log_warn "Xcode CLI tools"
+        if command -v xcode-select >/dev/null 2>&1 && xcode-select -p &>/dev/null; then
+            log_pass "Xcode CLI tools"
+        else
+            log_warn "Xcode CLI tools"
+        fi
         check_command brew "Homebrew"
     else
         check_command apt "Package manager (apt)" || check_command dnf "Package manager (dnf)" || check_command pacman "Package manager (pacman)" || true
@@ -110,6 +126,73 @@ verify_tools() {
         log_pass "Claude Code"
     else
         log_info "Claude Code (optional)"
+    fi
+}
+
+verify_local_environment() {
+    log_section "Local Environment"
+
+    local env_file="$HOME/.environment-specifics.zshrc"
+    local example_file="$SCRIPT_DIR/../.environment-specifics.example.zshrc"
+
+    if [[ -f "$env_file" ]]; then
+        log_pass "~/.environment-specifics.zshrc exists"
+
+        local mode
+        if [[ "$CURRENT_OS" == "macos" ]]; then
+            mode=$(stat -f %Lp "$env_file" 2>/dev/null)
+        else
+            mode=$(stat -c %a "$env_file" 2>/dev/null)
+        fi
+
+        if [[ -n "$mode" && "$mode" -le 600 ]]; then
+            log_pass "~/.environment-specifics.zshrc permissions"
+        else
+            log_warn "~/.environment-specifics.zshrc should be chmod 600"
+        fi
+
+        if grep -Eq '^(export[[:space:]]+)?HOME_ASSISTANT_URL=' "$env_file"; then
+            log_pass "HOME_ASSISTANT_URL configured"
+        else
+            log_warn "HOME_ASSISTANT_URL missing"
+        fi
+
+        if grep -Eq '^(export[[:space:]]+)?HOME_ASSISTANT_TOKEN=' "$env_file"; then
+            log_pass "HOME_ASSISTANT_TOKEN configured"
+        else
+            log_warn "HOME_ASSISTANT_TOKEN missing"
+        fi
+    else
+        log_warn "~/.environment-specifics.zshrc missing"
+        if [[ -f "$example_file" ]]; then
+            echo -e "${DIM}    Start with: cp ~/.config/.environment-specifics.example.zshrc ~/.environment-specifics.zshrc${NC}"
+        fi
+    fi
+}
+
+verify_homebrew_bundle() {
+    [[ "$CURRENT_OS" != "macos" ]] && return
+
+    log_section "Homebrew Bundle"
+
+    local audit_script="$SCRIPT_DIR/audit-brew.sh"
+    local brewfile="$SCRIPT_DIR/../Brewfile"
+
+    if [[ ! -f "$brewfile" ]]; then
+        log_warn "Brewfile missing"
+        return
+    fi
+
+    if [[ ! -x "$audit_script" ]]; then
+        log_warn "audit-brew.sh missing or not executable"
+        return
+    fi
+
+    if "$audit_script" >/dev/null 2>&1; then
+        log_pass "Installed Homebrew packages match Brewfile"
+    else
+        log_warn "Homebrew packages differ from Brewfile"
+        echo -e "${DIM}    Run: ./scripts/audit-brew.sh${NC}"
     fi
 }
 
@@ -224,6 +307,8 @@ echo -e "${MAGENTA}╚═══════════════════�
 verify_prerequisites
 verify_shell
 verify_tools
+verify_local_environment
+verify_homebrew_bundle
 verify_apps
 verify_file_mappings
 verify_keyboard_shortcuts

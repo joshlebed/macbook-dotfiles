@@ -95,6 +95,7 @@ Examples:
     $(basename "$0")              # Full setup
     $(basename "$0") --dry-run    # Preview changes
     $(basename "$0") --skip-brew  # Skip brew, just do symlinks
+    $(basename "$0") --skip-apps  # Install CLI tools, skip GUI apps
 
 EOF
     exit 0
@@ -209,10 +210,14 @@ step_homebrew() {
 
     if [[ "$SKIP_APPS" == true ]]; then
         log_info "Installing CLI tools only (--skip-apps)"
-        # TODO: Add a flag to brew_install_all.sh for CLI-only mode
+        if [[ "$DRY_RUN" == true ]]; then
+            log_step "[DRY-RUN] Would run: Homebrew CLI tools"
+        else
+            run_script_with_args "$SCRIPT_DIR/brew_install_all.sh" "--skip-apps" "Homebrew CLI tools"
+        fi
+    else
+        run_script "$SCRIPT_DIR/brew_install_all.sh" "Homebrew and packages"
     fi
-
-    run_script "$SCRIPT_DIR/brew_install_all.sh" "Homebrew and packages"
 }
 
 step_shell() {
