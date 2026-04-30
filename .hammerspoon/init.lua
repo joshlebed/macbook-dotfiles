@@ -4,26 +4,19 @@
 -- Editing any *.lua under ~/.hammerspoon/ also auto-reloads via the pathwatcher below.
 
 -- Directional window focus.
--- Flat global ordering by window center-X: every window in the filter gets a
--- slot in the list, and F16 / Shift+F16 step one slot at a time. Unlike
--- hs.window.filter:focusWindowEast, windows occluded behind others at the same
--- X are not skipped -- they're just a later step in the traversal.
+-- Flat global ordering by window center-X: every visible window passing
+-- is_focus_candidate gets a slot in the list, and F16 / Shift+F16 step one
+-- slot at a time. Unlike hs.window.filter:focusWindowEast, windows occluded
+-- behind others at the same X are not skipped -- they're just a later step in
+-- the traversal.
 --
--- The filter decides broad membership/current Space. The final candidate list
--- is built from live hs.window.visibleWindows() objects so stale filter objects
--- with empty titles/frames cannot steal a slot.
+-- We iterate hs.window.visibleWindows() directly rather than gating on
+-- hs.window.filter membership: the filter relies on per-app AX subscriptions
+-- and silently drops some Electron apps (e.g. Linear).
 local REJECT_TITLE_PATTERNS = {
   "^Find in page",
   "^MenuBarCover",
 }
-
-local switcher = hs.window.filter.new()
-  :setDefaultFilter({})
-  :setOverrideFilter({
-    visible = true,
-    currentSpace = true,
-    rejectTitles = REJECT_TITLE_PATTERNS,
-  })
 
 local function safe_value(fallback, fn)
   local ok, value = pcall(fn)
@@ -122,26 +115,13 @@ local function sort_windows(wins)
   return sorted
 end
 
-local function window_id_set(wins)
-  local ids = {}
-  for _, win in ipairs(wins or {}) do
-    local id = window_id(win)
-    if id then ids[id] = true end
-  end
-  return ids
-end
-
 local function ordered_windows()
-  local allowed_ids = window_id_set(switcher:getWindows())
   local wins = {}
-
   for _, win in ipairs(hs.window.visibleWindows()) do
-    local id = window_id(win)
-    if id and allowed_ids[id] and is_focus_candidate(win) then
+    if is_focus_candidate(win) then
       table.insert(wins, win)
     end
   end
-
   return sort_windows(wins)
 end
 

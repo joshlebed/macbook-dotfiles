@@ -8,6 +8,33 @@ reload Hammerspoon automatically, verify that logging is live, then ask the user
 for one focused reproduction pass. Do not make the user paste console logs unless
 Hammerspoon fails before file logging starts.
 
+## Maintaining This Runbook
+
+This doc is a living mirror of `init.lua`. When you change one, change the
+other. Before reporting any debugging task complete:
+
+- If you changed how candidates are built, scored, or filtered in `init.lua`,
+  update the "Current Design" section here so it matches what the code actually
+  does.
+- If you discovered a new app-specific gotcha (an Electron app that is invisible
+  to some Hammerspoon API, a window-server quirk, an OS behavior, a bundle id
+  that misbehaves), record it under "Current Design" or "Interpreting Logs" so
+  the next agent does not rediscover it from scratch.
+- If you removed, renamed, or added a global helper (`wsDump`, `wsLogPath`,
+  `wsDebugOn`, …) or a local in `init.lua` that this doc references
+  (`ordered_windows`, `is_focus_candidate`, `app_info`, `frame_info`,
+  `window_id`, `safe_value`, `sort_windows`, `REJECT_TITLE_PATTERNS`, …),
+  search this file for the old name and update or remove every reference.
+- If a code snippet here would no longer load against the current `init.lua`
+  (it references a deleted local, or assumes a removed global), fix the
+  snippet so a future agent can paste it in and have it work.
+- Add a short entry to "Bugs Fixed" describing the bug and the fix, including
+  the date. Do not delete old entries; future regressions are easier to spot
+  with the history visible.
+
+After editing, read the doc end-to-end once with the lens: could a fresh agent
+who has never seen this codebase actually follow these instructions today?
+
 ## Runtime Facts
 
 - Repo file: `/Users/joshlebed/.config/.hammerspoon/init.lua`
@@ -38,38 +65,51 @@ window list. Prefer CLI calls and file logs.
 
 ## Current Design
 
-The switcher uses a two-stage candidate model:
+The switcher uses a single-stage candidate model. `init.lua` iterates
+`hs.window.visibleWindows()` and runs each window through `is_focus_candidate`.
+Anything that passes goes into the list, sorted by window center-X.
 
-1. `hs.window.filter` provides broad membership:
-   - visible windows
-   - current Space
-   - rejected junk titles like `Find in page` and `MenuBarCover`
-2. `hs.window.visibleWindows()` provides the final live `hs.window` objects.
+`is_focus_candidate` rejects:
 
-The final live-window step matters. `hs.window.filter` can hold stale objects:
-we observed an `iTerm2` object with the same window id as the real terminal
-window, but with an empty title, blank role, and a `0x0` frame. Using live
-visible windows gated by filter membership avoided that stale object taking a
-switching slot.
+- minimized windows
+- non-standard AX windows (this also catches the 0×0/blank-role iTerm2
+  stale-object case earlier versions of this code worried about)
+- zero frame area
+- Hammerspoon itself (`org.hammerspoon.Hammerspoon`)
+- titles matching `REJECT_TITLE_PATTERNS` (`Find in page`, `MenuBarCover`)
+- empty titles, unless the bundle id starts with `com.google.Chrome.app.`
+  (Chrome app-mode windows with empty titles are allowed if they have a real
+  app name and a standard nonzero window)
 
-Expected final candidate rules:
+`hs.window.visibleWindows()` empirically returns only current-Space windows on
+this machine, so we did not lose anything by dropping the filter.
 
-- not minimized
-- standard AX window
-- nonzero frame area
-- not Hammerspoon itself
-- title not blacklisted
-- empty title is rejected unless the bundle id starts with
-  `com.google.Chrome.app.`
-- Chrome app-mode windows with empty titles are allowed if they have a real app
-  name and a standard nonzero window
+### Why we removed `hs.window.filter`
 
-Known Chrome app behavior:
+Earlier versions ran a `hs.window.filter` and intersected its membership with
+`hs.window.visibleWindows()`. The filter relies on per-app AX subscriptions and
+silently drops some apps — Linear (`com.linear`) was the documented case: its
+window was visible, standard, with a real title and a real frame, but never
+appeared in `switcher:getWindows()`. The intersection then dropped Linear from
+the switcher even though it was a perfectly valid focus target.
+
+If you find yourself wanting to add a filter back, first check whether
+`is_focus_candidate` already does what you need. If you genuinely need filter
+membership (e.g. for event subscriptions), assume the filter does not see every
+visible window and union, do not intersect.
+
+### Known Chrome app behavior
 
 - Chrome app windows can be valid focusable windows while reporting `title=""`.
 - Examples observed:
   - `Niteshift`: `com.google.Chrome.app.ncgboinjakipfpjhkgpeoibgpgkedjba`
   - `Google Calendar`: `com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep`
+
+### Known Electron / window-filter gap
+
+- `hs.window.filter` does not track Linear (`com.linear`) at all. Other Electron
+  apps may have the same problem. Do not treat filter membership as ground
+  truth for "windows that exist".
 
 ## Invariants To Check
 
@@ -101,10 +141,23 @@ Look for:
 - `candidate = false` if the helper is expanded to include rejected windows
 
 If `wsDump()` already shows the skipped window in the active list, the issue is
-probably focus behavior or changing candidate order, not filtering.
+probably focus behavior or changing candidate order, not membership.
 
-If `wsDump()` does not show the skipped window, add the temporary logging below
-and compare raw filter, live visible windows, and final candidates.
+If `wsDump()` does not show the skipped window, the next step depends on
+whether the window appears in `hs.window.visibleWindows()`:
+
+- If `visibleWindows()` does include it, the rejection is happening inside
+  `is_focus_candidate`. Inspect the window's `title`, `bundleID`, `role`,
+  `subrole`, `isStandard`, `frame.area`, and `isMinimized` to find which
+  predicate is firing.
+- If `visibleWindows()` does not include it, the gap is below us — Hammerspoon
+  itself does not see the window. Check accessibility permissions, and check
+  whether the window is on the current Space.
+
+Add the temporary logging below to capture both lists side by side. If you
+suspect a `hs.window.filter` interaction (e.g. comparing against an older
+filter-based version), the snippets below show how to spin up a diagnostic
+filter inline without changing production behavior.
 
 ## Temporary Logging Pattern
 
@@ -175,15 +228,17 @@ Why file logs:
 
 ## Verbose Snapshot To Add Temporarily
 
-When debugging filter problems, log three lists:
+When debugging candidate-set problems, log up to three lists:
 
-- raw filter list: `switcher:getWindows()`
 - live visible list: `hs.window.visibleWindows()`
 - final active list: `ordered_windows()`
+- (optional) diagnostic filter list, if you want to compare what
+  `hs.window.filter` would have included. Production no longer uses a filter,
+  so this snippet creates one inline only for the snapshot.
 
 Add or adapt helpers like these inside `init.lua`, where they can access local
-functions such as `switcher`, `ordered_windows`, `sort_windows`, `window_id`,
-`app_info`, `frame_info`, and `is_focus_candidate`:
+functions such as `ordered_windows`, `sort_windows`, `window_id`, `app_info`,
+`frame_info`, `is_focus_candidate`, and `REJECT_TITLE_PATTERNS`:
 
 ```lua
 local function window_set_by_id(wins)
@@ -234,8 +289,19 @@ local function describe_debug_windows(wins, memberships)
   return out
 end
 
+-- Optional: spin up a diagnostic filter just for snapshotting. Not used by
+-- production focus-step logic; only here so we can compare what the filter
+-- would have included against `hs.window.visibleWindows()`. Remove when done.
+local diag_filter = hs.window.filter.new()
+  :setDefaultFilter({})
+  :setOverrideFilter({
+    visible = true,
+    currentSpace = true,
+    rejectTitles = REJECT_TITLE_PATTERNS,
+  })
+
 local function debug_snapshot(label)
-  local raw = sort_windows(switcher:getWindows())
+  local raw = sort_windows(diag_filter:getWindows())
   local visible = sort_windows(hs.window.visibleWindows())
   local final = ordered_windows()
   local memberships = {
@@ -417,10 +483,25 @@ end
 
 ## Filter Event Logging
 
-For candidate-set churn, temporarily subscribe to window filter events. This can
-produce lots of logs, so use it only during a short experiment.
+For candidate-set churn, temporarily subscribe to window filter events. This
+can produce lots of logs, so use it only during a short experiment. Production
+no longer keeps a `hs.window.filter` alive, so this snippet creates one inline
+just for the experiment — and reuses `diag_filter` if you already added one in
+the snapshot helper above.
+
+Caveat: the filter does not see every visible window (Linear and likely other
+Electron apps are missing). Treat filter events as a partial signal, not as
+ground truth for "which apps are present".
 
 ```lua
+diag_filter = diag_filter or hs.window.filter.new()
+  :setDefaultFilter({})
+  :setOverrideFilter({
+    visible = true,
+    currentSpace = true,
+    rejectTitles = REJECT_TITLE_PATTERNS,
+  })
+
 local function subscribe_debug_events()
   local events = {
     hs.window.filter.windowAllowed,
@@ -442,7 +523,7 @@ local function subscribe_debug_events()
     hs.window.filter.windowsChanged,
   }
 
-  switcher:subscribe(events, function(win, app_name, event)
+  diag_filter:subscribe(events, function(win, app_name, event)
     append_debug("filter-event", {
       filterEvent = event,
       appName = app_name,
@@ -459,6 +540,9 @@ This helped identify:
 - Chrome app-mode windows were present in the raw filter and visible list.
 - They were rejected only because their titles were empty.
 - Filter state can change on focus/move/space events.
+- Linear (and likely other Electron apps) never produce filter events at all,
+  even when their windows are visible — which is why we no longer use the
+  filter as a gatekeeper.
 
 ## User Data Collection Protocol
 
@@ -492,11 +576,20 @@ Do not ask the user to paste logs unless file logging failed.
 
 Common diagnoses:
 
-- `rawWindows` has a window, `visibleWindows` has it, but `finalWindows` does
-  not: final candidate predicate is rejecting it. Inspect `title`, `bundleID`,
-  `role`, `subrole`, `isStandard`, `frame.area`, and `isMinimized`.
-- `rawWindows` has a bad `0x0` object, but `visibleWindows` has the real window:
-  stale filter object. Prefer live visible window objects gated by raw filter ids.
+- `visibleWindows` has the window but `finalWindows` does not: `is_focus_candidate`
+  is rejecting it. Inspect `title`, `bundleID`, `role`, `subrole`, `isStandard`,
+  `frame.area`, and `isMinimized`.
+- `visibleWindows` does not have the window at all: Hammerspoon does not see
+  it. Check accessibility permissions, check whether the window is on the
+  current Space, and try `hs.application.find(<bundleID>):allWindows()` to
+  confirm the window object exists at all.
+- `rawWindows` (diagnostic filter) is missing a window that `visibleWindows`
+  has: this is the `hs.window.filter` Electron gap. Expected, and is why
+  production no longer uses the filter. Do not "fix" this by adding the window
+  back to a filter allowlist; it will keep happening for the next Electron app.
+- `rawWindows` has a bad `0x0` object that `visibleWindows` does not: stale
+  filter object. Not a problem in production now that we do not gate on the
+  filter, but worth knowing if you reintroduce one.
 - `finalWindows` contains the target, but `switch-after-150ms` focused a
   different window: focus request did not land where expected. Look for app
   activation behavior, Finder desktop focus behavior, or macOS timing.
@@ -535,20 +628,37 @@ open -g hammerspoon://reload
 "/Applications/Hammerspoon.app/Contents/Frameworks/hs/hs" -c 'return wsDump()'
 ```
 
-## What Was Fixed In April 2026
+## Bugs Fixed
 
-Two concrete bugs were found:
+Append new entries here when you fix something. Keep old entries; they make
+regressions easier to spot.
 
-1. Stale filter object:
+1. Stale filter object (April 2026):
    - `hs.window.filter` could return an object with the same id as a real iTerm2
      window but empty title, blank role, and `0x0` frame.
-   - Fix: build final candidates from live `hs.window.visibleWindows()` and gate
-     them by ids present in `switcher:getWindows()`.
+   - Fix at the time: build final candidates from live
+     `hs.window.visibleWindows()` and gate them by ids present in
+     `switcher:getWindows()`.
+   - Superseded by fix #3 below — the filter gate was removed entirely.
+     `is_focus_candidate` still catches the stale 0×0 case via its `isStandard`
+     and `frame.area > 0` checks.
 
-2. Chrome app-mode empty titles:
+2. Chrome app-mode empty titles (April 2026):
    - Niteshift and Google Calendar Chrome apps were valid standard windows but
      exposed `title=""`.
    - Fix: allow empty titles only for `com.google.Chrome.app.*` bundle ids with
-     a real app name and nonzero standard window.
+     a real app name and nonzero standard window. Still in effect.
 
-The final config should keep both fixes.
+3. Linear / Electron app silently dropped (April 2026):
+   - `hs.window.filter` did not track Linear (`com.linear`) at all — the window
+     was visible, standard, with a real title and frame, but never appeared in
+     `switcher:getWindows()`. The filter-membership intersection from fix #1
+     then dropped Linear from the switcher.
+   - Root cause: `hs.window.filter` relies on per-app AX subscriptions that
+     some Electron apps do not produce.
+   - Fix: removed the filter entirely. `ordered_windows()` now iterates
+     `hs.window.visibleWindows()` and runs each window through
+     `is_focus_candidate`. Verified empirically that `visibleWindows()` returns
+     only current-Space windows on this machine, so the filter's
+     `currentSpace = true` was the only behavior we lost — and we did not need
+     it.
