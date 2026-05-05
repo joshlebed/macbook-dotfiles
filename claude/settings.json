@@ -87,6 +87,7 @@
   "autoMemoryEnabled": false,
   "autoDreamEnabled": true,
   "skipDangerousModePermissionPrompt": true,
+  "editorMode": "normal",
   "preferredNotifChannel": "iterm2",
   "teammateMode": "tmux",
   "remoteControlAtStartup": false,

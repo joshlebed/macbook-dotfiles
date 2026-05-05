@@ -348,9 +348,9 @@
   {
     "key": "alt+j",
     "command": "workbench.action.terminal.openNativeConsole"
-  },
-  {
-    "key": "cmd+i",
-    "command": "claude-code.insertAtMentioned"
   }
+  // {
+  //   "key": "cmd+i",
+  //   "command": "claude-code.insertAtMentioned"
+  // }
 ]

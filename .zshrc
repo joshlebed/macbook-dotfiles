@@ -11,8 +11,8 @@ export EDITOR=vim
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS-specific
-  export VISUAL=code
-  export NEXT_EDITOR=code
+  export VISUAL="zed --wait"
+  export NEXT_EDITOR="zed --wait"
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # Linux-specific
   export VISUAL=vim
@@ -288,7 +288,7 @@ export PATH=/Users/joshlebed/.opencode/bin:$PATH
 alias ncl="cd ~/code/niteshift && cl"
 alias n="ncl"
 
-alias codex='codex -s danger-full-access -a never --search'
+alias codex='codex --dangerously-bypass-approvals-and-sandbox --search'
 alias claude='claude --dangerously-skip-permissions'
 
 alias vim="nvim"
@@ -315,8 +315,9 @@ doc-from-task () {
 		return 1
 	fi
 
-	task_id="${task_input##*/}"
-	if [[ "$task_id" != task_int_* ]]; then
+	if [[ "$task_input" =~ 'task_[a-zA-Z0-9_]+' ]]; then
+		task_id="${MATCH}"
+	else
 		echo "doc-from-task: could not parse task ID from '$task_input'" >&2
 		return 1
 	fi

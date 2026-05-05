@@ -58,3 +58,6 @@ niteshift/
 # Nested Raycast extensions fork — its own git repo; .git/config embeds an
 # OAuth token in the remote URL, so it must never be added from this repo.
 raycast/public-extensions-fork/
+
+# Zed prompt library (binary LMDB db with personal prompt content)
+zed/prompts/
