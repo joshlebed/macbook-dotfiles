@@ -1,0 +1,215 @@
+{
+  "rules": [
+    {
+      "browser": "com.tinyspeck.slackmacgap",
+      "forceNewWindow": false,
+      "id": "A1B2C3D4-0001-4000-8000-000000000001",
+      "isEnabled": true,
+      "isTransformScriptEnabled": true,
+      "matchers": [
+        {
+          "fixture": "https://niteshiftdev.slack.com/archives/C0B1QG11HU7/p1778134492550369",
+          "id": "A1B2C3D4-0001-4000-8000-000000000101",
+          "kind": "hostSuffix",
+          "pattern": "niteshiftdev.slack.com"
+        }
+      ],
+      "onlyFromAirdrop": false,
+      "openInBackground": false,
+      "runAfterBuiltinRules": false,
+      "sourceApps": [],
+      "title": "Niteshift Slack → Slack app",
+      "transformScript": "const TEAM_ID = \"T087BGEAHF0\";\n\nlet channelId, messageTs;\nconst path = $.url.pathname;\n\nlet m = path.match(/\\/archives\\/([CD]\\w+)(?:\\/p(\\d+))?/);\nif (m) {\n  channelId = m[1];\n  messageTs = m[2];\n}\n\nif (!m) {\n  m = path.match(/\\/client\\/T\\w+\\/([CD]\\w+)(?:\\/p(\\d+))?/);\n  if (m) {\n    channelId = m[1];\n    messageTs = m[2];\n  }\n}\n\nif (channelId) {\n  let url = `slack://channel?team=${TEAM_ID}&id=${channelId}`;\n  if (messageTs) url += `&message=${messageTs}`;\n  const threadTs = $.url.searchParams.get('thread_ts');\n  if (threadTs) url += `&thread_ts=${threadTs}`;\n  $.url = url;\n}\n",
+      "transformTestURL": "https://niteshiftdev.slack.com/archives/C0B1QG11HU7/p1778134492550369"
+    },
+    {
+      "browser": "com.google.Chrome|Profile 2",
+      "forceNewWindow": false,
+      "id": "A1B2C3D4-0002-4000-8000-000000000002",
+      "isEnabled": true,
+      "isTransformScriptEnabled": false,
+      "matchers": [
+        {
+          "fixture": "https://app.datadoghq.com/",
+          "id": "A1B2C3D4-0002-4000-8000-000000000201",
+          "kind": "hostSuffix",
+          "pattern": "datadoghq.com"
+        },
+        {
+          "fixture": "http://localhost:3000/",
+          "id": "A1B2C3D4-0002-4000-8000-000000000202",
+          "kind": "hostSuffix",
+          "pattern": "localhost"
+        },
+        {
+          "fixture": "https://gentrace.ai/",
+          "id": "A1B2C3D4-0002-4000-8000-000000000203",
+          "kind": "hostSuffix",
+          "pattern": "gentrace.ai"
+        },
+        {
+          "fixture": "https://app.graphite.dev/",
+          "id": "A1B2C3D4-0002-4000-8000-000000000204",
+          "kind": "hostSuffix",
+          "pattern": "graphite.dev"
+        },
+        {
+          "fixture": "https://niteshift.dev/",
+          "id": "A1B2C3D4-0002-4000-8000-000000000205",
+          "kind": "hostSuffix",
+          "pattern": "niteshift.dev"
+        },
+        {
+          "fixture": "http://niteshift.local/",
+          "id": "A1B2C3D4-0002-4000-8000-000000000206",
+          "kind": "hostSuffix",
+          "pattern": "niteshift.local"
+        }
+      ],
+      "onlyFromAirdrop": false,
+      "openInBackground": false,
+      "runAfterBuiltinRules": false,
+      "sourceApps": [],
+      "title": "Work domains → Chrome (Niteshift)",
+      "transformScript": "",
+      "transformTestURL": ""
+    },
+    {
+      "browser": "com.google.Chrome|Default",
+      "forceNewWindow": false,
+      "id": "A1B2C3D4-0003-4000-8000-000000000003",
+      "isEnabled": true,
+      "isTransformScriptEnabled": false,
+      "matchers": [
+        {
+          "fixture": "https://www.americanexpress.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000301",
+          "kind": "hostSuffix",
+          "pattern": "americanexpress.com"
+        },
+        {
+          "fixture": "https://www.bankofamerica.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000302",
+          "kind": "hostSuffix",
+          "pattern": "bankofamerica.com"
+        },
+        {
+          "fixture": "https://www.chase.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000303",
+          "kind": "hostSuffix",
+          "pattern": "chase.com"
+        },
+        {
+          "fixture": "https://onlinebanking.tdbank.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000304",
+          "kind": "hostSuffix",
+          "pattern": "tdbank.com"
+        },
+        {
+          "fixture": "https://venmo.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000305",
+          "kind": "hostSuffix",
+          "pattern": "venmo.com"
+        },
+        {
+          "fixture": "https://home.personalcapital.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000306",
+          "kind": "hostSuffix",
+          "pattern": "personalcapital.com"
+        },
+        {
+          "fixture": "https://www.wellsfargo.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000307",
+          "kind": "hostSuffix",
+          "pattern": "wellsfargo.com"
+        },
+        {
+          "fixture": "https://www.youtube.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000308",
+          "kind": "hostSuffix",
+          "pattern": "youtube.com"
+        },
+        {
+          "fixture": "https://soundcloud.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000309",
+          "kind": "hostSuffix",
+          "pattern": "soundcloud.com"
+        },
+        {
+          "fixture": "https://order.sweetgreen.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000310",
+          "kind": "hostSuffix",
+          "pattern": "sweetgreen.com"
+        },
+        {
+          "fixture": "https://www.amazon.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000311",
+          "kind": "hostSuffix",
+          "pattern": "amazon.com"
+        },
+        {
+          "fixture": "https://login.onemedical.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000312",
+          "kind": "hostSuffix",
+          "pattern": "onemedical.com"
+        },
+        {
+          "fixture": "https://maps.google.com/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000313",
+          "kind": "hostSuffix",
+          "pattern": "maps.google.com"
+        },
+        {
+          "fixture": "https://1337x.to/",
+          "id": "A1B2C3D4-0003-4000-8000-000000000314",
+          "kind": "host",
+          "pattern": "1337x.to"
+        }
+      ],
+      "onlyFromAirdrop": false,
+      "openInBackground": false,
+      "runAfterBuiltinRules": false,
+      "sourceApps": [],
+      "title": "Personal domains → Chrome (Personal)",
+      "transformScript": "",
+      "transformTestURL": ""
+    },
+    {
+      "browser": "com.google.Chrome|Profile 2",
+      "forceNewWindow": false,
+      "id": "A1B2C3D4-0004-4000-8000-000000000004",
+      "isEnabled": true,
+      "isTransformScriptEnabled": false,
+      "matchers": [],
+      "onlyFromAirdrop": false,
+      "openInBackground": false,
+      "runAfterBuiltinRules": false,
+      "sourceApps": [
+        "com.tinyspeck.slackmacgap",
+        "com.linear",
+        "com.microsoft.teams2"
+      ],
+      "title": "Source app: work → Chrome (Niteshift)",
+      "transformScript": "",
+      "transformTestURL": ""
+    },
+    {
+      "browser": "com.google.Chrome|Default",
+      "forceNewWindow": false,
+      "id": "A1B2C3D4-0005-4000-8000-000000000005",
+      "isEnabled": true,
+      "isTransformScriptEnabled": false,
+      "matchers": [],
+      "onlyFromAirdrop": false,
+      "openInBackground": false,
+      "runAfterBuiltinRules": false,
+      "sourceApps": [
+        "com.apple.MobileSMS"
+      ],
+      "title": "Source app: personal → Chrome (Personal)",
+      "transformScript": "",
+      "transformTestURL": ""
+    }
+  ],
+  "version": "3.1.1"
+}
