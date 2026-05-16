@@ -153,7 +153,7 @@ limited install (skips system packages).
 - [Hammerspoon](https://www.hammerspoon.org/) - Lua-scripted automation; runs the directional window switcher (successor to [Slate](https://github.com/jigish/slate))
 - [iTerm2](https://iterm2.com/) - terminal
 - [Thaw](https://github.com/stonerl/Thaw/) - menu bar management
-- [Velja](https://sindresorhus.com/velja) - browser routing (rules + script: see [CLAUDE.md](CLAUDE.md#velja-config))
+- [Velja](https://sindresorhus.com/velja) - browser routing (sandboxed plist; see [CLAUDE.md](CLAUDE.md#velja-config))
 
 ### Editors
 

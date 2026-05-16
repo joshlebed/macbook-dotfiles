@@ -114,3 +114,8 @@ copies:
   - source: preferences/com.stonerl.Thaw.plist
     target: ~/Library/Preferences/com.stonerl.Thaw.plist
     os: macos
+
+  - source: preferences/com.sindresorhus.Velja.plist
+    target: ~/Library/Containers/com.sindresorhus.Velja/Data/Library/Preferences/com.sindresorhus.Velja.plist
+    os: macos
+    reason: Sandboxed app — quit Velja before running link-files.sh to avoid cfprefsd clobbering the write
