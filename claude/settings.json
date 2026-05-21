@@ -98,7 +98,7 @@
     }
   },
   "alwaysThinkingEnabled": true,
-  "effortLevel": "high",
+  "effortLevel": "xhigh",
   "advisorModel": "opus",
   "voice": {
     "enabled": true,
@@ -111,6 +111,7 @@
   "preferredNotifChannel": "iterm2",
   "teammateMode": "tmux",
   "remoteControlAtStartup": false,
+  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true,
   "feedbackSurveyState": {
