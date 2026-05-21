@@ -144,7 +144,6 @@
   "terminal.integrated.scrollback": 10000,
   "cursor.cpp.disabledLanguages": ["scminput"],
   "workbench.activityBar.orientation": "vertical",
-  "workbench.activityBar.location": "hidden",
   "workbench.editor.editorActionsLocation": "titleBar",
   "cursor.chat.terminalShowHoverHint": false,
   "terminal.integrated.smoothScrolling": false,
@@ -181,6 +180,7 @@
   "update.mode": "silentlyApplyOnQuit",
   "[mdx]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "workbench.activityBar.location": "hidden"
   // "biome.lsp.trace.server": "verbose"
 }
