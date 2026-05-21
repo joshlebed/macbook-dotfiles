@@ -340,3 +340,6 @@ doc-from-task () {
 	echo "Uploading $local_file to Notion..."
 	make -C "$niteshift_root" doc FILE="$local_file"
 }
+
+# Niteshift CLI
+export PATH="/Users/joshlebed/code/niteshift-cli:$PATH"
