@@ -61,3 +61,6 @@ raycast/public-extensions-fork/
 
 # Zed prompt library (binary LMDB db with personal prompt content)
 zed/prompts/
+
+# Cache from the simple-update-notifier npm package (used by e2b CLI etc.)
+simple-update-notifier/
