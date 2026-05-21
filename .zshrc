@@ -11,11 +11,13 @@ export EDITOR=vim
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS-specific
-  export VISUAL="zed --wait"
-  export NEXT_EDITOR="zed --wait"
+  export VISUAL="zed --wait --new"
+  export EDITOR="zed --wait --new"
+  export NEXT_EDITOR="zed --wait --new"
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # Linux-specific
-  export VISUAL=vim
+  export EDITOR="vim"
+  export VISUAL="vim"
 fi
 
 # Enable fzf key bindings and completion
