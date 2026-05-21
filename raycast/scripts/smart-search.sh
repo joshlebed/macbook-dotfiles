@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Smart Search
+# @raycast.mode silent
+# @raycast.packageName Search
+
+# Optional parameters:
+# @raycast.icon 🔍
+# @raycast.description Copy selection, then open Linear / GitHub / URL / Google Search based on its content
+# @raycast.author joshlebed
+# @raycast.authorURL https://github.com/joshlebed
+
+# Documentation:
+# Bind to cmd+g in Raycast (and disable the old KM cmd+g macro). On trigger:
+#   1. Copies the current selection via cmd+c
+#   2. Routes the clipboard contents:
+#        https?://...           -> open as URL
+#        NS-790, ENG-1234, etc. -> linear.app/<workspace>/issue/<ID>
+#        #4953                  -> github.com/<default repo>/issues/4953  (GH redirects PR<->issue)
+#        domain.tld[/path]      -> open as URL (auto-prefixes https://)
+#        anything else          -> Google search
+
+LINEAR_WORKSPACE="niteshift"
+GITHUB_DEFAULT_REPO="niteshiftdev/niteshift"
+
+osascript -e 'tell application "System Events" to keystroke "c" using command down'
+sleep 0.15
+
+input="$(pbpaste | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+
+if [ -z "$input" ]; then
+    echo "No selection"
+    exit 0
+fi
+
+# 1. URL with explicit scheme
+if [[ "$input" =~ ^https?://[^[:space:]]+$ ]]; then
+    open "$input"
+    echo "Opening URL"
+    exit 0
+fi
+
+# 2. Linear ticket (any team prefix, normalized to uppercase)
+if [[ "$input" =~ ^[A-Za-z]{2,}-[0-9]+$ ]]; then
+    ticket="$(echo "$input" | tr '[:lower:]' '[:upper:]')"
+    open "https://linear.app/${LINEAR_WORKSPACE}/issue/${ticket}"
+    echo "Opening Linear: $ticket"
+    exit 0
+fi
+
+# 3. GitHub issue/PR in the default repo (GitHub auto-redirects /issues/N <-> /pull/N)
+if [[ "$input" =~ ^#[0-9]+$ ]]; then
+    num="${input#\#}"
+    open "https://github.com/${GITHUB_DEFAULT_REPO}/issues/${num}"
+    echo "Opening GitHub: #${num}"
+    exit 0
+fi
+
+# 4. Bare domain or domain/path (no scheme, no spaces)
+if [[ "$input" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}(/[^[:space:]]*)?$ ]]; then
+    open "https://$input"
+    echo "Opening URL (added https://)"
+    exit 0
+fi
+
+# 5. Fallback: Google search
+query="$(python3 -c "import sys, urllib.parse; print(urllib.parse.quote_plus(sys.argv[1]))" "$input")"
+open "https://www.google.com/search?q=${query}"
+echo "Searching Google"
