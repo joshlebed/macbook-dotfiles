@@ -1,7 +1,8 @@
 // quickstart: quicklinks-dev
 // see raycast/README.md for more instructions
 
-// links to be handled by finicky (for specific profiles) - see .finicky.js for config
+// links are routed to the right browser/profile by Velja — see CLAUDE.md
+// (preferences/com.sindresorhus.Velja.plist) for the routing rules
 
 // --- personal
 const personalLinks = [
@@ -104,6 +105,10 @@ const workLinks = [
   {
     name: "Graphite",
     link: "https://app.graphite.com/",
+  },
+  {
+    name: "Flags",
+    link: "https://app.launchdarkly.com/projects/default/flags?maintainerId=69b873710a591409f0f6f4d1&selected-env=production&env=dev&env=staging&env=production",
   },
 ];
 

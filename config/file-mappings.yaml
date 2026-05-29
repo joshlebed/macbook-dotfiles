@@ -71,13 +71,6 @@ symlinks:
     target: ~/.config/Cursor/User/keybindings.json
     os: linux
 
-hardlinks:
-  # Apps that don't follow symlinks
-  - source: .finicky.js
-    target: ~/.finicky.js
-    os: macos
-    reason: Finicky doesn't follow symlinks
-
 copies:
   # Claude Code plugin state — Claude writes to these, so we copy instead of link
   # Caches/marketplaces/repos live under ~/.claude/plugins/ and are NOT synced

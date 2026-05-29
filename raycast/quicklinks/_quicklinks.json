@@ -41,6 +41,10 @@
   },
   {"link": "https://app.graphite.com/", "name": "Graphite"},
   {
+    "link": "https://app.launchdarkly.com/projects/default/flags?maintainerId=69b873710a591409f0f6f4d1&selected-env=production&env=dev&env=staging&env=production",
+    "name": "Flags"
+  },
+  {
     "link": "chrome://settings/searchEngines",
     "name": "Chrome Search Engines",
     "openWith": "Google Chrome"
