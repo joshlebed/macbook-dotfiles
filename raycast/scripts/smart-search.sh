@@ -17,12 +17,13 @@
 #   1. Copies the current selection via cmd+c
 #   2. Routes the clipboard contents:
 #        https?://...           -> open as URL
-#        NS-790, ENG-1234, etc. -> linear.app/<workspace>/issue/<ID>
+#        NS-790 (whitelisted prefixes) -> linear.app/<workspace>/issue/<ID>
 #        #4953                  -> github.com/<default repo>/issues/4953  (GH redirects PR<->issue)
 #        domain.tld[/path]      -> open as URL (auto-prefixes https://)
 #        anything else          -> Google search
 
 LINEAR_WORKSPACE="niteshift"
+LINEAR_TEAM_PREFIXES="NS" # pipe-separated whitelist, e.g. "NS|ENG"
 GITHUB_DEFAULT_REPO="niteshiftdev/niteshift"
 
 osascript -e 'tell application "System Events" to keystroke "c" using command down'
@@ -42,9 +43,9 @@ if [[ "$input" =~ ^https?://[^[:space:]]+$ ]]; then
     exit 0
 fi
 
-# 2. Linear ticket (any team prefix, normalized to uppercase)
-if [[ "$input" =~ ^[A-Za-z]{2,}-[0-9]+$ ]]; then
-    ticket="$(echo "$input" | tr '[:lower:]' '[:upper:]')"
+# 2. Linear ticket (whitelisted team prefixes only, normalized to uppercase)
+ticket="$(echo "$input" | tr '[:lower:]' '[:upper:]')"
+if [[ "$ticket" =~ ^(${LINEAR_TEAM_PREFIXES})-[0-9]+$ ]]; then
     open "https://linear.app/${LINEAR_WORKSPACE}/issue/${ticket}"
     echo "Opening Linear: $ticket"
     exit 0
