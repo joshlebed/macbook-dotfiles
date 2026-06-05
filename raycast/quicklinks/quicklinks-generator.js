@@ -24,6 +24,10 @@ const personalLinks = [
     link: "https://order.sweetgreen.com/reorder",
   },
   {
+    name: "Cava",
+    link: "https://cava.com/recent-orders",
+  },
+  {
     name: "Amex",
     link: "https://www.americanexpress.com/en-us/account/login",
   },
