@@ -20,6 +20,7 @@
 #        NS-790 (whitelisted prefixes) -> linear.app/<workspace>/issue/<ID>
 #        #4953                  -> github.com/<default repo>/issues/4953  (GH redirects PR<->issue)
 #        domain.tld[/path]      -> open as URL (auto-prefixes https://)
+#        scheme:rest            -> open in the registered app (spotify:, slack://, mailto:, ...)
 #        anything else          -> Google search
 
 LINEAR_WORKSPACE="niteshift"
@@ -66,7 +67,18 @@ if [[ "$input" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}(/[^[:space:]]*)?$ ]];
     exit 0
 fi
 
-# 5. Fallback: Google search
+# 5. Custom URL scheme (no spaces) -> let macOS open the registered app.
+#    Restores the old "paste into Chrome's address bar" behavior for things like
+#    spotify:track:..., slack://..., zoommtg://..., mailto:..., vscode://...
+#    `open` exits non-zero when no app claims the scheme, so we fall through to Google.
+if [[ "$input" =~ ^[a-zA-Z][a-zA-Z0-9+.-]*:[^[:space:]]+$ ]]; then
+    if open "$input" 2>/dev/null; then
+        echo "Opening: $input"
+        exit 0
+    fi
+fi
+
+# 6. Fallback: Google search
 query="$(python3 -c "import sys, urllib.parse; print(urllib.parse.quote_plus(sys.argv[1]))" "$input")"
 open "https://www.google.com/search?q=${query}"
 echo "Searching Google"
