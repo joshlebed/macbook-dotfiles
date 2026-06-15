@@ -154,6 +154,41 @@ limited install (skips system packages).
 - [iTerm2](https://iterm2.com/) - terminal
 - [Thaw](https://github.com/stonerl/Thaw/) - menu bar management
 - [Velja](https://sindresorhus.com/velja) - browser routing (sandboxed plist; see [CLAUDE.md](CLAUDE.md#velja-config))
+- [InstantSpaceSwitcher](https://github.com/joshlebed/InstantSpaceSwitcher) - instant Space switching + move-window-to-desktop (custom fork; see [below](#instantspaceswitcher))
+
+### InstantSpaceSwitcher
+
+A custom fork of [InstantSpaceSwitcher](https://github.com/joshlebed/InstantSpaceSwitcher)
+(upstream: [jurplel/InstantSpaceSwitcher](https://github.com/jurplel/InstantSpaceSwitcher))
+that does two things:
+
+- **Instant Space switching** — no slide animation (synthetic high-velocity
+  dock-swipe gesture). This is the upstream feature.
+- **Move window & follow** (fork addition) — move the focused window to the
+  adjacent desktop and switch there with it.
+
+**Wiring.** The hotkeys don't go through macOS shortcuts; Karabiner's nav layer
+(`karabiner/`) emits intermediate `F16` combos that the running app listens for:
+
+| Keys (nav layer) | Karabiner emits | Action |
+| --- | --- | --- |
+| `caps+d` / `caps+f` | `ctrl+←` / `ctrl+→` | switch desktop left / right |
+| `caps+cmd+d` / `caps+cmd+f` | `⌥⇧⌘F16` / `⌥⌘F16` | move focused window to desktop left / right |
+
+**How the move works (macOS 26).** Apple gated the private "move window to a
+Space by id" APIs, so the app replicates Raycast's technique: warp the real
+cursor to the window's title bar, hold a zero-motion left-click, switch desktops
+(carrying the held window), then release and restore the cursor. Works for
+normal Cocoa windows and Spotify with zero drift. **Known limitation:** Electron
+apps (Claude, ChatGPT) don't move yet — their in-app drag loop swallows the
+Space-switch keystroke (even Raycast can't move them). Full design notes and the
+plan for fixing it: [`docs/move-window-and-follow.md`](https://github.com/joshlebed/InstantSpaceSwitcher/blob/feature/move-window-and-follow/docs/move-window-and-follow.md).
+
+**Source / install.** Source is at `~/code/InstantSpaceSwitcher` (not built by
+the dotfiles setup scripts). Build with `./dist/build.sh`, re-sign with the
+Developer ID cert so Accessibility carries across rebuilds, then replace
+`/Applications/InstantSpaceSwitcher.app` and relaunch. Needs Accessibility +
+Input Monitoring permission.
 
 ### Editors
 
