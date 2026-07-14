@@ -22,6 +22,25 @@
 # migration against already-migrated data.
 
 # ============================================================================
+# Unordered lists
+# ============================================================================
+#
+# Keys whose array value is semantically a SET — the order carries no meaning
+# and the app rewrites it in a different order across launches. Sorting them on
+# export is what stops "nothing changed" from reporting drift.
+#
+# Format: "<domain>:<key glob>" (use "*" for the domain to match any).
+#
+# Only add a key here when the order is provably meaningless. The evidence for
+# the Thaw keys below: the exact same 23 elements came back in a different order
+# after a relaunch, with no membership change — an app does not shuffle an order
+# that matters. Velja's `rules` are deliberately NOT here: rules are evaluated in
+# priority order, so sorting them would silently change routing behaviour.
+unordered-lists:
+  - "com.stonerl.Thaw:MenuBarItemManager.pinnedHiddenBundleIDs"
+  - "com.stonerl.Thaw:MenuBarItemManager.pinnedAlwaysHiddenBundleIDs"
+
+# ============================================================================
 # Applies to every domain
 # ============================================================================
 "*":

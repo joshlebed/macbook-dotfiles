@@ -79,6 +79,49 @@ Some apps need manual setup after running the script:
 | Google Drive     | Sign in                                                      |
 | TickTick         | Sign in                                                      |
 
+### Login Items
+
+```bash
+./scripts/login-items.sh --export   # system -> config/login-items.yaml
+./scripts/login-items.sh --apply    # config -> system (run by setup-macos.sh)
+./scripts/login-items.sh --check    # report drift
+```
+
+Covers only the **legacy** login items System Events can set (System Settings →
+General → Login Items). Apps that register via `SMAppService` — their own
+"launch at login" toggle, e.g. Hammerspoon and Thaw — are owned by the app and
+must still be enabled by hand, as the manual table above says.
+
+Export skips items whose target no longer exists, so a deleted app can't be
+carried onto a new machine. (Amethyst was exactly that: a login item macOS
+itself reported as `path: missing value`.)
+
+### Keyboard Shortcuts
+
+```bash
+./scripts/export-keyboard-shortcuts.sh   # system -> config/keyboard-shortcuts.yaml
+./scripts/apply-keyboard-shortcuts.sh    # config -> system
+```
+
+`NSGlobalDomain` shortcuts (Minimize, Show Tab Bar) need a **logout/login** to
+take effect; app-specific ones just need the app restarted.
+
+Two sharp edges worth knowing:
+
+- **Bindings match menu items by exact title, and macOS accepts a binding for a
+  menu item that doesn't exist.** A shortcut for an uninstalled app, or one
+  whose menu title changed, is a silent no-op that looks applied. `apply` now
+  warns when the target app isn't installed. The Chrome entries are the live
+  example: they target profiles by display name (`Josh (Personal)`), so on a
+  fresh Chrome — where no profile has that name yet — they will bind to nothing
+  until the profiles are recreated with matching names.
+- **Only plain-ASCII shortcuts round-trip.** `defaults` renders a non-ASCII key
+  (Tab/arrows/Escape) as a `\Uxxxx` escape, and PlistBuddy strips the backslash
+  instead of decoding it, turning `^⇥` into the literal string `^U21e5`. Export
+  therefore refuses (exit 1) to record anything that isn't modifiers plus one
+  ASCII key, rather than silently committing a corrupted binding — which is what
+  previously happened to a Messenger shortcut.
+
 ### Editor Extensions
 
 VS Code and Cursor hold different extension sets, so they get one tracked list

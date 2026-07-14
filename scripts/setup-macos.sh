@@ -274,6 +274,17 @@ step_editor_extensions() {
     run_script_with_args "$SCRIPT_DIR/editor-extensions.sh" "--install" "VS Code + Cursor extensions"
 }
 
+step_login_items() {
+    log_section "Step 7: Login Items"
+
+    if [[ "$DRY_RUN" == true ]]; then
+        log_step "[DRY-RUN] Would add login items"
+        return 0
+    fi
+    # Needs the apps installed first, hence running after Homebrew.
+    run_script_with_args "$SCRIPT_DIR/login-items.sh" "--apply" "login items"
+}
+
 show_manual_steps() {
     log_section "Manual Configuration Required"
 
@@ -372,6 +383,7 @@ main() {
     step_file_mappings || FAILED_STEPS+=("File Mappings")
     step_keyboard_shortcuts || FAILED_STEPS+=("Keyboard Shortcuts")
     step_editor_extensions || FAILED_STEPS+=("Editor Extensions")
+    step_login_items || FAILED_STEPS+=("Login Items")
 
     # Show manual steps and summary
     show_manual_steps

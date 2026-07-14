@@ -1284,29 +1284,29 @@
 	<array/>
 	<key>MenuBarItemManager.pinnedHiddenBundleIDs</key>
 	<array>
-		<string>com.electron.dockerdesktop</string>
-		<string>com.apple.controlcenter</string>
 		<string>com.1password.1password</string>
-		<string>com.openai.codex</string>
-		<string>notion.id</string>
-		<string>com.google.Chrome</string>
-		<string>com.raycast.macos</string>
-		<string>org.pqrs.Karabiner-Menu</string>
-		<string>com.contextsformac.Contexts</string>
-		<string>pl.maketheweb.cleanshotx</string>
 		<string>com.apple.Spotlight</string>
-		<string>io.tailscale.ipn.macos</string>
-		<string>com.superset.desktop</string>
-		<string>com.interversehq.InstantSpaceSwitcher</string>
+		<string>com.apple.controlcenter</string>
+		<string>com.contextsformac.Contexts</string>
+		<string>com.electron.dockerdesktop</string>
+		<string>com.google.Chrome</string>
 		<string>com.google.drivefs</string>
-		<string>org.hammerspoon.Hammerspoon</string>
-		<string>com.stairways.keyboardmaestro.engine</string>
 		<string>com.granola.app</string>
-		<string>com.vanta.Vanta-Device-Monitor</string>
-		<string>com.sindresorhus.Velja</string>
-		<string>com.todesktop.230313mzl4w4u92</string>
-		<string>com.slate.Slate</string>
+		<string>com.interversehq.InstantSpaceSwitcher</string>
 		<string>com.knollsoft.Rectangle</string>
+		<string>com.openai.codex</string>
+		<string>com.raycast.macos</string>
+		<string>com.sindresorhus.Velja</string>
+		<string>com.slate.Slate</string>
+		<string>com.stairways.keyboardmaestro.engine</string>
+		<string>com.superset.desktop</string>
+		<string>com.todesktop.230313mzl4w4u92</string>
+		<string>com.vanta.Vanta-Device-Monitor</string>
+		<string>io.tailscale.ipn.macos</string>
+		<string>notion.id</string>
+		<string>org.hammerspoon.Hammerspoon</string>
+		<string>org.pqrs.Karabiner-Menu</string>
+		<string>pl.maketheweb.cleanshotx</string>
 	</array>
 	<key>NSStatusItem Visible Thaw.ControlItem.Hidden</key>
 	<true/>

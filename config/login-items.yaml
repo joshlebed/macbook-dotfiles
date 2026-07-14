@@ -1,0 +1,34 @@
+# Login Items
+#
+# Managed by scripts/login-items.sh (--export / --apply / --check).
+#
+# Only legacy System Events login items. Apps that register via
+# SMAppService (their own 'launch at login' toggle — e.g. Hammerspoon,
+# Thaw) are NOT captured here and must still be enabled by hand.
+
+- name: "Raycast"
+  path: "/Applications/Raycast.app"
+- name: "InstantSpaceSwitcher"
+  path: "/Applications/InstantSpaceSwitcher.app"
+- name: "Keyboard Maestro Engine"
+  path: "/Applications/Keyboard Maestro.app/Contents/MacOS/Keyboard Maestro Engine.app"
+- name: "Logi Options+"
+  path: "/Applications/logioptionsplus.app"
+- name: "Google Drive"
+  path: "/Applications/Google Drive.app"
+- name: "iTerm"
+  path: "/Applications/iTerm.app"
+- name: "Rectangle"
+  path: "/Applications/Rectangle.app"
+- name: "CleanShot X"
+  path: "/Applications/CleanShot X.app"
+- name: "FigmaAgent"
+  path: "~/Library/Application Support/Figma/FigmaAgent.app"
+- name: "Thaw"
+  path: "/Applications/Thaw.app"
+- name: "Contexts"
+  path: "/Applications/Contexts.app"
+- name: "Velja"
+  path: "/Applications/Velja.app"
+- name: "Hammerspoon"
+  path: "/Applications/Hammerspoon.app"

@@ -37,6 +37,7 @@ log_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
 log_apply() { echo -e "${GREEN}[APPLY]${NC} $1"; }
 log_dry() { echo -e "${CYAN}[DRY-RUN]${NC} $1"; }
 log_skip() { echo -e "${DIM}[SKIP]${NC} $1"; }
+log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 
 # ============================================================================
 # ARGUMENT PARSING
@@ -71,6 +72,24 @@ echo ""
 current_domain=""
 domain_entries=()
 
+# NSUserKeyEquivalents binds by exact *menu item title*, and macOS accepts a
+# binding for a menu item that does not exist without complaining. So a shortcut
+# for an uninstalled app, or for a menu item whose title changed, is a silent
+# no-op — it looks applied and does nothing.
+#
+# That is how Messenger's ("Archon") bindings survived here long after the app
+# was uninstalled. Warn when the target app is absent, so the dead entry is
+# visible instead of accumulating.
+warn_if_app_missing() {
+    local domain="$1"
+    case "$domain" in
+        NSGlobalDomain|com.apple.*) return 0 ;;  # system-provided
+    esac
+    if ! mdfind "kMDItemCFBundleIdentifier == '$domain'" 2>/dev/null | grep -q .; then
+        log_warn "$domain is not installed — these shortcuts will silently do nothing"
+    fi
+}
+
 apply_domain() {
     [[ -z "$current_domain" || ${#domain_entries[@]} -eq 0 ]] && return
 
@@ -81,6 +100,8 @@ apply_domain() {
         domain_arg="-g"
         plist_path="$HOME/Library/Preferences/.GlobalPreferences.plist"
     fi
+
+    warn_if_app_missing "$current_domain"
 
     if [[ "$DRY_RUN" == true ]]; then
         log_dry "Would delete + rewrite $current_domain (${#domain_entries[@]} shortcuts)"
@@ -93,6 +114,12 @@ apply_domain() {
         # Delete existing shortcuts for this domain
         defaults delete "$domain_arg" NSUserKeyEquivalents 2>/dev/null || true
 
+        # `defaults delete` goes through cfprefsd, but PlistBuddy writes the file
+        # directly, behind cfprefsd's back. Without dropping the cache in
+        # between, cfprefsd can flush its stale in-memory copy back over the
+        # file and silently undo the delete.
+        killall cfprefsd 2>/dev/null || true
+
         # Create the NSUserKeyEquivalents dict (ignore error if plist doesn't exist yet)
         /usr/libexec/PlistBuddy -c "Add :NSUserKeyEquivalents dict" "$plist_path" 2>/dev/null || true
 
@@ -104,8 +131,17 @@ apply_domain() {
             local escaped_name="${name// /\\ }"
             escaped_name="${escaped_name//(/\\(}"
             escaped_name="${escaped_name//)/\\)}"
-            /usr/libexec/PlistBuddy -c "Add :NSUserKeyEquivalents:${escaped_name} string ${shortcut}" "$plist_path"
+            # `Add` FAILS on an existing key rather than updating it, so a
+            # missed delete would leave the old value in place and print an
+            # error. Set first, and only Add when the key is genuinely new.
+            if ! /usr/libexec/PlistBuddy -c "Set :NSUserKeyEquivalents:${escaped_name} ${shortcut}" "$plist_path" 2>/dev/null; then
+                /usr/libexec/PlistBuddy -c "Add :NSUserKeyEquivalents:${escaped_name} string ${shortcut}" "$plist_path" \
+                    || log_warn "failed to write $current_domain / $name"
+            fi
         done
+
+        # Drop the cache again so the next reader sees what we wrote.
+        killall cfprefsd 2>/dev/null || true
         log_apply "$current_domain (${#domain_entries[@]} shortcuts)"
     fi
 
@@ -144,5 +180,7 @@ else
     echo "Applied: $SHORTCUTS shortcuts across $DOMAINS domains"
     echo ""
     log_info "Restart affected apps for shortcuts to take effect."
+    echo -e "${DIM}    NSGlobalDomain shortcuts (Minimize, Show Tab Bar) need a full"
+    echo -e "    logout/login, not just an app restart.${NC}"
 fi
 echo ""

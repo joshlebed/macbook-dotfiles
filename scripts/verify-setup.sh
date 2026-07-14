@@ -226,12 +226,18 @@ verify_file_mappings() {
     if [[ -f "$SCRIPT_DIR/link-files.sh" ]]; then
         local output
         output=$("$SCRIPT_DIR/link-files.sh" --verify 2>&1)
-        # grep -c already prints 0 when there are no matches; it just exits 1.
-        # `|| echo 0` would append a second line, making this "0\n0" and
-        # breaking the arithmetic below.
+        # Count only per-mapping lines. link-files.sh ends with its own summary
+        # ("[OK] All mappings verified!" / "[WARN] N mappings need attention"),
+        # which matches these patterns too and would be counted as an extra
+        # mapping — inflating the totals and reporting 2 issues when there is 1.
+        #
+        # grep -c already prints 0 when nothing matches; it just exits 1. A
+        # `|| echo 0` would append a second line and make this "0\n0".
         local ok issues
-        ok=$(echo "$output" | grep -c "\[OK\]" || true)
-        issues=$(echo "$output" | grep -c "\[WARN\]\|\[ERROR\]" || true)
+        # `.*` between the tag and the label because link-files.sh emits ANSI
+        # colour resets there ("<esc>[0;32m[OK]<esc>[0m symlink: .zshrc").
+        ok=$(echo "$output" | grep -cE "\[OK\].*(symlink|hardlink|copy|plist):" || true)
+        issues=$(echo "$output" | grep -cE "\[(WARN|ERROR)\].*(symlink|hardlink|copy|plist):" || true)
 
         if [[ $issues -eq 0 ]]; then
             log_pass "All $ok file mappings OK"
@@ -258,6 +264,25 @@ verify_editor_extensions() {
     else
         log_warn "Editor extensions differ from tracked lists"
         echo -e "${DIM}    Run: ./scripts/editor-extensions.sh --check${NC}"
+    fi
+}
+
+verify_login_items() {
+    [[ "$CURRENT_OS" != "macos" ]] && return
+
+    log_section "Login Items"
+
+    local script="$SCRIPT_DIR/login-items.sh"
+    if [[ ! -x "$script" ]]; then
+        log_warn "login-items.sh missing"
+        return
+    fi
+
+    if "$script" --check >/dev/null 2>&1; then
+        log_pass "Login items in sync"
+    else
+        log_warn "Login items differ from config/login-items.yaml"
+        echo -e "${DIM}    Run: ./scripts/login-items.sh --check${NC}"
     fi
 }
 
@@ -341,6 +366,7 @@ verify_homebrew_bundle
 verify_apps
 verify_file_mappings
 verify_editor_extensions
+verify_login_items
 verify_keyboard_shortcuts
 
 show_summary

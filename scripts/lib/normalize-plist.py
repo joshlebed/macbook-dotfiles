@@ -59,7 +59,23 @@ def patterns_for(sections, domain):
     return list(sections.get("*", [])) + list(sections.get(domain, []))
 
 
+def unordered_for(sections, domain):
+    """Key globs whose list value is a set, from "<domain>:<key glob>" entries."""
+    out = []
+    for entry in sections.get("unordered-lists", []):
+        if ":" not in entry:
+            continue
+        dom, key = entry.split(":", 1)
+        if dom in ("*", domain):
+            out.append(key)
+    return out
+
+
 def should_drop(key, patterns):
+    return any(fnmatch.fnmatch(key, p) for p in patterns)
+
+
+def is_unordered(key, patterns):
     return any(fnmatch.fnmatch(key, p) for p in patterns)
 
 
@@ -95,8 +111,19 @@ def canonicalize(value):
     return value
 
 
-def normalize(data, patterns):
-    kept = {k: canonicalize(v) for k, v in data.items() if not should_drop(k, patterns)}
+def normalize(data, patterns, unordered=()):
+    kept = {}
+    for k, v in data.items():
+        if should_drop(k, patterns):
+            continue
+        v = canonicalize(v)
+        # Sort set-semantics lists so a pure reorder stops reading as drift.
+        if is_unordered(k, unordered) and isinstance(v, list):
+            try:
+                v = sorted(v, key=lambda x: (x.__class__.__name__, str(x)))
+            except Exception:
+                pass
+        kept[k] = v
     dropped = sorted(k for k in data if should_drop(k, patterns))
     return {k: kept[k] for k in sorted(kept)}, dropped
 
@@ -121,8 +148,10 @@ def main():
         print("normalize-plist: %s is not a plist dictionary" % args.infile, file=sys.stderr)
         return 1
 
-    patterns = patterns_for(parse_filters(args.filters), args.domain)
-    result, dropped = normalize(data, patterns)
+    sections = parse_filters(args.filters)
+    patterns = patterns_for(sections, args.domain)
+    unordered = unordered_for(sections, args.domain)
+    result, dropped = normalize(data, patterns, unordered)
 
     blob = plistlib.dumps(result, fmt=plistlib.FMT_XML, sort_keys=True)
     if args.outfile == "-":
