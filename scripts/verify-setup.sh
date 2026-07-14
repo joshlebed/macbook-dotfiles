@@ -242,6 +242,25 @@ verify_file_mappings() {
     fi
 }
 
+verify_editor_extensions() {
+    [[ "$CURRENT_OS" != "macos" ]] && return
+
+    log_section "Editor Extensions"
+
+    local script="$SCRIPT_DIR/editor-extensions.sh"
+    if [[ ! -x "$script" ]]; then
+        log_warn "editor-extensions.sh missing"
+        return
+    fi
+
+    if "$script" --check >/dev/null 2>&1; then
+        log_pass "VS Code + Cursor extensions in sync"
+    else
+        log_warn "Editor extensions differ from tracked lists"
+        echo -e "${DIM}    Run: ./scripts/editor-extensions.sh --check${NC}"
+    fi
+}
+
 verify_keyboard_shortcuts() {
     [[ "$CURRENT_OS" != "macos" ]] && return
 
@@ -321,6 +340,7 @@ verify_local_environment
 verify_homebrew_bundle
 verify_apps
 verify_file_mappings
+verify_editor_extensions
 verify_keyboard_shortcuts
 
 show_summary

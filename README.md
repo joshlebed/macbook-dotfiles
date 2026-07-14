@@ -73,7 +73,29 @@ Some apps need manual setup after running the script:
 | iTerm2           | Preferences → General → Load from `~/.config/iterm2`         |
 | Hammerspoon      | Grant Accessibility permission; enable "Launch at login"     |
 | Thaw             | Grant Accessibility/Screen Recording; enable launch at login |
+| Velja            | Set as default browser; quit before running `link-files.sh`  |
+| Contexts         | License file is gitignored — copy it over by hand            |
+| Raycast          | Sign in; Cloud Sync restores hotkeys/aliases/extensions      |
 | Google Drive     | Sign in                                                      |
+| TickTick         | Sign in                                                      |
+
+### Editor Extensions
+
+VS Code and Cursor hold different extension sets, so they get one tracked list
+each (`vscode/extensions-vscode.txt`, `vscode/extensions-cursor.txt`).
+
+```bash
+./scripts/editor-extensions.sh --export    # system -> repo
+./scripts/editor-extensions.sh --install   # repo -> system (run by setup-macos.sh)
+./scripts/editor-extensions.sh --check     # report drift
+```
+
+These are deliberately **not** `vscode` lines in the Brewfile. `brew bundle`
+shells out to whatever `code` resolves to on PATH — and here `code` is *Cursor*
+(`/opt/homebrew/bin/code` → `Cursor.app`), so those lines would install Cursor's
+extensions into Cursor while claiming to describe VS Code. The script addresses
+each editor's CLI by absolute path instead; VS Code's own CLI lives inside its
+app bundle and is not the `code` on your PATH.
 
 ### Adding New Config Files
 

@@ -264,6 +264,16 @@ step_keyboard_shortcuts() {
     fi
 }
 
+step_editor_extensions() {
+    log_section "Step 6: Editor Extensions"
+
+    if [[ "$DRY_RUN" == true ]]; then
+        log_step "[DRY-RUN] Would install VS Code + Cursor extensions"
+        return 0
+    fi
+    run_script_with_args "$SCRIPT_DIR/editor-extensions.sh" "--install" "VS Code + Cursor extensions"
+}
+
 show_manual_steps() {
     log_section "Manual Configuration Required"
 
@@ -307,12 +317,15 @@ show_summary() {
     echo "  ✓ Homebrew and packages"
     echo "  ✓ Zsh with Oh My Zsh"
     echo "  ✓ Terminal cleanup (~/.hushlogin)"
-    echo "  ✓ All file mappings (symlinks, hardlinks, copies)"
+    echo "  ✓ All file mappings (symlinks, plists, copies)"
     echo "  ✓ Keyboard shortcuts"
+    echo "  ✓ VS Code + Cursor extensions"
     echo ""
     echo "Next steps:"
     echo "  1. Open a new terminal or run: exec zsh"
-    echo "  2. Complete the manual configuration steps above"
+    echo "  2. Set up git identity: ./scripts/bootstrap-git-identity.sh"
+    echo "  3. Create ~/.environment-specifics.zshrc from the example (see README)"
+    echo "  4. Complete the manual configuration steps above"
     echo ""
     echo "Repository: https://github.com/joshlebed/macbook-dotfiles"
     echo ""
@@ -358,6 +371,7 @@ main() {
     step_hushlogin  || FAILED_STEPS+=("Terminal Cleanup")
     step_file_mappings || FAILED_STEPS+=("File Mappings")
     step_keyboard_shortcuts || FAILED_STEPS+=("Keyboard Shortcuts")
+    step_editor_extensions || FAILED_STEPS+=("Editor Extensions")
 
     # Show manual steps and summary
     show_manual_steps
