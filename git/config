@@ -1,0 +1,42 @@
+# Global git configuration.
+#
+# This is the XDG location (~/.config/git/config). Git reads it natively, so it
+# needs no entry in file-mappings.yaml — cloning this repo to ~/.config is
+# enough to install it. Same mechanism as the `ignore` file next to it.
+#
+# IMPORTANT: ~/.gitconfig must not exist. If it does, git reads BOTH files and
+# ~/.gitconfig wins every conflict, silently shadowing this one. It also
+# captures `git config --global` writes. With it gone, `git config --global`
+# writes here instead — so global config changes are tracked automatically.
+#
+# Identity/auth (SSH keys, gh login) is NOT here: see
+# scripts/bootstrap-git-identity.sh and the README's "Git identity" section.
+
+[user]
+	name = Josh Lebedinsky
+	email = joshlebed@gmail.com
+
+[core]
+	editor = code --wait
+
+[push]
+	autoSetupRemote = true
+
+[init]
+	defaultBranch = main
+
+[diff]
+	tool = code
+
+[difftool "code"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+
+[pull]
+	rebase = false
+	merge = true
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

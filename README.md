@@ -26,6 +26,43 @@ That's it! The script handles everything:
 ./scripts/audit-brew.sh              # Compare installed Homebrew packages to Brewfile
 ```
 
+### Git identity (day 1)
+
+This repo is public and the clone above uses HTTPS, so **no SSH key or GitHub
+login is needed to set up a new machine**. You do need both to push to this repo
+and to do any real work, so once `setup-macos.sh` has installed `gh`:
+
+```bash
+./scripts/bootstrap-git-identity.sh            # or --dry-run to preview
+```
+
+It is idempotent and safe to re-run. It will:
+
+1. Confirm `gh` is installed and your identity resolves (name/email come from
+   `git/config` in this repo — see below).
+2. Log in to GitHub (`gh auth login --git-protocol ssh --web`) if needed.
+3. Generate `~/.ssh/id_ed25519` if you don't have one.
+4. Add a `github.com` block to `~/.ssh/config` (`AddKeysToAgent` +
+   `UseKeychain`) so the key survives reboots, and load it into the keychain.
+5. Test `ssh -T git@github.com`, and **only if that fails**, register the public
+   key with GitHub — requesting the `admin:public_key` scope on demand, since a
+   default `gh auth login` doesn't grant it.
+6. Switch this repo's `origin` from HTTPS to SSH so you can push.
+
+If you'd rather do it by hand, GitHub's own docs cover the same ground:
+[generating a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+and [adding it to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+
+**Global git config is tracked**, at `git/config` — the XDG path
+(`~/.config/git/config`), which git reads natively, so cloning this repo
+installs it with no symlink needed. The same trick already covers `git/ignore`.
+
+> **`~/.gitconfig` must not exist.** If it does, git reads *both* files and
+> `~/.gitconfig` wins every conflict, silently shadowing the tracked config. It
+> also captures `git config --global` writes. With it gone, `git config --global`
+> writes to the tracked file instead, so global config changes are version
+> controlled automatically.
+
 ### Manual App Configuration
 
 Some apps need manual setup after running the script:
@@ -158,8 +195,12 @@ limited install (skips system packages).
 │   ├── file-mappings.yaml      # All symlink/copy/plist definitions
 │   └── preference-filters.yaml # Churn keys stripped from exported plists
 ├── Brewfile                  # Declarative Homebrew baseline
+├── git/
+│   ├── config               # Global git config (XDG; read natively by git)
+│   └── ignore               # Global gitignore (XDG)
 ├── scripts/
 │   ├── setup-macos.sh        # macOS setup (run this)
+│   ├── bootstrap-git-identity.sh # SSH key + GitHub auth (day 1)
 │   ├── setup-linux-dev.sh    # Linux setup
 │   ├── link-files.sh         # Apply file mappings
 │   ├── verify-setup.sh       # Check setup status

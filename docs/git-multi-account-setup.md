@@ -1,5 +1,24 @@
 # Git Multi-Account Setup
 
+> **STATUS: NOT IMPLEMENTED — this document describes a design, not the current
+> machine.** Verified 2026-07: there is no `includeIf` in the tracked
+> `git/config`, no `~/.gitconfig-personal`, and no `github-personal` alias in
+> `~/.ssh/config` (only `github.com`, `mediaserver`, `pi`). The global
+> `user.email` is the **personal** address, so work repos currently get the
+> personal email — the opposite of what's described below.
+>
+> What actually exists today:
+>
+> - Global git config is tracked at [`git/config`](../git/config) (XDG path).
+> - SSH + GitHub auth is set up by
+>   [`scripts/bootstrap-git-identity.sh`](../scripts/bootstrap-git-identity.sh),
+>   with a single key and a single identity. See the README's
+>   "Git identity (day 1)" section.
+>
+> Treat everything below as a proposal to either implement or delete. If you do
+> implement it, the `includeIf` and `insteadOf` rules belong in `git/config` so
+> they get tracked; only the private keys stay out of the repo.
+
 This setup allows seamless use of both work and personal GitHub accounts. Just
 use normal `git clone` commands — the correct SSH key and commit email are
 selected automatically based on the repo owner.
