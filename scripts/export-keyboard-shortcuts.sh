@@ -26,6 +26,7 @@ DRY_RUN=false
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 CYAN='\033[0;36m'
+RED='\033[0;31m'
 DIM='\033[2m'
 NC='\033[0m'
 
@@ -49,6 +50,49 @@ for arg in "$@"; do
             ;;
     esac
 done
+
+# ============================================================================
+# VALIDATION
+# ============================================================================
+#
+# A well-formed shortcut is zero or more modifiers (@ ~ ^ $) followed by
+# exactly one ASCII key character.
+#
+# Why this guard exists: `defaults find` renders a non-ASCII key (Tab, arrows,
+# Escape) as a \Uxxxx escape. This script captures that text verbatim, and
+# apply-keyboard-shortcuts.sh feeds it to PlistBuddy — which strips the
+# backslash rather than decoding the escape, turning "^⇥" into the literal
+# six-character ASCII string "^U21e5". The round trip is then stable on a
+# destroyed value, so nothing ever reports a problem.
+#
+# That is exactly what happened to Messenger's ("Archon") Next/Previous Chat
+# bindings: commit df07558 held the correct "^\U21e5", apply ran, and 20 seconds
+# later f5086cb committed "^U21e5" as ground truth.
+#
+# Neither script can currently round-trip unicode, so refuse to export a
+# shortcut we would corrupt instead of silently committing a broken binding.
+# If you need a Tab/arrow/Escape binding, both scripts need a real fix first:
+# export via `plutil -convert xml1` (which emits true UTF-8) rather than parsing
+# `defaults find` text, and have apply write real unicode instead of PlistBuddy.
+
+declare -a INVALID_SHORTCUTS=()
+
+validate_shortcut() {
+    local domain="$1" name="$2" value="$3"
+    /usr/bin/python3 - "$value" <<'PY'
+import sys
+v = sys.argv[1]
+key = v.lstrip("@~^$")
+if len(key) == 1 and ord(key) < 128:
+    sys.exit(0)
+sys.exit(1)
+PY
+    if [[ $? -ne 0 ]]; then
+        INVALID_SHORTCUTS+=("${domain} / ${name} = \"${value}\"")
+        return 1
+    fi
+    return 0
+}
 
 # ============================================================================
 # DISCOVER SHORTCUTS
@@ -92,6 +136,9 @@ while IFS= read -r line; do
         shortcut="${BASH_REMATCH[2]}"
         # Trim trailing whitespace from name
         name="${name%"${name##*[![:space:]]}"}"
+
+        # Refuse to record anything we cannot round-trip (see VALIDATION above).
+        validate_shortcut "$current_domain" "$name" "$shortcut" || continue
 
         if [[ -z "${domain_entries[$current_domain]+_}" ]]; then
             domain_order+=("$current_domain")
@@ -156,6 +203,23 @@ generate_yaml() {
 # ============================================================================
 
 echo ""
+
+# Fail loudly rather than committing a shortcut we know we would corrupt.
+if [[ ${#INVALID_SHORTCUTS[@]} -gt 0 ]]; then
+    echo -e "${RED}[ERROR]${NC} Refusing to export ${#INVALID_SHORTCUTS[@]} shortcut(s) that cannot be round-tripped:"
+    for s in "${INVALID_SHORTCUTS[@]}"; do
+        echo "    $s"
+    done
+    echo ""
+    echo -e "${DIM}    A shortcut must be modifiers (@ ~ ^ \$) plus exactly one ASCII key."
+    echo -e "    A multi-character key means it was already corrupted by a previous"
+    echo -e "    apply/export cycle; a non-ASCII key (Tab/arrows/Escape) cannot survive"
+    echo -e "    PlistBuddy, which strips the backslash instead of decoding \\Uxxxx."
+    echo -e "    See the VALIDATION comment in this script for the real fix.${NC}"
+    echo ""
+    exit 1
+fi
+
 if [[ "$DRY_RUN" == true ]]; then
     log_info "Dry run - would write to $SHORTCUTS_FILE:"
     echo ""
