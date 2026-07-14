@@ -19,6 +19,10 @@ symlinks:
     target: ~/.claude/settings.json
     reason: Claude Code settings
 
+  - source: claude/CLAUDE.md
+    target: ~/.claude/CLAUDE.md
+    reason: Global Claude Code instructions for all projects
+
   - source: claude/skills
     target: ~/.claude/skills
     reason: User-level Claude Code skills

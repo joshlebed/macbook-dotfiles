@@ -151,16 +151,22 @@ verify_local_environment() {
             log_warn "~/.environment-specifics.zshrc should be chmod 600"
         fi
 
-        if grep -Eq '^(export[[:space:]]+)?HOME_ASSISTANT_URL=' "$env_file"; then
-            log_pass "HOME_ASSISTANT_URL configured"
-        else
-            log_warn "HOME_ASSISTANT_URL missing"
-        fi
-
-        if grep -Eq '^(export[[:space:]]+)?HOME_ASSISTANT_TOKEN=' "$env_file"; then
-            log_pass "HOME_ASSISTANT_TOKEN configured"
-        else
-            log_warn "HOME_ASSISTANT_TOKEN missing"
+        # Derive the expected variables from the tracked template rather than
+        # hardcoding them here — that hardcoded list drifted to covering 2 of 8.
+        if [[ -f "$example_file" ]]; then
+            local missing=0 expected=0 var
+            while IFS= read -r var; do
+                [[ -z "$var" ]] && continue
+                ((expected++))
+                if ! grep -Eq "^(export[[:space:]]+)?${var}=" "$env_file"; then
+                    log_warn "$var missing from ~/.environment-specifics.zshrc"
+                    ((missing++))
+                fi
+            done < <(grep -oE '^(export[[:space:]]+)?[A-Za-z_][A-Za-z0-9_]*=' "$example_file" \
+                        | sed -E 's/^export[[:space:]]+//; s/=$//' | sort -u)
+            if [[ $missing -eq 0 && $expected -gt 0 ]]; then
+                log_pass "all $expected template variables present"
+            fi
         fi
     else
         log_warn "~/.environment-specifics.zshrc missing"
