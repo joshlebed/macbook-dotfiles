@@ -6,8 +6,9 @@ set -e
 # Install Zsh and Oh My Zsh
 # ============================================================================
 #
-# Installs zsh and oh-my-zsh. Symlinks (.zshrc, theme) are handled separately
-# by link-files.sh via config/file-mappings.conf.
+# Installs oh-my-zsh. zsh itself is declared in the Brewfile and installed by
+# brew_install_all.sh. Symlinks (.zshrc, theme) are handled separately by
+# link-files.sh via config/file-mappings.yaml.
 #
 # ============================================================================
 
@@ -31,9 +32,10 @@ echo ""
 if command -v zsh >/dev/null 2>&1; then
     log_skip "Zsh already installed"
 else
-    log_info "Installing zsh via Homebrew..."
-    brew install zsh
-    log_success "Zsh installed"
+    # zsh is declared in the Brewfile; don't install it out-of-band here or it
+    # becomes a permanent false positive in audit-brew.sh.
+    log_info "zsh not found — run ./scripts/brew_install_all.sh first"
+    exit 1
 fi
 
 # ============================================================================
