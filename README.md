@@ -334,7 +334,7 @@ cursor to the window's title bar, hold a zero-motion left-click, switch desktops
 normal Cocoa windows and Spotify with zero drift. **Known limitation:** Electron
 apps (Claude, ChatGPT) don't move yet — their in-app drag loop swallows the
 Space-switch keystroke (even Raycast can't move them). Full design notes and the
-plan for fixing it: [`docs/move-window-and-follow.md`](https://github.com/joshlebed/InstantSpaceSwitcher/blob/feature/move-window-and-follow/docs/move-window-and-follow.md).
+plan for fixing it: [`docs/move-window-and-follow.md`](https://github.com/joshlebed/InstantSpaceSwitcher/blob/main/docs/move-window-and-follow.md).
 
 **Do not install the Homebrew cask.** `jurplel/tap/instant-space-switcher`
 installs upstream's build to `/Applications/InstantSpaceSwitcher.app` — the same
@@ -348,53 +348,50 @@ gets installed, remove it with
 
 Nothing here is automated by the setup scripts.
 
-**1. Clone the fork** (the feature lives on a branch, not `main`):
+**1. Clone the fork.** `main` is the fork's own default branch and carries all
+the work — no branch checkout needed.
 
 ```bash
 git clone git@github.com:joshlebed/InstantSpaceSwitcher.git ~/code/InstantSpaceSwitcher
 cd ~/code/InstantSpaceSwitcher
-git checkout feature/move-window-and-follow
-git remote add upstream git@github.com:jurplel/InstantSpaceSwitcher.git
+git remote add upstream git@github.com:jurplel/InstantSpaceSwitcher.git   # optional, for pulling upstream fixes
 ```
 
-**2. Get the signing certificate onto the new Mac — do this before the old one
-is wiped.** This is the only step that can't be redone later.
-
-The app is signed with `Developer ID Application: JOSHUA AARON LEBEDINSKY
-(Q65U6C65ZZ)`. macOS ties Accessibility and Input Monitoring grants to the code
-signature, so a stable identity means the grants survive rebuilds. `build.sh`
-only signs **ad-hoc**, and an ad-hoc signature changes on every build — so
-without the cert you must re-grant both permissions every single rebuild.
-
-Apple does not store the private key, so it cannot be re-downloaded. Export it
-from the old Mac:
-
-> Keychain Access → My Certificates → `Developer ID Application: JOSHUA AARON
-> LEBEDINSKY` → right-click → Export → `.p12` (set a password) → copy to the new
-> Mac → double-click to import.
-
-Verify it landed:
+**2. Build and install:**
 
 ```bash
-security find-identity -v -p codesigning   # should list the Developer ID Application identity
+./dist/build.sh      # universal release → build/InstantSpaceSwitcher.app (ad-hoc signed)
+./dist/install.sh    # quits, replaces /Applications, strips quarantine, launches
 ```
 
-If you skip this, everything still works — you just re-grant permissions after
-each rebuild.
+`install.sh --reset-permissions` also clears the existing Accessibility / Input
+Monitoring grants — use it when the signing identity changed and macOS is
+treating the rebuild as a different app.
 
-**3. Build, sign, install:**
+**3. Signing (optional, but saves repeated permission grants).**
+
+macOS ties Accessibility and Input Monitoring grants to the app's *code
+signature*. `build.sh` signs **ad-hoc**, and an ad-hoc signature differs on every
+build — so macOS sees each rebuild as a new app and you re-grant both
+permissions every time. Signing with a stable Developer ID makes the grants
+stick:
 
 ```bash
-cd ~/code/InstantSpaceSwitcher
-./dist/build.sh                    # universal release → build/InstantSpaceSwitcher.app (ad-hoc signed)
-
-# Optional but recommended — re-sign so TCC grants survive rebuilds:
 codesign --force --deep --options runtime \
   --sign "Developer ID Application: JOSHUA AARON LEBEDINSKY (Q65U6C65ZZ)" \
   build/InstantSpaceSwitcher.app
-
-./dist/install.sh                  # quits, replaces /Applications, strips quarantine, launches
 ```
+
+That identity lives in a keychain, not this repo — Apple doesn't store the
+private key, so it can't be re-downloaded. Either export it from an existing Mac
+(Keychain Access → My Certificates → right-click → Export → `.p12`) or generate
+a fresh one from the Apple Developer portal. Check what's available with:
+
+```bash
+security find-identity -v -p codesigning
+```
+
+Skipping this costs nothing but the repeated re-granting.
 
 `install.sh --reset-permissions` also clears the existing TCC grants, which is
 what you want if the signature changed and macOS is confused about the app.
@@ -402,6 +399,10 @@ what you want if the signature changed and macOS is confused about the app.
 **4. Grant permissions and autostart.** System Settings → Privacy & Security →
 **Accessibility** and **Input Monitoring**. Then add it to Login Items (or run
 `./scripts/login-items.sh --apply` from this repo, which includes it).
+
+The Karabiner nav layer in this repo emits the `F16` combos the app listens for,
+so `caps+cmd+d/f` only works against a build from this fork — upstream has no
+F16 handling at all.
 
 The installed build records the commit it came from, so you can always tell what
 you're running:
