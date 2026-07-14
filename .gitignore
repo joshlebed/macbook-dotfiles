@@ -36,6 +36,11 @@ mintlify/
 **/.claude/settings.local.json
 claude/notify-end.log
 
+# Claude rewrites these constantly (lastUpdated timestamps) and they hold
+# absolute /Users/<name>/... cache paths — untracked on purpose.
+claude/plugins/installed_plugins.json
+claude/plugins/known_marketplaces.json
+
 # one password
 op
 

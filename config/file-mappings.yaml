@@ -76,16 +76,14 @@ symlinks:
     os: linux
 
 copies:
-  # Claude Code plugin state — Claude writes to these, so we copy instead of link
-  # Caches/marketplaces/repos live under ~/.claude/plugins/ and are NOT synced
-  - source: claude/plugins/installed_plugins.json
-    target: ~/.claude/plugins/installed_plugins.json
-    reason: Declarative list of installed plugins
-
-  - source: claude/plugins/known_marketplaces.json
-    target: ~/.claude/plugins/known_marketplaces.json
-    reason: Configured plugin marketplaces
-
+  # Claude Code plugin state — Claude writes to these, so we copy instead of link.
+  # Caches/marketplaces/repos live under ~/.claude/plugins/ and are NOT synced.
+  #
+  # installed_plugins.json and known_marketplaces.json are deliberately NOT here:
+  # Claude rewrites their lastUpdated timestamps constantly and their installPath
+  # values are absolute /Users/<name>/... cache paths that mean nothing on another
+  # machine. Tracking them meant the drift report was amber within a day of every
+  # export, which is how a drift report stops being read.
   - source: claude/plugins/config.json
     target: ~/.claude/plugins/config.json
     reason: Plugin config

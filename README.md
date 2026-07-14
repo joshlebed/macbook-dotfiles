@@ -336,11 +336,79 @@ apps (Claude, ChatGPT) don't move yet — their in-app drag loop swallows the
 Space-switch keystroke (even Raycast can't move them). Full design notes and the
 plan for fixing it: [`docs/move-window-and-follow.md`](https://github.com/joshlebed/InstantSpaceSwitcher/blob/feature/move-window-and-follow/docs/move-window-and-follow.md).
 
-**Source / install.** Source is at `~/code/InstantSpaceSwitcher` (not built by
-the dotfiles setup scripts). Build with `./dist/build.sh`, re-sign with the
-Developer ID cert so Accessibility carries across rebuilds, then replace
-`/Applications/InstantSpaceSwitcher.app` and relaunch. Needs Accessibility +
-Input Monitoring permission.
+**Do not install the Homebrew cask.** `jurplel/tap/instant-space-switcher`
+installs upstream's build to `/Applications/InstantSpaceSwitcher.app` — the same
+path the fork build uses — so it silently replaces the fork and the
+move-window-and-follow feature disappears. It is deliberately absent from the
+Brewfile, and `brew uninstall --cask` would delete the fork build, so if it ever
+gets installed, remove it with
+`rm -rf /opt/homebrew/Caskroom/instant-space-switcher` instead.
+
+#### Setting it up on a new machine
+
+Nothing here is automated by the setup scripts.
+
+**1. Clone the fork** (the feature lives on a branch, not `main`):
+
+```bash
+git clone git@github.com:joshlebed/InstantSpaceSwitcher.git ~/code/InstantSpaceSwitcher
+cd ~/code/InstantSpaceSwitcher
+git checkout feature/move-window-and-follow
+git remote add upstream git@github.com:jurplel/InstantSpaceSwitcher.git
+```
+
+**2. Get the signing certificate onto the new Mac — do this before the old one
+is wiped.** This is the only step that can't be redone later.
+
+The app is signed with `Developer ID Application: JOSHUA AARON LEBEDINSKY
+(Q65U6C65ZZ)`. macOS ties Accessibility and Input Monitoring grants to the code
+signature, so a stable identity means the grants survive rebuilds. `build.sh`
+only signs **ad-hoc**, and an ad-hoc signature changes on every build — so
+without the cert you must re-grant both permissions every single rebuild.
+
+Apple does not store the private key, so it cannot be re-downloaded. Export it
+from the old Mac:
+
+> Keychain Access → My Certificates → `Developer ID Application: JOSHUA AARON
+> LEBEDINSKY` → right-click → Export → `.p12` (set a password) → copy to the new
+> Mac → double-click to import.
+
+Verify it landed:
+
+```bash
+security find-identity -v -p codesigning   # should list the Developer ID Application identity
+```
+
+If you skip this, everything still works — you just re-grant permissions after
+each rebuild.
+
+**3. Build, sign, install:**
+
+```bash
+cd ~/code/InstantSpaceSwitcher
+./dist/build.sh                    # universal release → build/InstantSpaceSwitcher.app (ad-hoc signed)
+
+# Optional but recommended — re-sign so TCC grants survive rebuilds:
+codesign --force --deep --options runtime \
+  --sign "Developer ID Application: JOSHUA AARON LEBEDINSKY (Q65U6C65ZZ)" \
+  build/InstantSpaceSwitcher.app
+
+./dist/install.sh                  # quits, replaces /Applications, strips quarantine, launches
+```
+
+`install.sh --reset-permissions` also clears the existing TCC grants, which is
+what you want if the signature changed and macOS is confused about the app.
+
+**4. Grant permissions and autostart.** System Settings → Privacy & Security →
+**Accessibility** and **Input Monitoring**. Then add it to Login Items (or run
+`./scripts/login-items.sh --apply` from this repo, which includes it).
+
+The installed build records the commit it came from, so you can always tell what
+you're running:
+
+```bash
+defaults read /Applications/InstantSpaceSwitcher.app/Contents/Info GitCommitHash
+```
 
 ### Editors
 
