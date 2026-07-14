@@ -13,14 +13,14 @@
     "javascript",
     "javascriptreact",
     "typescript",
-    "typescriptreact"
+    "typescriptreact",
   ],
   "editor.codeActionsOnSave": {
     "source.addMissingImports": "always",
     "source.organizeImports": "always",
     "source.fixAll": "always",
     "source.fixAll.eslint": "always",
-    "source.fixAll.ts": "never"
+    "source.fixAll.ts": "never",
   },
   "vscode-color-picker.languages": [
     "php",
@@ -32,7 +32,7 @@
     "javascriptreact",
     "typescript",
     "typescriptreact",
-    "vue"
+    "vue",
   ],
   "editor.glyphMargin": false,
   "window.openFoldersInNewWindow": "on",
@@ -64,7 +64,7 @@
     "terminal.ansiMagenta": "#75507B",
     "terminal.ansiRed": "#CC0000",
     "terminal.ansiWhite": "#D3D7CF",
-    "terminal.ansiYellow": "#C4A000"
+    "terminal.ansiYellow": "#C4A000",
   },
   "workbench.colorTheme": "Monokai",
   "window.titleBarStyle": "custom",
@@ -87,51 +87,51 @@
   "prettier.tabWidth": 2,
   "prettier.proseWrap": "always",
   "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[markdown]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.wordWrap": "off"
+    "editor.wordWrap": "off",
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "emmet.showExpandedAbbreviation": "never",
   "files.associations": {
     "packageInfo": "plaintext",
-    ".gitconfig": "plaintext"
+    ".gitconfig": "plaintext",
   },
   "[python]": {
     "editor.formatOnType": true,
-    "editor.defaultFormatter": "charliermarsh.ruff"
+    "editor.defaultFormatter": "charliermarsh.ruff",
   },
   "[jupyter]": {
     "editor.formatOnType": true,
-    "editor.defaultFormatter": "charliermarsh.ruff"
+    "editor.defaultFormatter": "charliermarsh.ruff",
   },
   "notebook.formatOnSave.enabled": true,
 
   "terminal.integrated.defaultProfile.linux": "zsh",
   "security.workspace.trust.untrustedFiles": "open",
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "editor.accessibilitySupport": "off",
   "terminal.integrated.env.osx": {
-    "CW_NEW_SESSION": "1"
+    "CW_NEW_SESSION": "1",
   },
   "workbench.editor.tabActionCloseVisibility": false,
   "window.zoomLevel": 2,
@@ -139,7 +139,7 @@
   "git.autofetch": true,
   "git.confirmSync": false,
   "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "terminal.integrated.scrollback": 10000,
   "cursor.cpp.disabledLanguages": ["scminput"],
@@ -160,7 +160,7 @@
   "remote.SSH.remotePlatform": {
     "sd": "linux",
     "pi": "linux",
-    "mediaserver": "linux"
+    "mediaserver": "linux",
   },
   "claudeCode.preferredLocation": "panel",
 
@@ -169,19 +169,19 @@
   "rust-analyzer.check.command": "check",
   "git.blame.statusBarItem.enabled": true,
   "workbench.editorAssociations": {
-    "git-rebase-todo": "default"
+    "git-rebase-todo": "default",
   },
   "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+    "editor.defaultFormatter": "redhat.vscode-yaml",
   },
   "claudeCode.allowDangerouslySkipPermissions": true,
   "claudeCode.initialPermissionMode": "bypassPermissions",
   "makefile.configureOnOpen": true,
   "update.mode": "silentlyApplyOnQuit",
   "[mdx]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "workbench.activityBar.location": "hidden",
-  "window.autoDetectColorScheme": false
+  "window.autoDetectColorScheme": false,
   // "biome.lsp.trace.server": "verbose"
 }

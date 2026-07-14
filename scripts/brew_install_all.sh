@@ -92,6 +92,36 @@ if [[ "$SKIP_APPS" == true ]]; then
     bundle_file="$temp_brewfile"
 fi
 
+# ----------------------------------------------------------------------------
+# Trust the declared third-party taps
+# ----------------------------------------------------------------------------
+#
+# Recent Homebrew refuses to load formulae or casks from non-official taps
+# unless they are explicitly trusted, and `brew bundle` then dies on the very
+# first one:
+#
+#   Error: Refusing to load formula withgraphite/tap/graphite from untrusted
+#   tap withgraphite/tap.
+#
+# That kills the whole bundle — so no node, which then cascades into "npm not
+# found" further down. Trusting is exactly what the feature is for: we are
+# vouching for the taps this Brewfile deliberately declares.
+#
+# `brew trust` accepts a tap that has not been tapped yet, so this can run
+# before `brew bundle` does the tapping. Older Homebrew has no `brew trust` and
+# does not enforce this, hence the capability check.
+if brew trust --help >/dev/null 2>&1; then
+    log_info "Trusting third-party taps declared in the Brewfile..."
+    while IFS= read -r tap_name; do
+        [[ -z "$tap_name" ]] && continue
+        if brew trust --tap "$tap_name" >/dev/null 2>&1; then
+            log_success "Trusted tap: $tap_name"
+        else
+            log_warning "Could not trust tap: $tap_name (brew bundle may refuse it)"
+        fi
+    done < <(awk -F'"' '/^[[:space:]]*tap[[:space:]]+"/ { print $2 }' "$BREWFILE")
+fi
+
 log_info "Installing Homebrew packages from $(basename "$BREWFILE")..."
 if ! brew bundle --file "$bundle_file" --no-upgrade; then
     log_error "Failed to install Homebrew packages from Brewfile"
