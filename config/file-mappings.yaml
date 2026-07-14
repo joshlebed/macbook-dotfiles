@@ -107,10 +107,6 @@ copies:
     target: ~/Library/Preferences/com.knollsoft.Rectangle.plist
     os: macos
 
-  - source: preferences/com.raycast.macos.plist
-    target: ~/Library/Preferences/com.raycast.macos.plist
-    os: macos
-
   - source: preferences/com.stonerl.Thaw.plist
     target: ~/Library/Preferences/com.stonerl.Thaw.plist
     os: macos

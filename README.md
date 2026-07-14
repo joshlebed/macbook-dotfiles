@@ -182,8 +182,8 @@ baseline, add it to `Brewfile`. If it reports a stale package, uninstall it.
 
 ### Syncing Preferences Between Machines
 
-Some macOS apps (Contexts, Rectangle, Raycast, Thaw, Velja) store settings in
-plist files that can't be symlinked, because the apps rewrite them.
+Some macOS apps (Contexts, Rectangle, Thaw, Velja) store settings in plist files
+that can't be symlinked, because the apps rewrite them.
 
 These go through `cfprefsd` rather than being copied, and are filtered and
 normalized on the way in and out — see [How plist sync works](#how-plist-sync-works).
@@ -238,11 +238,11 @@ settings — it is not a whole-domain replacement. `link-files.sh` therefore
 merges it onto the live domain (tracked keys win, local churn is preserved)
 rather than overwriting.
 
-**Raycast caveat:** your Raycast settings are not in this repo, and don't need
-to be. Hotkeys, aliases, extensions and quicklinks live in Raycast's own
-database and come back when you sign in — Cloud Sync restores them. The plist
-tracked here holds none of that; it's leftovers like onboarding flags and
-window positions. So on a new Mac: sign in to Raycast, and you're done.
+**Raycast is deliberately not synced here.** Its settings — hotkeys, aliases,
+extensions, quicklinks — live in Raycast's own database and come back when you
+sign in, because Cloud Sync restores them. Its plist used to be tracked, but it
+held none of that; only leftovers like onboarding flags and window positions.
+So on a new Mac: sign in to Raycast, and you're done.
 
 ## Linux Setup
 

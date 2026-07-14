@@ -243,7 +243,6 @@ warn_if_running() {
         com.stonerl.Thaw) app_name="Thaw" ;;
         com.knollsoft.Rectangle) app_name="Rectangle" ;;
         com.contextsformac.Contexts) app_name="Contexts" ;;
-        com.raycast.macos) app_name="Raycast" ;;
         *) return 0 ;;
     esac
     if pgrep -x "$app_name" >/dev/null 2>&1; then
