@@ -261,7 +261,7 @@ process_entry() {
 while IFS= read -r line || [[ -n "$line" ]]; do
     [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
 
-    if [[ "$line" =~ ^(symlinks|hardlinks|copies):$ ]]; then
+    if [[ "$line" =~ ^(symlinks|copies):$ ]]; then
         process_entry
         if [[ "${BASH_REMATCH[1]}" == "copies" ]]; then in_copies=true; else in_copies=false; fi
         continue

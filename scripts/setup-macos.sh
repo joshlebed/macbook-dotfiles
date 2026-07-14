@@ -6,7 +6,7 @@
 # Description:
 #   Unified setup script for macOS development environments.
 #   Installs and configures: Homebrew, CLI tools, GUI apps, zsh, oh-my-zsh,
-#   and all dotfile symlinks/hardlinks.
+#   and all dotfile symlinks/copies.
 #
 # Usage:
 #   ./scripts/setup-macos.sh           # Full setup
@@ -298,6 +298,8 @@ step_login_items() {
 show_manual_steps() {
     log_section "Manual Configuration Required"
 
+    # Keep this list in step with the README's "Manual App Configuration"
+    # table — it previously drifted and omitted Velja, Contexts and Raycast.
     echo "The following apps require manual configuration:"
     echo ""
     echo "  📋 Keyboard Maestro"
@@ -314,11 +316,24 @@ show_manual_steps() {
     echo "     Open Thaw.app once and grant Accessibility and Screen Recording permissions."
     echo "     Enable launch at login in its preferences."
     echo ""
+    echo "  🌐 Velja"
+    echo "     Set as the default browser. Quit it before running link-files.sh —"
+    echo "     a running app overwrites its plist on exit."
+    echo ""
+    echo "  🪟 Contexts"
+    echo "     License file is gitignored; copy it over by hand."
+    echo ""
+    echo "  🚀 Raycast"
+    echo "     Sign in — Cloud Sync restores hotkeys, aliases and extensions."
+    echo "     (The tracked plist does NOT contain them.)"
+    echo ""
     echo "  ☁️  Google Drive"
     echo "     Sign in and configure sync folders"
     echo ""
     echo "  ✅ TickTick"
     echo "     Sign in to sync tasks"
+    echo ""
+    echo "  See the README's 'Manual App Configuration' table for the full list."
     echo ""
 }
 

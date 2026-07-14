@@ -14,7 +14,7 @@ That's it! The script handles everything:
 - Xcode CLI tools
 - Homebrew + all packages
 - Zsh + Oh My Zsh
-- All config file symlinks/hardlinks
+- All config file symlinks/copies
 
 **Options:**
 

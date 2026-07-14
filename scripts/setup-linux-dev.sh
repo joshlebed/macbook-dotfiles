@@ -363,7 +363,7 @@ install_oh_my_zsh() {
 }
 
 # Create symlinks for configuration files (NO SUDO REQUIRED)
-# Uses the unified link-files.sh script with config/file-mappings.conf
+# Uses the unified link-files.sh script with config/file-mappings.yaml
 create_symlinks() {
     log_info "Creating configuration symlinks..."
 

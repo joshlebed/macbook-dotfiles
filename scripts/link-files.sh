@@ -3,7 +3,7 @@
 # Unified File Linking Script
 # ============================================================================
 #
-# Reads file-mappings.yaml and creates symlinks, hardlinks, and copies.
+# Reads file-mappings.yaml and creates symlinks, copies, and plist imports.
 # Works on both macOS and Linux.
 #
 # Usage:
@@ -85,7 +85,7 @@ Options:
     -h, --help       Show this help message
     -n, --dry-run    Preview changes without applying them
     -v, --verify     Check status of all mappings (no changes)
-    -t, --type TYPE  Only process mappings of TYPE (symlink|hardlink|copy)
+    -t, --type TYPE  Only process mappings of TYPE (symlink|copy)
 
 Detected OS: $CURRENT_OS
 
@@ -130,22 +130,6 @@ symlink_is_correct() {
     local target="$1"
     local source="$2"
     [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$source" ]]
-}
-
-hardlink_is_correct() {
-    local source="$1"
-    local target="$2"
-    [[ -f "$source" ]] && [[ -f "$target" ]] || return 1
-
-    local inode1 inode2
-    if [[ "$CURRENT_OS" == "macos" ]]; then
-        inode1=$(stat -f %i "$source" 2>/dev/null)
-        inode2=$(stat -f %i "$target" 2>/dev/null)
-    else
-        inode1=$(stat -c %i "$source" 2>/dev/null)
-        inode2=$(stat -c %i "$target" 2>/dev/null)
-    fi
-    [[ "$inode1" == "$inode2" ]]
 }
 
 files_identical() {
@@ -218,36 +202,6 @@ create_symlink() {
     ln -s "$source" "$target"
     [[ "$CURRENT_OS" == "macos" ]] && chflags nouchg "$target" 2>/dev/null || true
     log_create "Symlinked: $name"; ((TOTAL_CREATED++))
-}
-
-create_hardlink() {
-    local source="$1" target="$2"
-    local name=$(basename "$target")
-
-    [[ -f "$source" ]] || { log_warning "Source missing: $source"; ((TOTAL_FAILED++)); return 1; }
-
-    if hardlink_is_correct "$source" "$target"; then
-        [[ "$VERIFY_ONLY" == true ]] && log_success "hardlink: $name" || log_skip "Already hardlinked: $name"
-        ((TOTAL_OK++)); return 0
-    fi
-
-    if [[ "$VERIFY_ONLY" == true ]]; then
-        [[ -e "$target" ]] && log_warning "hardlink: $name (wrong)" || log_error "hardlink: $name (missing)"
-        ((TOTAL_FAILED++)); return 1
-    fi
-
-    if [[ "$DRY_RUN" == true ]]; then
-        log_dry "Would hardlink: $name"; ((TOTAL_CREATED++)); return 0
-    fi
-
-    ensure_parent_dir "$target"
-    [[ -e "$target" ]] && rm -f "$target"
-    if ln "$source" "$target"; then
-        log_create "Hardlinked: $name"; ((TOTAL_CREATED++))
-    else
-        log_warning "Failed to hardlink: $name"; ((TOTAL_FAILED++))
-        return 1
-    fi
 }
 
 # ----------------------------------------------------------------------------
@@ -407,7 +361,6 @@ process_mappings() {
 
         case "$current_type" in
             symlink)  create_symlink "$source" "$target" ;;
-            hardlink) create_hardlink "$source" "$target" ;;
             copy)
                 # Plists go through cfprefsd (defaults import), never cp.
                 if [[ "$source" == *.plist ]]; then
@@ -425,14 +378,13 @@ process_mappings() {
         # Skip empty lines and comments
         [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
 
-        # Detect section headers (symlinks:, hardlinks:, copies:)
-        if [[ "$line" =~ ^(symlinks|hardlinks|copies):$ ]]; then
+        # Detect section headers (symlinks:, copies:)
+        if [[ "$line" =~ ^(symlinks|copies):$ ]]; then
             # Process any pending entry before switching sections
             process_entry
             local section="${BASH_REMATCH[1]}"
             case "$section" in
                 symlinks)  current_type="symlink"; log_section "Symlinks" ;;
-                hardlinks) current_type="hardlink"; log_section "Hardlinks" ;;
                 copies)    current_type="copy"; log_section "Copies" ;;
             esac
             continue

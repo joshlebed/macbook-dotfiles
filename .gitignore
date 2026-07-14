@@ -64,3 +64,6 @@ zed/prompts/
 
 # Cache from the simple-update-notifier npm package (used by e2b CLI etc.)
 simple-update-notifier/
+
+# stray scratch file
+temp

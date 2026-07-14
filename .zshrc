@@ -1,4 +1,4 @@
-# for new setup, hardlink this file (see readme)
+# Symlinked to ~/.zshrc by scripts/link-files.sh (see README).
 
 # oh-my-zsh config
 export ZSH="$HOME/.oh-my-zsh"
@@ -191,7 +191,7 @@ ssh-tmux-iterm() {
 }
 
 # pnpm
-export PNPM_HOME="/Users/joshlebed/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
 *":$PNPM_HOME:"*) ;;
 *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -199,13 +199,13 @@ esac
 # pnpm end
 
 # Added by LM Studio CLI (lms)
-[[ -f "$HOME/.lmstudio/bin" ]] && export PATH="$HOME/.lmstudio/bin:$PATH"
+[[ -d "$HOME/.lmstudio/bin" ]] && export PATH="$HOME/.lmstudio/bin:$PATH"
 # End of LM Studio CLI section
 
 alias claude-danger="claude --dangerously-skip-permissions"
 
 # libsync
-LIBSYNC_REPO_DIRECTORY='/Users/joshlebed/code/lib-sync' # update to the path to the repo on your machine
+LIBSYNC_REPO_DIRECTORY="$HOME/code/lib-sync" # update to the path to the repo on your machine
 alias libsync-dev="cd ${LIBSYNC_REPO_DIRECTORY} && rye run libsync"
 alias libsync-run-sync="cd ${LIBSYNC_REPO_DIRECTORY} && ${LIBSYNC_REPO_DIRECTORY}/scripts/run_sync.sh"
 alias libsync-run-sync-edit="cd ${LIBSYNC_REPO_DIRECTORY} && code ${LIBSYNC_REPO_DIRECTORY}/scripts/run_sync.sh"
@@ -258,8 +258,16 @@ test -e "${HOME}/.config/dev-aliases.sh" && source "${HOME}/.config/dev-aliases.
 # load environment specifics if there are any (home config, work config)
 test -e "${HOME}/.environment-specifics.zshrc" && source "${HOME}/.environment-specifics.zshrc" || true
 
+# uv/pipx install here. Their env script adds it to PATH idempotently; the
+# fallback below covers a machine where that script doesn't exist yet.
+# (It used to test -f on a directory, so it never fired at all.)
 [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
-[[ -f "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
+if [[ -d "$HOME/.local/bin" ]]; then
+  case ":$PATH:" in
+    *":$HOME/.local/bin:"*) ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+  esac
+fi
 
 alias python="python3"
 alias timeout=gtimeout
@@ -285,7 +293,7 @@ compdef _gt_yargs_completions gt
 ###-end-gt-completions-###
 
 # opencode
-export PATH=/Users/joshlebed/.opencode/bin:$PATH
+[[ -d "$HOME/.opencode/bin" ]] && export PATH="$HOME/.opencode/bin:$PATH"
 
 alias ncl="cd ~/code/niteshift && cl"
 alias n="ncl"
@@ -342,4 +350,4 @@ doc-from-task () {
 }
 
 # Niteshift CLI
-export PATH="/Users/joshlebed/code/niteshift-cli:$PATH"
+[[ -d "$HOME/code/niteshift-cli" ]] && export PATH="$HOME/code/niteshift-cli:$PATH"
