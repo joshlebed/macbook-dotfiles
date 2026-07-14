@@ -1,39 +1,53 @@
-settings to change
+# macOS Settings
 
-- set "key repeat rate" to fast, "delay until repeat" to short
-- turn "displays have separate spaces" off
-- desktop & dock
-  - dock size -> large
-  - position on screen -> left
-  - automatically hide and show the dock -> on
-- disable "Show Spotlight Search" keyboard shortcut
-- `defaults write -g ApplePressAndHoldEnabled -bool false` see:
-  https://apple.stackexchange.com/questions/332769/macos-disable-popup-showing-accented-characters-when-holding-down-a-key
-- disable auto correct in Text Input -> Input Sources
-- update keyboard shortcuts
-  - disable launchpad and dock shortcuts
-  - disable display shortcuts
-  - set mission control and notification center shortcuts with `caps + g` and
-    `option`
-  - disable keyboard shortcuts
-  - disable screenshots shortcuts, except change "Save picture of selected area
-    as a file" shortcut to `F13`
-  - change Services -> Files and Folders -> New iTerm2 Tab Here to
-    `cmd + shift + t`
-  - change "Show Spotlight Search" to `ctrl + option + command + space`
-  - add App shortcuts
-    - All Applications
-      - Show in Finder `cmd + shift + e`
-      - Show Tab Bar `ctrl + alt + cmd + t`
-    - Finder
-      - Close Window: `shift + cmd + w`
-    - Spotify
-      - Go Back: `cmd + [`
-      - Go Forward: `cmd + ]`
-    - iTerm
-      - New Tmux Tab: `ctrl + t`
-- change scrollbars to disappear: "Show scroll bars" -> "When scrolling"
-- change lock screen settings - timing
-- change wallpaper + screen saver
-- enable reduce motion
-- TODO: add login items
+## Scripted
+
+Most of this file used to be a hand-run checklist. The parts that can be
+scripted now are:
+
+```bash
+./scripts/apply-macos-defaults.sh            # key repeat, dock, scroll bars, motion...
+./scripts/apply-macos-defaults.sh --check    # report anything that drifted
+./scripts/login-items.sh --apply             # login items
+./scripts/apply-keyboard-shortcuts.sh        # app menu shortcuts
+```
+
+`setup-macos.sh` runs all three. See `scripts/apply-macos-defaults.sh` for the
+exact settings and values.
+
+## Still manual
+
+These resist scripting, or aren't worth the risk of writing blind.
+
+### System keyboard shortcuts
+
+System Settings → Keyboard → Keyboard Shortcuts. These live in
+`com.apple.symbolichotkeys` as opaque numeric IDs with binary values; writing
+them blind is a good way to lose your keyboard, so they stay manual.
+
+- Disable Launchpad and Dock shortcuts
+- Disable display shortcuts
+- Mission Control and Notification Center → `caps + g` and `option`
+- Disable the "Show Spotlight Search" shortcut, or move it to
+  `ctrl + option + command + space`
+- Disable screenshot shortcuts, except "Save picture of selected area as a file"
+  → `F13`
+- Services → Files and Folders → "New iTerm2 Tab Here" → `cmd + shift + t`
+
+Note: app menu shortcuts (Finder, Chrome, Spotify, iTerm, global Minimize/Show
+Tab Bar) are **not** in this list — `apply-keyboard-shortcuts.sh` handles those.
+
+### Other
+
+- Text Input → Input Sources: disable auto-correct
+  (the `-g` autocorrect defaults are scripted, but the Input Sources pane has
+  its own per-source toggles)
+- Lock screen timing
+- Wallpaper + screen saver
+- Sign in to iCloud / Google Drive / Raycast / TickTick
+
+### Login items
+
+Handled by `scripts/login-items.sh`, but only the legacy System Events kind.
+Apps with their own "launch at login" toggle (Hammerspoon, Thaw) still need it
+enabled in their own preferences — see the README's manual-app table.

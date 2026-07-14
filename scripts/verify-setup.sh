@@ -267,6 +267,25 @@ verify_editor_extensions() {
     fi
 }
 
+verify_macos_defaults() {
+    [[ "$CURRENT_OS" != "macos" ]] && return
+
+    log_section "macOS Defaults"
+
+    local script="$SCRIPT_DIR/apply-macos-defaults.sh"
+    if [[ ! -x "$script" ]]; then
+        log_warn "apply-macos-defaults.sh missing"
+        return
+    fi
+
+    if "$script" --check >/dev/null 2>&1; then
+        log_pass "macOS defaults match"
+    else
+        log_warn "Some macOS defaults differ"
+        echo -e "${DIM}    Run: ./scripts/apply-macos-defaults.sh --check${NC}"
+    fi
+}
+
 verify_login_items() {
     [[ "$CURRENT_OS" != "macos" ]] && return
 
@@ -366,6 +385,7 @@ verify_homebrew_bundle
 verify_apps
 verify_file_mappings
 verify_editor_extensions
+verify_macos_defaults
 verify_login_items
 verify_keyboard_shortcuts
 

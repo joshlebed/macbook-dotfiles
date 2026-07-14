@@ -274,8 +274,18 @@ step_editor_extensions() {
     run_script_with_args "$SCRIPT_DIR/editor-extensions.sh" "--install" "VS Code + Cursor extensions"
 }
 
+step_macos_defaults() {
+    log_section "Step 7: macOS Defaults"
+
+    if [[ "$DRY_RUN" == true ]]; then
+        run_script_with_args "$SCRIPT_DIR/apply-macos-defaults.sh" "--dry-run" "macOS defaults (dry run)"
+    else
+        run_script "$SCRIPT_DIR/apply-macos-defaults.sh" "macOS defaults"
+    fi
+}
+
 step_login_items() {
-    log_section "Step 7: Login Items"
+    log_section "Step 8: Login Items"
 
     if [[ "$DRY_RUN" == true ]]; then
         log_step "[DRY-RUN] Would add login items"
@@ -383,6 +393,7 @@ main() {
     step_file_mappings || FAILED_STEPS+=("File Mappings")
     step_keyboard_shortcuts || FAILED_STEPS+=("Keyboard Shortcuts")
     step_editor_extensions || FAILED_STEPS+=("Editor Extensions")
+    step_macos_defaults || FAILED_STEPS+=("macOS Defaults")
     step_login_items || FAILED_STEPS+=("Login Items")
 
     # Show manual steps and summary
