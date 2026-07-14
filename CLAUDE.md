@@ -16,17 +16,31 @@ Use the standard preference-sync scripts:
 ./scripts/link-files.sh           # repo → system
 ```
 
-**Important — sandboxed app caveat**: before running `link-files.sh`, quit
-Velja first. Otherwise `cfprefsd`'s in-memory cache will overwrite the file
-when Velja relaunches. Recommended sequence:
+Both go through `cfprefsd` (`defaults export` / `defaults import`) rather than
+copying the file, so the old manual `killall cfprefsd` dance is no longer
+needed — `link-files.sh` does it after importing. `defaults` resolves the bare
+`com.sindresorhus.Velja` domain into the sandbox container on its own, so the
+container path above matters only for reference.
+
+**Still required**: quit Velja before running `link-files.sh`. A running app
+holds its preferences in memory and flushes them over anything we write when it
+exits. `link-files.sh` warns if it detects Velja running, but does not quit it
+for you.
 
 ```bash
 osascript -e 'quit app "Velja"'
-killall cfprefsd 2>/dev/null
 ./scripts/link-files.sh
-killall cfprefsd 2>/dev/null
 open -a Velja
 ```
+
+**Schema coupling**: Velja's `SS_App_runOnce__migrate_*` flags are deliberately
+*not* filtered out of the exported plist. They record which data migrations have
+run, and are coupled to the on-disk schema — restoring settings without them can
+make Velja re-run a migration against already-migrated data. (The repo's
+pre-rewrite Velja copy was a pre-3.2.1 snapshot storing
+`defaultBrowser = com.google.Chrome`; the current schema is
+`browser:com.google.Chrome`. Applying that old copy would have been a schema
+downgrade.)
 
 For debugging source-app rule mismatches: quit Velja, hold ⇧⌃ while
 launching, then menu bar → Debug → Logs. The history view in Advanced

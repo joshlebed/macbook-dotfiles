@@ -80,15 +80,17 @@ baseline, add it to `Brewfile`. If it reports a stale package, uninstall it.
 
 ### Syncing Preferences Between Machines
 
-Some macOS apps (Contexts, Rectangle, Raycast, Thaw) store settings in
-plist files that get copied (not symlinked) because the apps overwrite them.
-When `link-files.sh` overwrites an existing copied file, it first saves a
-timestamped backup next to the target, for example `com.raycast.macos.plist.old.20260429-113000`.
+Some macOS apps (Contexts, Rectangle, Raycast, Thaw, Velja) store settings in
+plist files that can't be symlinked, because the apps rewrite them.
+
+These go through `cfprefsd` rather than being copied, and are filtered and
+normalized on the way in and out — see [How plist sync works](#how-plist-sync-works).
 
 **To sync settings from this machine to the repo:**
 
 ```bash
-./scripts/export-preferences.sh   # Copies system plists to repo
+./scripts/export-preferences.sh          # System -> repo
+git diff                                 # Readable: shows the settings that changed
 git add -A && git commit -m "Update preferences" && git push
 ```
 
@@ -96,9 +98,48 @@ git add -A && git commit -m "Update preferences" && git push
 
 ```bash
 git pull
-./scripts/link-files.sh           # Copies repo plists to system
-# Restart the apps or log out/in
+./scripts/link-files.sh                  # Repo -> system
+# Quit the affected apps first — a running app overwrites its plist on exit.
+# link-files.sh warns you if it finds one running.
 ```
+
+**To check for uncommitted setting changes:**
+
+```bash
+./scripts/export-preferences.sh --check  # Exits non-zero if a real setting drifted
+./scripts/export-preferences.sh -v       # Also lists the churn keys it strips
+```
+
+#### How plist sync works
+
+Plists are not `cp`'d in either direction, for four reasons:
+
+1. **`cp` reads stale bytes.** `cfprefsd` caches preferences in memory and
+   writes lazily, so the on-disk plist can lag the live state. Export goes
+   through `defaults export`, which asks `cfprefsd` for the truth. Import goes
+   through `defaults import`, so `cfprefsd` performs the write instead of having
+   it done behind its back (and then reverted).
+2. **Plists mix settings with churn.** Launch counters, window frames, update
+   timestamps and analytics IDs change constantly.
+   `config/preference-filters.yaml` strips them, so a drift report means a real
+   setting actually changed. (Before this, `link-files.sh --verify` reported 7
+   warnings permanently, which is how genuine changes — Thaw's
+   `SectionDividerStyle`, Rectangle's whole config since 2024 — sat uncommitted.)
+3. **Some values are byte-unstable.** Thaw serializes JSON blobs with unstable
+   key order, so those keys could never compare equal. The exporter
+   canonicalizes embedded JSON.
+4. **Binary plists are unreviewable.** Exports are written as sorted XML, so
+   `git diff` shows which setting changed instead of `Binary files differ`.
+
+Because the committed plist is *filtered*, it describes only the tracked
+settings — it is not a whole-domain replacement. `link-files.sh` therefore
+merges it onto the live domain (tracked keys win, local churn is preserved)
+rather than overwriting.
+
+**Raycast caveat:** its real configuration (hotkeys, aliases, extensions,
+quicklinks) lives in an encrypted SQLite store restored by Raycast Cloud Sync,
+not in the plist. The tracked plist is mostly onboarding flags and window state,
+and is a candidate for dropping from `file-mappings.yaml` entirely.
 
 ## Linux Setup
 
@@ -114,14 +155,18 @@ limited install (skips system packages).
 ```
 ~/.config/
 ├── config/
-│   └── file-mappings.yaml   # All symlink/hardlink/copy definitions
+│   ├── file-mappings.yaml      # All symlink/copy/plist definitions
+│   └── preference-filters.yaml # Churn keys stripped from exported plists
 ├── Brewfile                  # Declarative Homebrew baseline
 ├── scripts/
 │   ├── setup-macos.sh        # macOS setup (run this)
 │   ├── setup-linux-dev.sh    # Linux setup
 │   ├── link-files.sh         # Apply file mappings
 │   ├── verify-setup.sh       # Check setup status
-│   ├── export-preferences.sh # Export app prefs to repo
+│   ├── export-preferences.sh # Export app prefs to repo (--check for drift)
+│   ├── lib/
+│   │   ├── normalize-plist.py  # Strip churn, canonicalize JSON, emit XML
+│   │   └── merge-plist.py      # Overlay tracked keys onto a live domain
 │   ├── audit-brew.sh         # Report Homebrew drift from Brewfile
 │   ├── brew_install_all.sh   # Homebrew packages
 │   ├── install_zsh_and_omz.sh

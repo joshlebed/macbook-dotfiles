@@ -220,8 +220,12 @@ verify_file_mappings() {
     if [[ -f "$SCRIPT_DIR/link-files.sh" ]]; then
         local output
         output=$("$SCRIPT_DIR/link-files.sh" --verify 2>&1)
-        local ok=$(echo "$output" | grep -c "\[OK\]" || echo 0)
-        local issues=$(echo "$output" | grep -c "\[WARN\]\|\[ERROR\]" || echo 0)
+        # grep -c already prints 0 when there are no matches; it just exits 1.
+        # `|| echo 0` would append a second line, making this "0\n0" and
+        # breaking the arithmetic below.
+        local ok issues
+        ok=$(echo "$output" | grep -c "\[OK\]" || true)
+        issues=$(echo "$output" | grep -c "\[WARN\]\|\[ERROR\]" || true)
 
         if [[ $issues -eq 0 ]]; then
             log_pass "All $ok file mappings OK"

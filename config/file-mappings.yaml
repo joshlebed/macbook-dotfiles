@@ -90,7 +90,10 @@ copies:
     target: ~/.claude/plugins/blocklist.json
     reason: Plugin blocklist
 
-  # Plist files - apps overwrite these, so we copy instead of link
+  # Plist files - apps overwrite these, so they can't be symlinked.
+  # These are NOT copied: link-files.sh merges them onto the live domain via
+  # `defaults import`, and export-preferences.sh captures them via
+  # `defaults export` + config/preference-filters.yaml. See README.
   # Use ./scripts/export-preferences.sh to sync changes back to repo
   - source: preferences/com.contextsformac.Contexts.plist
     target: ~/Library/Preferences/com.contextsformac.Contexts.plist

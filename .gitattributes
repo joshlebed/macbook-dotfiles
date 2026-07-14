@@ -1,0 +1,9 @@
+# Preference plists are exported as normalized, sorted XML by
+# scripts/export-preferences.sh — not as the binary plists macOS writes.
+# Force git to diff them textually so a change shows the setting that actually
+# changed instead of "Binary files differ".
+preferences/*.plist diff
+iterm2/*.plist diff
+
+# Generated Karabiner config is JSON; keep it diffable too.
+karabiner/karabiner.json diff

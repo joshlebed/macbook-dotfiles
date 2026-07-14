@@ -27,27 +27,27 @@
         "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/github/unknown",
         "version": "unknown",
         "installedAt": "2026-02-12T21:02:18.486Z",
-        "lastUpdated": "2026-03-27T21:59:42.909Z",
+        "lastUpdated": "2026-07-14T11:29:35.269Z",
         "gitCommitSha": "2cd88e7947b7382e045666abee790c7f55f669f3"
       }
     ],
     "superpowers@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7",
-        "version": "5.0.7",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/superpowers/6.1.1",
+        "version": "6.1.1",
         "installedAt": "2026-03-15T20:42:01.053Z",
-        "lastUpdated": "2026-03-31T20:26:36.344Z",
+        "lastUpdated": "2026-07-10T09:25:28.234Z",
         "gitCommitSha": "363923f74aa9cd7b470c0aaa73dee629a8bfdc90"
       }
     ],
     "slack@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/slack/1.0.0",
-        "version": "1.0.0",
+        "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/slack/1.1.0",
+        "version": "1.1.0",
         "installedAt": "2026-04-02T00:13:04.345Z",
-        "lastUpdated": "2026-04-02T00:13:04.345Z",
+        "lastUpdated": "2026-06-23T00:26:25.624Z",
         "gitCommitSha": "7b9458950d38bb01ddb48b669f9fa89bcdfd98b8"
       }
     ],
@@ -62,11 +62,11 @@
       },
       {
         "scope": "project",
+        "projectPath": "/Users/joshlebed/code/workshop",
         "installPath": "/Users/joshlebed/.claude/plugins/cache/claude-plugins-official/frontend-design/unknown",
         "version": "unknown",
         "installedAt": "2026-04-23T03:18:56.939Z",
-        "lastUpdated": "2026-04-23T03:18:56.939Z",
-        "projectPath": "/Users/joshlebed/code/workshop"
+        "lastUpdated": "2026-06-21T22:37:39.248Z"
       }
     ],
     "clangd-lsp@claude-plugins-official": [

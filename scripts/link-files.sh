@@ -20,6 +20,12 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_DIR="$(dirname "$SCRIPT_DIR")"
 MAPPINGS_FILE="$CONFIG_DIR/config/file-mappings.yaml"
+FILTERS_FILE="$CONFIG_DIR/config/preference-filters.yaml"
+NORMALIZER="$SCRIPT_DIR/lib/normalize-plist.py"
+MERGER="$SCRIPT_DIR/lib/merge-plist.py"
+
+# System python3 (Xcode CLT), so plist handling works before Homebrew exists.
+PYTHON="/usr/bin/python3"
 
 # Detect OS
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -244,6 +250,99 @@ create_hardlink() {
     fi
 }
 
+# ----------------------------------------------------------------------------
+# Preference plists
+# ----------------------------------------------------------------------------
+#
+# Plists are NOT copied. The repo stores a normalized, *filtered* plist (see
+# scripts/export-preferences.sh), so it describes only the tracked settings —
+# it is not a whole-domain replacement. Writing it over the system file would
+# delete every filtered key and, worse, would be silently reverted: cfprefsd
+# caches domains in memory and can flush its stale copy back over the file.
+#
+# Instead: read the live domain, overlay the tracked keys, and `defaults import`
+# the union so cfprefsd is the one doing the write.
+
+plist_domain_from_source() { basename "$1" .plist; }
+
+plist_matches() {
+    local domain="$1" repo_file="$2"
+    local sys_raw sys_norm
+    sys_raw=$(mktemp); sys_norm=$(mktemp)
+    local rc=1
+    if defaults export "$domain" "$sys_raw" 2>/dev/null &&
+       "$PYTHON" "$NORMALIZER" --filters "$FILTERS_FILE" --domain "$domain" \
+            --in "$sys_raw" --out "$sys_norm" 2>/dev/null; then
+        cmp -s "$sys_norm" "$repo_file" && rc=0
+    fi
+    rm -f "$sys_raw" "$sys_norm"
+    return $rc
+}
+
+# Apps that own a domain will flush their in-memory state over anything we
+# write when they quit. Warn rather than silently lose the import.
+warn_if_running() {
+    local domain="$1"
+    local app_name
+    case "$domain" in
+        com.sindresorhus.Velja) app_name="Velja" ;;
+        com.stonerl.Thaw) app_name="Thaw" ;;
+        com.knollsoft.Rectangle) app_name="Rectangle" ;;
+        com.contextsformac.Contexts) app_name="Contexts" ;;
+        com.raycast.macos) app_name="Raycast" ;;
+        *) return 0 ;;
+    esac
+    if pgrep -x "$app_name" >/dev/null 2>&1; then
+        log_warning "$app_name is running — quit it first or it will overwrite this on exit"
+        return 1
+    fi
+    return 0
+}
+
+apply_plist() {
+    local source="$1" target="$2"
+    local name=$(basename "$target")
+    local domain
+    domain=$(plist_domain_from_source "$source")
+
+    [[ -f "$source" ]] || { log_warning "Source missing: $source"; ((TOTAL_FAILED++)); return 1; }
+
+    if plist_matches "$domain" "$source"; then
+        [[ "$VERIFY_ONLY" == true ]] && log_success "plist: $name" || log_skip "Already applied: $name"
+        ((TOTAL_OK++)); return 0
+    fi
+
+    if [[ "$VERIFY_ONLY" == true ]]; then
+        log_warning "plist: $name (settings differ)"
+        ((TOTAL_FAILED++)); return 1
+    fi
+
+    if [[ "$DRY_RUN" == true ]]; then
+        log_dry "Would import: $name (domain $domain)"; ((TOTAL_CREATED++)); return 0
+    fi
+
+    warn_if_running "$domain"
+
+    local base merged
+    base=$(mktemp); merged=$(mktemp)
+    defaults export "$domain" "$base" 2>/dev/null || : > "$base"
+
+    if ! "$PYTHON" "$MERGER" --base "$base" --overlay "$source" --out "$merged" 2>/dev/null; then
+        log_warning "Failed to merge: $name"; ((TOTAL_FAILED++))
+        rm -f "$base" "$merged"; return 1
+    fi
+
+    if defaults import "$domain" "$merged"; then
+        # Drop cfprefsd's cache so the next reader sees what we just wrote.
+        killall cfprefsd 2>/dev/null || true
+        log_create "Imported: $name"; ((TOTAL_CREATED++))
+    else
+        log_warning "Failed to import: $name"; ((TOTAL_FAILED++))
+        rm -f "$base" "$merged"; return 1
+    fi
+    rm -f "$base" "$merged"
+}
+
 copy_file() {
     local source="$1" target="$2"
     local name=$(basename "$target")
@@ -309,7 +408,14 @@ process_mappings() {
         case "$current_type" in
             symlink)  create_symlink "$source" "$target" ;;
             hardlink) create_hardlink "$source" "$target" ;;
-            copy)     copy_file "$source" "$target" ;;
+            copy)
+                # Plists go through cfprefsd (defaults import), never cp.
+                if [[ "$source" == *.plist ]]; then
+                    apply_plist "$source" "$target"
+                else
+                    copy_file "$source" "$target"
+                fi
+                ;;
         esac
 
         entry_source="" entry_target="" entry_os=""
