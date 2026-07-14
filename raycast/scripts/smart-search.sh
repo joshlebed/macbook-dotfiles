@@ -18,7 +18,7 @@
 #   2. Routes the clipboard contents:
 #        https?://...           -> open as URL
 #        NS-790 (whitelisted prefixes) -> linear.app/<workspace>/issue/<ID>
-#        #4953                  -> github.com/<default repo>/issues/4953  (GH redirects PR<->issue)
+#        #4953                  -> app.graphite.com/github/pr/<default repo>/4953
 #        domain.tld[/path]      -> open as URL (auto-prefixes https://)
 #        scheme:rest            -> open in the registered app (spotify:, slack://, mailto:, ...)
 #        anything else          -> Google search
@@ -52,11 +52,11 @@ if [[ "$ticket" =~ ^(${LINEAR_TEAM_PREFIXES})-[0-9]+$ ]]; then
     exit 0
 fi
 
-# 3. GitHub issue/PR in the default repo (GitHub auto-redirects /issues/N <-> /pull/N)
+# 3. GitHub PR/issue in the default repo -> open in Graphite
 if [[ "$input" =~ ^#[0-9]+$ ]]; then
     num="${input#\#}"
-    open "https://github.com/${GITHUB_DEFAULT_REPO}/issues/${num}"
-    echo "Opening GitHub: #${num}"
+    open "https://app.graphite.com/github/pr/${GITHUB_DEFAULT_REPO}/${num}"
+    echo "Opening Graphite: #${num}"
     exit 0
 fi
 
