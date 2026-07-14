@@ -27,15 +27,29 @@ import plistlib
 import sys
 
 
-def load(path):
-    if not path or not os.path.exists(path):
+def load(path, strict=True):
+    """Read a plist dict.
+
+    strict=False is for the base (the live domain): absent, empty or unreadable
+    all legitimately mean "no existing settings" — that is the normal case on a
+    fresh machine where the domain has never been written. `defaults export` of
+    an unknown domain writes an empty <dict/>, but its failure path leaves a
+    zero-byte file, which plistlib rejects. Treat that as empty rather than
+    failing the whole import.
+
+    strict=True is for the overlay (the repo file): if that is unreadable, we
+    genuinely cannot proceed and should say so.
+    """
+    if not path or not os.path.exists(path) or os.path.getsize(path) == 0:
         return {}
     try:
         with open(path, "rb") as fh:
             data = plistlib.load(fh)
     except Exception as exc:
-        print("merge-plist: cannot read %s: %s" % (path, exc), file=sys.stderr)
-        raise SystemExit(1)
+        if strict:
+            print("merge-plist: cannot read %s: %s" % (path, exc), file=sys.stderr)
+            raise SystemExit(1)
+        return {}
     return data if isinstance(data, dict) else {}
 
 
@@ -47,8 +61,8 @@ def main():
     ap.add_argument("--report", action="store_true")
     args = ap.parse_args()
 
-    base = load(args.base)
-    overlay = load(args.overlay)
+    base = load(args.base, strict=False)
+    overlay = load(args.overlay, strict=True)
 
     if not overlay:
         print("merge-plist: overlay %s is empty" % args.overlay, file=sys.stderr)
