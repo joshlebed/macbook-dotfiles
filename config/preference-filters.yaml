@@ -110,11 +110,10 @@ com.sindresorhus.Velja:
 # Raycast
 # ============================================================================
 #
-# NOTE: this domain is a poor sync target and is a candidate for removal from
-# file-mappings.yaml entirely. Raycast's real configuration (hotkeys, aliases,
-# extensions, quicklinks) lives in its encrypted SQLite store and is restored
-# by Raycast Cloud Sync, which is active on this account. What remains in the
-# plist is mostly analytics, onboarding flags and window geometry.
+# Raycast's actual settings are not in this plist. Hotkeys, aliases, extensions
+# and quicklinks live in Raycast's own database and are restored by Cloud Sync
+# when you sign in. What's left here is leftovers — analytics IDs, onboarding
+# flags, window positions — so most of it is filtered out below.
 com.raycast.macos:
   - "raycastAnonymousId"       # analytics identity — must not be cloned
   - "amplitudePulseAnalyticsTracker_*"

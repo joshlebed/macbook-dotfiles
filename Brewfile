@@ -20,6 +20,7 @@ tap "ibigio/tap"             # shell-ai
 tap "infisical/get-cli"      # infisical
 tap "jurplel/tap"            # instant-space-switcher
 tap "ngrok/ngrok"            # ngrok
+tap "smudge/smudge"          # nightlight
 tap "supabase/tap"           # supabase
 tap "withgraphite/tap"       # graphite (gt)
 
@@ -127,6 +128,7 @@ brew "imagemagick"           # .zshrc webp-convert-downloads
 
 brew "blueutil"
 brew "ddcctl"
+brew "smudge/smudge/nightlight"  # Night Shift CLI; apply-macos-defaults.sh uses it
 brew "mas"                   # required for the App Store apps below
 
 # ============================================================================
@@ -215,10 +217,6 @@ cask "tuple"
 # ============================================================================
 
 cask "spotify"
-# cask "rekordbox"           # DELIBERATELY COMMENTED: this machine runs rekordbox 6,
-                             # but the cask now ships 7.x. Installing 7 migrates the
-                             # library irreversibly. Uncomment only if you intend to
-                             # move to 7 on the new machine.
 cask "audacity"
 cask "iina"
 cask "soulseek"

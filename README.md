@@ -238,10 +238,11 @@ settings — it is not a whole-domain replacement. `link-files.sh` therefore
 merges it onto the live domain (tracked keys win, local churn is preserved)
 rather than overwriting.
 
-**Raycast caveat:** its real configuration (hotkeys, aliases, extensions,
-quicklinks) lives in an encrypted SQLite store restored by Raycast Cloud Sync,
-not in the plist. The tracked plist is mostly onboarding flags and window state,
-and is a candidate for dropping from `file-mappings.yaml` entirely.
+**Raycast caveat:** your Raycast settings are not in this repo, and don't need
+to be. Hotkeys, aliases, extensions and quicklinks live in Raycast's own
+database and come back when you sign in — Cloud Sync restores them. The plist
+tracked here holds none of that; it's leftovers like onboarding flags and
+window positions. So on a new Mac: sign in to Raycast, and you're done.
 
 ## Linux Setup
 
@@ -355,10 +356,3 @@ Input Monitoring permission.
 - [Dark Reader](https://chrome.google.com/webstore/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh)
 - [Bitwarden](https://chrome.google.com/webstore/detail/bitwarden-free-password-m/nngceckbapebfimnlniiiahkandclblb)
 
-## Git Multi-Account Setup
-
-Seamlessly use both work and personal GitHub accounts with automatic SSH key and
-email selection based on repo owner.
-
-See [docs/git-multi-account-setup.md](docs/git-multi-account-setup.md) for full
-setup instructions.

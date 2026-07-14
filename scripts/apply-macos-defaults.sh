@@ -119,6 +119,67 @@ for row in "${SETTINGS[@]}"; do
     [[ "$domain" == "com.apple.dock" || "$domain" == "com.apple.spaces" ]] && NEEDS_DOCK_RESTART=true
 done
 
+# ----------------------------------------------------------------------------
+# Night Shift
+# ----------------------------------------------------------------------------
+#
+# Night Shift is NOT a `defaults` setting and cannot be synced as a plist. There
+# is no com.apple.CoreBrightness user domain and nothing in ~/Library/Preferences
+# — the settings are owned by the CoreBrightness daemon and reached only through
+# Apple's private CoreBrightness.framework (CBBlueLightClient). Verified with
+# otool: the nightlight binary links that private framework directly.
+#
+# So the CLI is the only sync mechanism, which is why nightlight is in the
+# Brewfile: it is a dependency of this script, not a stray package.
+
+NIGHTLIGHT_TEMP=50
+NIGHTLIGHT_SCHEDULE="sunset to sunrise"
+
+apply_night_shift() {
+    if ! command -v nightlight >/dev/null 2>&1; then
+        log_diff "nightlight not installed — skipping Night Shift"
+        echo -e "${DIM}    Run ./scripts/brew_install_all.sh (Brewfile: smudge/smudge/nightlight)${NC}"
+        return 0
+    fi
+
+    local cur_temp cur_sched
+    cur_temp=$(nightlight temp 2>/dev/null | tr -d '[:space:]')
+    cur_sched=$(nightlight schedule 2>/dev/null | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+    if [[ "$cur_temp" == "$NIGHTLIGHT_TEMP" ]]; then
+        [[ "$CHECK" == true ]] && log_ok "Night Shift temperature ($NIGHTLIGHT_TEMP)"
+    else
+        if [[ "$CHECK" == true ]]; then
+            log_diff "Night Shift temperature (want $NIGHTLIGHT_TEMP, have ${cur_temp:-?})"
+            ((DIFFS++))
+        elif [[ "$DRY_RUN" == true ]]; then
+            log_dry "Night Shift temperature: ${cur_temp:-?} -> $NIGHTLIGHT_TEMP"
+            ((CHANGED++))
+        else
+            nightlight temp "$NIGHTLIGHT_TEMP" >/dev/null 2>&1 \
+                && log_set "Night Shift temperature ($NIGHTLIGHT_TEMP)" && ((CHANGED++))
+        fi
+    fi
+
+    if [[ "$cur_sched" == "$NIGHTLIGHT_SCHEDULE" ]]; then
+        [[ "$CHECK" == true ]] && log_ok "Night Shift schedule ($NIGHTLIGHT_SCHEDULE)"
+    else
+        if [[ "$CHECK" == true ]]; then
+            log_diff "Night Shift schedule (want '$NIGHTLIGHT_SCHEDULE', have '${cur_sched:-?}')"
+            ((DIFFS++))
+        elif [[ "$DRY_RUN" == true ]]; then
+            log_dry "Night Shift schedule: '${cur_sched:-?}' -> '$NIGHTLIGHT_SCHEDULE'"
+            ((CHANGED++))
+        else
+            # `schedule start` is the CLI's name for sunset-to-sunrise.
+            nightlight schedule start >/dev/null 2>&1 \
+                && log_set "Night Shift schedule ($NIGHTLIGHT_SCHEDULE)" && ((CHANGED++))
+        fi
+    fi
+}
+
+apply_night_shift
+
 echo ""
 if [[ "$CHECK" == true ]]; then
     if [[ $DIFFS -eq 0 ]]; then

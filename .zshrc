@@ -47,18 +47,6 @@ export NVM_DIR="$HOME/.nvm"
 # git aliases
 alias gs="git status"
 
-# # Graphite CLI wrapper - auto-switch profile based on repo
-# gt() {
-#     local email=$(git config user.email 2>/dev/null)
-#     if [[ "$email" == "josh.lebedinsky@keru.ai" ]]; then
-#         echo "running gt with kepler profile"
-#         GRAPHITE_PROFILE=kepler command gt "$@"
-#     else
-#         echo "running gt with default profile"
-#         command gt "$@"
-#     fi
-# }
-
 # AWS CLI wrapper - auto-switch profile based on repo, but only if the caller
 # hasn't set AWS_PROFILE explicitly. Banners go to stderr so they don't
 # pollute stdout when output is piped/captured.
