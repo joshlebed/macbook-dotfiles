@@ -231,7 +231,6 @@ cask "qbittorrent"
 # ============================================================================
 
 cask "1password"
-cask "malwarebytes"
 cask "mullvad-vpn"
 cask "surfshark"
 
