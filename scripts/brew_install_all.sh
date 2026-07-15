@@ -23,6 +23,54 @@ BREWFILE="$CONFIG_DIR/Brewfile"
 FAILURES=()
 SKIP_APPS=false
 
+# ============================================================================
+# SUDO
+# ============================================================================
+#
+# Several casks are pkg installers (Microsoft Office, Zoom, OneDrive, Okta
+# Verify, Malwarebytes) and each shells out to sudo. macOS caches a sudo
+# credential for only 5 minutes (timestamp_timeout) and ties it to the terminal
+# session (tty_tickets), so a long bundle re-prompts over and over.
+#
+# Ask once up front, then refresh in the background for the life of this script.
+# Nothing is written to /etc/sudoers: the credential still expires normally once
+# the script exits, so this changes how often you are asked, not what sudo will
+# allow.
+
+SUDO_KEEPALIVE_PID=""
+
+start_sudo_keepalive() {
+    if ! [[ -t 0 ]]; then
+        log_warning "Not running in a terminal — sudo can't prompt."
+        log_warning "pkg-based casks will fail. Run this from a real terminal."
+        return 1
+    fi
+
+    log_info "Some casks are pkg installers and need your password."
+    log_info "Asking once now and keeping it alive, rather than a dozen prompts."
+    if ! sudo -v; then
+        log_warning "Couldn't cache sudo — brew will prompt per package."
+        return 1
+    fi
+
+    # Refresh inside the timeout window until this script exits.
+    while true; do
+        sudo -n true 2>/dev/null || exit
+        sleep 50
+        kill -0 "$$" 2>/dev/null || exit
+    done &
+    SUDO_KEEPALIVE_PID=$!
+    log_success "sudo cached; you shouldn't be asked again during this run."
+}
+
+cleanup() {
+    [[ -n "$SUDO_KEEPALIVE_PID" ]] && kill "$SUDO_KEEPALIVE_PID" 2>/dev/null
+    [[ -n "${temp_brewfile:-}" ]] && rm -f "$temp_brewfile"
+    return 0
+}
+# Also covers the temp Brewfile, which previously leaked on Ctrl-C.
+trap cleanup EXIT INT TERM
+
 show_help() {
     cat << EOF
 Homebrew Installation and Package Setup for macOS
@@ -122,13 +170,18 @@ if brew trust --help >/dev/null 2>&1; then
     done < <(awk -F'"' '/^[[:space:]]*tap[[:space:]]+"/ { print $2 }' "$BREWFILE")
 fi
 
+# Only the casks need sudo; --skip-apps installs none, so don't ask.
+if [[ "$SKIP_APPS" != true ]]; then
+    start_sudo_keepalive || true
+fi
+
 log_info "Installing Homebrew packages from $(basename "$BREWFILE")..."
 if ! brew bundle --file "$bundle_file" --no-upgrade; then
     log_error "Failed to install Homebrew packages from Brewfile"
     FAILURES+=("brew-bundle")
 fi
 
-[[ -n "$temp_brewfile" ]] && rm -f "$temp_brewfile"
+# temp_brewfile removal is handled by the EXIT trap.
 
 # ============================================================================
 # Claude Code via npm (enables auto-updates)
