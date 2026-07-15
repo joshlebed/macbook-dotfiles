@@ -207,7 +207,9 @@ cask "granola"
 cask "ticktick"
 cask "cleanshot"
 cask "google-drive"
-cask "onedrive"
+cask "homebrew/cask/onedrive"  # qualified: a bare "onedrive" is ALSO a formula
+                               # (onedrive-cli), and brew bundle's prefetch
+                               # resolves it to that and downloads the wrong thing
 cask "microsoft-word"
 cask "microsoft-excel"
 cask "microsoft-powerpoint"
