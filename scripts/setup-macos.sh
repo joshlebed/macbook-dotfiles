@@ -220,14 +220,70 @@ step_homebrew() {
     fi
 }
 
+# ----------------------------------------------------------------------------
+# Xcode license
+# ----------------------------------------------------------------------------
+#
+# Runs AFTER Homebrew, because the Brewfile installs full Xcode via `mas`. Once
+# Xcode.app is selected, every xcodebuild/xcrun call is gated on the licence
+# being accepted — including `swift build`, which the InstantSpaceSwitcher fork
+# needs, plus cocoapods, fastlane and any native module that compiles.
+#
+# The failure is loud but easy to misread: tools just refuse with "You have not
+# agreed to the Xcode license agreements". Better to catch it here.
+
+# Returns 0 when the licence genuinely needs accepting.
+xcode_license_needed() {
+    local out rc
+    out=$(/usr/bin/xcodebuild -license check 2>&1); rc=$?
+    [[ $rc -eq 0 ]] && return 1                      # already accepted
+    # CLT-only installs have no licence gate; xcodebuild just isn't usable.
+    grep -qi "requires Xcode" <<< "$out" && return 1
+    return 0
+}
+
+step_xcode_license() {
+    log_section "Step 2: Xcode License"
+
+    if ! [[ -d /Applications/Xcode.app ]]; then
+        log_info "Full Xcode not installed — nothing to accept"
+        return 0
+    fi
+
+    if ! xcode_license_needed; then
+        log_info "Xcode license already accepted"
+        return 0
+    fi
+
+    if [[ "$DRY_RUN" == true ]]; then
+        log_step "[DRY-RUN] Would run: sudo xcodebuild -license accept"
+        return 0
+    fi
+
+    log_warning "Xcode license not accepted — this blocks swift build, cocoapods and fastlane"
+    if ! [[ -t 0 ]]; then
+        log_error "Needs sudo and there's no terminal to prompt on."
+        log_error "Run this yourself, then re-run: sudo xcodebuild -license accept"
+        return 1
+    fi
+
+    log_step "Accepting the Xcode license (needs sudo)..."
+    if sudo xcodebuild -license accept; then
+        log_success "Xcode license accepted"
+    else
+        log_error "Failed. Run manually: sudo xcodebuild -license accept"
+        return 1
+    fi
+}
+
 step_shell() {
-    log_section "Step 2: Shell Setup (zsh + oh-my-zsh)"
+    log_section "Step 3: Shell Setup (zsh + oh-my-zsh)"
 
     run_script "$SCRIPT_DIR/install_zsh_and_omz.sh" "zsh and oh-my-zsh installation"
 }
 
 step_hushlogin() {
-    log_section "Step 3: Terminal Cleanup"
+    log_section "Step 4: Terminal Cleanup"
 
     log_step "Creating ~/.hushlogin to suppress 'Last login' message"
 
@@ -245,7 +301,7 @@ step_hushlogin() {
 }
 
 step_file_mappings() {
-    log_section "Step 4: File Mappings"
+    log_section "Step 5: File Mappings"
 
     if [[ "$DRY_RUN" == true ]]; then
         run_script_with_args "$SCRIPT_DIR/link-files.sh" "--dry-run" "file mappings (dry run)"
@@ -255,7 +311,7 @@ step_file_mappings() {
 }
 
 step_keyboard_shortcuts() {
-    log_section "Step 5: Keyboard Shortcuts"
+    log_section "Step 6: Keyboard Shortcuts"
 
     if [[ "$DRY_RUN" == true ]]; then
         run_script_with_args "$SCRIPT_DIR/apply-keyboard-shortcuts.sh" "--dry-run" "keyboard shortcuts (dry run)"
@@ -265,7 +321,7 @@ step_keyboard_shortcuts() {
 }
 
 step_editor_extensions() {
-    log_section "Step 6: Editor Extensions"
+    log_section "Step 7: Editor Extensions"
 
     if [[ "$DRY_RUN" == true ]]; then
         log_step "[DRY-RUN] Would install VS Code + Cursor extensions"
@@ -275,7 +331,7 @@ step_editor_extensions() {
 }
 
 step_macos_defaults() {
-    log_section "Step 7: macOS Defaults"
+    log_section "Step 8: macOS Defaults"
 
     if [[ "$DRY_RUN" == true ]]; then
         run_script_with_args "$SCRIPT_DIR/apply-macos-defaults.sh" "--dry-run" "macOS defaults (dry run)"
@@ -285,7 +341,7 @@ step_macos_defaults() {
 }
 
 step_login_items() {
-    log_section "Step 8: Login Items"
+    log_section "Step 9: Login Items"
 
     if [[ "$DRY_RUN" == true ]]; then
         log_step "[DRY-RUN] Would add login items"
@@ -403,6 +459,7 @@ main() {
 
     # Run setup steps (continue on failure)
     step_homebrew   || FAILED_STEPS+=("Homebrew & Packages")
+    step_xcode_license || FAILED_STEPS+=("Xcode License")
     step_shell      || FAILED_STEPS+=("Shell Setup")
     step_hushlogin  || FAILED_STEPS+=("Terminal Cleanup")
     step_file_mappings || FAILED_STEPS+=("File Mappings")

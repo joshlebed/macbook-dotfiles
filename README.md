@@ -364,6 +364,12 @@ git remote add upstream git@github.com:jurplel/InstantSpaceSwitcher.git   # opti
 ./dist/install.sh    # quits, replaces /Applications, strips quarantine, launches
 ```
 
+> If `build.sh` fails with *"You have not agreed to the Xcode license
+> agreements"*, run `sudo xcodebuild -license accept`. Once full Xcode is
+> installed (the Brewfile pulls it via `mas`), every `xcodebuild`/`xcrun` call —
+> including `swift build` — is gated on it. `setup-macos.sh` step 2 handles this,
+> and `verify-setup.sh` fails loudly if it's outstanding.
+
 `install.sh --reset-permissions` also clears the existing Accessibility / Input
 Monitoring grants — use it when the signing identity changed and macOS is
 treating the rebuild as a different app.

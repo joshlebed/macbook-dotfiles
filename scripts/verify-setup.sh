@@ -91,6 +91,24 @@ verify_prerequisites() {
         else
             log_warn "Xcode CLI tools"
         fi
+
+        # With full Xcode installed (the Brewfile pulls it via mas), every
+        # xcodebuild/xcrun call is gated on the licence — including `swift
+        # build`, which the InstantSpaceSwitcher fork needs. Silent trap
+        # otherwise: things just refuse to compile.
+        if [[ -d /Applications/Xcode.app ]]; then
+            local lic
+            lic=$(/usr/bin/xcodebuild -license check 2>&1)
+            if [[ $? -eq 0 ]]; then
+                log_pass "Xcode license accepted"
+            elif grep -qi "requires Xcode" <<< "$lic"; then
+                log_info "Xcode installed but CLT selected (no license gate)"
+            else
+                log_fail "Xcode license NOT accepted — blocks swift build/cocoapods/fastlane"
+                echo -e "${DIM}    Run: sudo xcodebuild -license accept${NC}"
+            fi
+        fi
+
         check_command brew "Homebrew"
     else
         check_command apt "Package manager (apt)" || check_command dnf "Package manager (dnf)" || check_command pacman "Package manager (pacman)" || true
