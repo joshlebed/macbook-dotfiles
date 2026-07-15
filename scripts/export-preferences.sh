@@ -287,25 +287,6 @@ done < "$MAPPINGS_FILE"
 process_entry
 
 # ----------------------------------------------------------------------------
-# Keyboard shortcuts
-# ----------------------------------------------------------------------------
-# Safe to run again: export-keyboard-shortcuts.sh now refuses (exit 1) to write
-# any shortcut it cannot round-trip, rather than silently committing a corrupted
-# one. All current shortcuts are plain ASCII and round-trip cleanly.
-echo ""
-log_info "Exporting keyboard shortcuts..."
-if [[ "$DRY_RUN" == true || "$CHECK_ONLY" == true ]]; then
-    bash "$SCRIPT_DIR/export-keyboard-shortcuts.sh" --dry-run >/dev/null || {
-        log_error "keyboard shortcuts contain a value that cannot be round-tripped"
-        echo -e "${DIM}    Run: ./scripts/export-keyboard-shortcuts.sh --dry-run${NC}"
-    }
-else
-    bash "$SCRIPT_DIR/export-keyboard-shortcuts.sh" || {
-        log_error "keyboard shortcut export refused — see above"
-    }
-fi
-
-# ----------------------------------------------------------------------------
 # Summary
 # ----------------------------------------------------------------------------
 echo ""

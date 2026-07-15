@@ -310,18 +310,8 @@ step_file_mappings() {
     fi
 }
 
-step_keyboard_shortcuts() {
-    log_section "Step 6: Keyboard Shortcuts"
-
-    if [[ "$DRY_RUN" == true ]]; then
-        run_script_with_args "$SCRIPT_DIR/apply-keyboard-shortcuts.sh" "--dry-run" "keyboard shortcuts (dry run)"
-    else
-        run_script "$SCRIPT_DIR/apply-keyboard-shortcuts.sh" "keyboard shortcuts"
-    fi
-}
-
 step_editor_extensions() {
-    log_section "Step 7: Editor Extensions"
+    log_section "Step 6: Editor Extensions"
 
     if [[ "$DRY_RUN" == true ]]; then
         log_step "[DRY-RUN] Would install VS Code + Cursor extensions"
@@ -331,7 +321,7 @@ step_editor_extensions() {
 }
 
 step_macos_defaults() {
-    log_section "Step 8: macOS Defaults"
+    log_section "Step 7: macOS Defaults"
 
     if [[ "$DRY_RUN" == true ]]; then
         run_script_with_args "$SCRIPT_DIR/apply-macos-defaults.sh" "--dry-run" "macOS defaults (dry run)"
@@ -341,7 +331,7 @@ step_macos_defaults() {
 }
 
 step_login_items() {
-    log_section "Step 9: Login Items"
+    log_section "Step 8: Login Items"
 
     if [[ "$DRY_RUN" == true ]]; then
         log_step "[DRY-RUN] Would add login items"
@@ -410,7 +400,6 @@ show_summary() {
     echo "  ✓ Zsh with Oh My Zsh"
     echo "  ✓ Terminal cleanup (~/.hushlogin)"
     echo "  ✓ All file mappings (symlinks, plists, copies)"
-    echo "  ✓ Keyboard shortcuts"
     echo "  ✓ VS Code + Cursor extensions"
     echo ""
     echo "Next steps:"
@@ -463,7 +452,6 @@ main() {
     step_shell      || FAILED_STEPS+=("Shell Setup")
     step_hushlogin  || FAILED_STEPS+=("Terminal Cleanup")
     step_file_mappings || FAILED_STEPS+=("File Mappings")
-    step_keyboard_shortcuts || FAILED_STEPS+=("Keyboard Shortcuts")
     step_editor_extensions || FAILED_STEPS+=("Editor Extensions")
     step_macos_defaults || FAILED_STEPS+=("macOS Defaults")
     step_login_items || FAILED_STEPS+=("Login Items")

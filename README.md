@@ -98,29 +98,11 @@ itself reported as `path: missing value`.)
 
 ### Keyboard Shortcuts
 
-```bash
-./scripts/export-keyboard-shortcuts.sh   # system -> config/keyboard-shortcuts.yaml
-./scripts/apply-keyboard-shortcuts.sh    # config -> system
-```
-
-`NSGlobalDomain` shortcuts (Minimize, Show Tab Bar) need a **logout/login** to
-take effect; app-specific ones just need the app restarted.
-
-Two sharp edges worth knowing:
-
-- **Bindings match menu items by exact title, and macOS accepts a binding for a
-  menu item that doesn't exist.** A shortcut for an uninstalled app, or one
-  whose menu title changed, is a silent no-op that looks applied. `apply` now
-  warns when the target app isn't installed. The Chrome entries are the live
-  example: they target profiles by display name (`Josh (Personal)`), so on a
-  fresh Chrome — where no profile has that name yet — they will bind to nothing
-  until the profiles are recreated with matching names.
-- **Only plain-ASCII shortcuts round-trip.** `defaults` renders a non-ASCII key
-  (Tab/arrows/Escape) as a `\Uxxxx` escape, and PlistBuddy strips the backslash
-  instead of decoding it, turning `^⇥` into the literal string `^U21e5`. Export
-  therefore refuses (exit 1) to record anything that isn't modifiers plus one
-  ASCII key, rather than silently committing a corrupted binding — which is what
-  previously happened to a Messenger shortcut.
+App menu shortcuts (System Settings → Keyboard → App Shortcuts) are set **by
+hand** — the checklist lives in [mac-settings.md](mac-settings.md). They were
+scripted for a while (`apply-keyboard-shortcuts.sh` wrote
+`NSUserKeyEquivalents`), but the applied bindings didn't take on a new machine,
+so the scripts were removed and the manual checklist restored.
 
 ### Editor Extensions
 

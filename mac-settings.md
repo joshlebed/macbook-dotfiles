@@ -9,10 +9,9 @@ scripted now are:
 ./scripts/apply-macos-defaults.sh            # key repeat, dock, scroll bars, motion...
 ./scripts/apply-macos-defaults.sh --check    # report anything that drifted
 ./scripts/login-items.sh --apply             # login items
-./scripts/apply-keyboard-shortcuts.sh        # app menu shortcuts
 ```
 
-`setup-macos.sh` runs all three. See `scripts/apply-macos-defaults.sh` for the
+`setup-macos.sh` runs both. See `scripts/apply-macos-defaults.sh` for the
 exact settings and values.
 
 ## Still manual
@@ -34,8 +33,35 @@ them blind is a good way to lose your keyboard, so they stay manual.
   → `F13`
 - Services → Files and Folders → "New iTerm2 Tab Here" → `cmd + shift + t`
 
-Note: app menu shortcuts (Finder, Chrome, Spotify, iTerm, global Minimize/Show
-Tab Bar) are **not** in this list — `apply-keyboard-shortcuts.sh` handles those.
+### App menu shortcuts
+
+System Settings → Keyboard → Keyboard Shortcuts → App Shortcuts. These were
+scripted for a while (`apply-keyboard-shortcuts.sh` wrote
+`NSUserKeyEquivalents`), but the applied bindings didn't take on a new
+machine, so they're manual again.
+
+- All Applications
+  - Minimize: `ctrl + option + cmd + m`
+  - Show Tab Bar: `ctrl + option + cmd + t`
+- Finder
+  - Close Window: `shift + cmd + w`
+- Google Chrome
+  - Josh (Niteshift): `ctrl + option + cmd + i`
+  - Josh (Personal): `ctrl + option + cmd + u`
+- iTerm
+  - New Tmux Tab: `ctrl + t`
+- Spotify
+  - Go Back: `cmd + [`
+  - Go Forward: `cmd + ]`
+
+Two things to know when setting these:
+
+- Bindings match menu items by **exact title**, and macOS accepts a binding
+  for a menu item that doesn't exist. The Chrome entries target profiles by
+  display name, so recreate the profiles with exactly those names first.
+- The All Applications shortcuts (Minimize, Show Tab Bar) need a
+  **logout/login** to take effect; app-specific ones just need the app
+  restarted.
 
 ### Other
 

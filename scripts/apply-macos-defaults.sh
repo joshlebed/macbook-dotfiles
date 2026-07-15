@@ -13,10 +13,11 @@
 # somebody's idea of sensible defaults.
 #
 # What is deliberately NOT here (and stays manual in mac-settings.md):
-#   - Disabling system keyboard shortcuts (Spotlight, Launchpad, Mission
-#     Control). These live in com.apple.symbolichotkeys as opaque numeric IDs
-#     with binary values; writing them blind is a good way to break the
-#     keyboard. App-level shortcuts are handled by apply-keyboard-shortcuts.sh.
+#   - Keyboard shortcuts, both system (Spotlight, Launchpad, Mission Control —
+#     com.apple.symbolichotkeys is opaque numeric IDs with binary values;
+#     writing them blind is a good way to break the keyboard) and app menu
+#     shortcuts (NSUserKeyEquivalents — was scripted, but the applied bindings
+#     didn't take on a new machine).
 #   - Screenshot shortcuts, Services shortcuts.
 #   - Lock screen timing, wallpaper, screen saver.
 #   - Login items — see scripts/login-items.sh.
@@ -204,7 +205,7 @@ else
         echo -e "${DIM}    Log out and back in for everything to take effect.${NC}"
         echo ""
         log_info "Still manual — see mac-settings.md:"
-        echo -e "${DIM}    system keyboard shortcuts, screenshots, lock screen, wallpaper${NC}"
+        echo -e "${DIM}    keyboard shortcuts (system + app menu), screenshots, lock screen, wallpaper${NC}"
     fi
 fi
 echo ""
