@@ -17,6 +17,10 @@
 
 # -----------------------------------------
 
+# Raycast runs scripts without a UTF-8 locale; without this, pbpaste/pbcopy
+# transcode non-ASCII clipboard text to MacRoman (and drop emoji).
+export LC_CTYPE=UTF-8
+
 # Get the content from clipboard
 input=$(pbpaste)
 

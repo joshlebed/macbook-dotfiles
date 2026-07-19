@@ -23,6 +23,10 @@
 #        scheme:rest            -> open in the registered app (spotify:, slack://, mailto:, ...)
 #        anything else          -> Google search
 
+# Raycast runs scripts without a UTF-8 locale; without this, pbpaste
+# transcodes non-ASCII clipboard text to MacRoman (and drops emoji).
+export LC_CTYPE=UTF-8
+
 LINEAR_WORKSPACE="niteshift"
 LINEAR_TEAM_PREFIXES="NS" # pipe-separated whitelist, e.g. "NS|ENG"
 GITHUB_DEFAULT_REPO="niteshiftdev/niteshift"

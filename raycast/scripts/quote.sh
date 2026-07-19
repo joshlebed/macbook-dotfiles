@@ -12,19 +12,21 @@
 # @raycast.author joshlebed
 # @raycast.authorURL https://github.com/joshlebed
 
-original="$(pbpaste)"
-
-osascript - "$original" <<'APPLESCRIPT'
+osascript <<'APPLESCRIPT'
 use framework "AppKit"
 use scripting additions
 
-on run argv
-    set theOriginal to item 1 of argv
+on run
+    # Read the clipboard via NSPasteboard instead of pbpaste + argv: Raycast
+    # runs scripts without a UTF-8 locale, so pbpaste emits MacRoman and
+    # osascript fails to decode non-ASCII arguments (error -1700).
+    set pb to current application's NSPasteboard's generalPasteboard()
+    set theOriginalNS to pb's stringForType:"public.utf8-plain-text"
+    if theOriginalNS is missing value then return
+    set theOriginal to theOriginalNS as text
     set LF to linefeed
     set fence to "```"
     set theWrapped to LF & fence & LF & theOriginal & LF & fence & LF & LF
-
-    set pb to current application's NSPasteboard's generalPasteboard()
 
     pb's clearContents()
     pb's setString:theWrapped forType:"public.utf8-plain-text"
