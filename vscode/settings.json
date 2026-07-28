@@ -183,5 +183,6 @@
   },
   "workbench.activityBar.location": "hidden",
   "window.autoDetectColorScheme": false,
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
   // "biome.lsp.trace.server": "verbose"
 }
