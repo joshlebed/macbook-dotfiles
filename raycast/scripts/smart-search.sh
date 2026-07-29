@@ -20,6 +20,7 @@
 #        NS-790 (whitelisted prefixes) -> linear.app/<workspace>/issue/<ID>
 #        #4953                  -> app.graphite.com/github/pr/<default repo>/4953
 #        domain.tld[/path]      -> open as URL (auto-prefixes https://)
+#        chrome://...           -> open in Chrome (internal pages)
 #        scheme:rest            -> open in the registered app (spotify:, slack://, mailto:, ...)
 #        anything else          -> Google search
 
@@ -71,7 +72,17 @@ if [[ "$input" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}(/[^[:space:]]*)?$ ]];
     exit 0
 fi
 
-# 5. Custom URL scheme (no spaces) -> let macOS open the registered app.
+# 5. Chrome internal page -> hand straight to Chrome.
+#    Must come before rule 6: nothing claims the bare `chrome:` scheme in
+#    LaunchServices (only `google-chrome:`), so plain `open` fails and these
+#    would fall through to a Google search. `open -a` bypasses the lookup.
+if [[ "$input" =~ ^chrome://[^[:space:]]+$ ]]; then
+    open -a "Google Chrome" "$input"
+    echo "Opening in Chrome: $input"
+    exit 0
+fi
+
+# 6. Custom URL scheme (no spaces) -> let macOS open the registered app.
 #    Restores the old "paste into Chrome's address bar" behavior for things like
 #    spotify:track:..., slack://..., zoommtg://..., mailto:..., vscode://...
 #    `open` exits non-zero when no app claims the scheme, so we fall through to Google.
@@ -82,7 +93,7 @@ if [[ "$input" =~ ^[a-zA-Z][a-zA-Z0-9+.-]*:[^[:space:]]+$ ]]; then
     fi
 fi
 
-# 6. Fallback: Google search
+# 7. Fallback: Google search
 query="$(python3 -c "import sys, urllib.parse; print(urllib.parse.quote_plus(sys.argv[1]))" "$input")"
 open "https://www.google.com/search?q=${query}"
 echo "Searching Google"
