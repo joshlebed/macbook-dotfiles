@@ -184,5 +184,6 @@
   "workbench.activityBar.location": "hidden",
   "window.autoDetectColorScheme": false,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "security.promptForRemoteFileProtocolHandling": false,
   // "biome.lsp.trace.server": "verbose"
 }
