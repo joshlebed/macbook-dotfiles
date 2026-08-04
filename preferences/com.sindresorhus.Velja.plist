@@ -32,8 +32,10 @@
 	<true/>
 	<key>appStoreApp</key>
 	<string>browser:com.apple.AppStore</string>
+	<key>claudeApp</key>
+	<string>browser:com.anthropic.claudefordesktop</string>
 	<key>com_apple_SwiftUI_Settings_selectedTabIndex</key>
-	<integer>2</integer>
+	<integer>1</integer>
 	<key>defaultBrowser</key>
 	<string>browser:com.google.Chrome</string>
 	<key>discordApp</key>
@@ -56,9 +58,11 @@
 	<string>browser:notion.id</string>
 	<key>preferredBrowsers</key>
 	<array>
-		<string>com.apple.Safari</string>
-		<string>org.mozilla.firefox</string>
-		<string>com.google.Chrome</string>
+		<string>browser:com.google.Chrome</string>
+		<string>browser:com.apple.Safari</string>
+		<string>browser:org.hammerspoon.Hammerspoon</string>
+		<string>browser:com.googlecode.iterm2</string>
+		<string>browser:org.mozilla.firefox</string>
 	</array>
 	<key>rules</key>
 	<array>

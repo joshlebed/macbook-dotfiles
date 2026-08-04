@@ -10,6 +10,8 @@
 	<false/>
 	<key>SUSkippedVersion</key>
 	<string>82</string>
+	<key>allowAnyShortcut</key>
+	<true/>
 	<key>alternateDefaultShortcuts</key>
 	<true/>
 	<key>bottomHalf</key>
@@ -56,6 +58,8 @@
 	</data>
 	<key>gapSize</key>
 	<real>0.0</real>
+	<key>installVersion</key>
+	<string>102</string>
 	<key>internalTilingNotified</key>
 	<true/>
 	<key>larger</key>
