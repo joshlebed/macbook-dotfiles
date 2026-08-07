@@ -38,10 +38,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # corepack: prevent auto-pinning packageManager into package.json
 export COREPACK_ENABLE_AUTO_PIN=0
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# fnm: node version manager. `fnm default <ver>` sets the version used everywhere.
+eval "$(fnm env --shell zsh)"
 
 
 # git aliases

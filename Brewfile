@@ -59,7 +59,7 @@ brew "withgraphite/tap/graphite"
 # ============================================================================
 
 brew "node"
-brew "nvm"
+brew "fnm"
 brew "pnpm"
 brew "yarn"
 brew "python@3.12"
