@@ -59,6 +59,7 @@ Alfred/*.contexts-license
 # CLI auth tokens / credentials (never commit)
 neonctl/
 niteshift/
+graphite/auth
 
 # Nested Raycast extensions fork — its own git repo; .git/config embeds an
 # OAuth token in the remote URL, so it must never be added from this repo.
