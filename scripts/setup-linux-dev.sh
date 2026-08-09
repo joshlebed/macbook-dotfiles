@@ -5,7 +5,7 @@
 #
 # Description:
 #   Automated setup script for Linux development environments.
-#   Installs and configures: zsh, oh-my-zsh, tmux, fzf, NVM, Node.js,
+#   Installs and configures: zsh, oh-my-zsh, tmux, fzf, fnm, Node.js,
 #   Claude Code CLI, shell-ai, and dotfiles from GitHub.
 #
 # Usage:
@@ -92,7 +92,7 @@ check_sudo_availability() {
         echo ""
         log_info "To get full functionality, either:"
         echo "  1. Re-run with sudo: curl -fsSL https://raw.githubusercontent.com/joshlebed/macbook-dotfiles/main/scripts/setup-linux-dev.sh | sudo bash"
-        echo "  2. Ask your system administrator to install: git, zsh, fzf, tmux, curl, wget"
+        echo "  2. Ask your system administrator to install: git, zsh, fzf, tmux, curl, wget, unzip"
         echo ""
 
         # Check if we're running through a pipe or non-interactive shell
@@ -133,7 +133,7 @@ install_packages() {
     if [[ "$HAS_SUDO" != true ]]; then
         SKIPPED_OPERATIONS+=("System package installation")
         log_warning "Skipping package installation (requires sudo)"
-        log_info "Please ensure these packages are installed: git, curl, wget, zsh, fzf, tmux"
+        log_info "Please ensure these packages are installed: git, curl, wget, unzip, zsh, fzf, tmux"
         return 0
     fi
 
@@ -142,7 +142,7 @@ install_packages() {
     if [[ "$ID" == "debian" ]] || [[ "$ID" == "ubuntu" ]] || [[ "$ID_LIKE" == *"debian"* ]]; then
         if [[ "$IS_ROOT" == true ]]; then
             apt-get update
-            apt-get install -y git curl wget zsh fzf tmux fonts-powerline build-essential locales
+            apt-get install -y git curl wget unzip zsh fzf tmux fonts-powerline build-essential locales
 
             # Install GitHub CLI (gh)
             log_info "Adding GitHub CLI repository..."
@@ -155,7 +155,7 @@ install_packages() {
             && apt-get install -y gh
         else
             sudo apt-get update
-            sudo apt-get install -y git curl wget zsh fzf tmux fonts-powerline build-essential locales
+            sudo apt-get install -y git curl wget unzip zsh fzf tmux fonts-powerline build-essential locales
 
             # Install GitHub CLI (gh)
             log_info "Adding GitHub CLI repository..."
@@ -170,26 +170,26 @@ install_packages() {
         log_success "Packages installed via apt"
     elif [[ "$ID" == "fedora" ]] || [[ "$ID" == "rhel" ]] || [[ "$ID" == "centos" ]] || [[ "$ID_LIKE" == *"fedora"* ]] || [[ "$ID_LIKE" == *"rhel"* ]]; then
         if [[ "$IS_ROOT" == true ]]; then
-            dnf install -y git curl wget zsh fzf tmux powerline-fonts gcc make glibc-locale-source glibc-langpack-en
+            dnf install -y git curl wget unzip zsh fzf tmux powerline-fonts gcc make glibc-locale-source glibc-langpack-en
         else
-            sudo dnf install -y git curl wget zsh fzf tmux powerline-fonts gcc make glibc-locale-source glibc-langpack-en
+            sudo dnf install -y git curl wget unzip zsh fzf tmux powerline-fonts gcc make glibc-locale-source glibc-langpack-en
         fi
         log_success "Packages installed via dnf"
     elif [[ "$ID" == "alpine" ]]; then
         if [[ "$IS_ROOT" == true ]]; then
             apk update
-            apk add --no-cache git curl wget zsh fzf tmux build-base musl-locales
+            apk add --no-cache git curl wget unzip zsh fzf tmux build-base musl-locales
         else
             sudo apk update
-            sudo apk add --no-cache git curl wget zsh fzf tmux build-base musl-locales
+            sudo apk add --no-cache git curl wget unzip zsh fzf tmux build-base musl-locales
         fi
         log_warning "Powerline fonts may need manual installation on Alpine Linux"
         log_success "Packages installed via apk"
     elif [[ "$ID" == "arch" ]] || [[ "$ID_LIKE" == *"arch"* ]]; then
         if [[ "$IS_ROOT" == true ]]; then
-            pacman -Sy --noconfirm git curl wget zsh fzf tmux powerline-fonts base-devel
+            pacman -Sy --noconfirm git curl wget unzip zsh fzf tmux powerline-fonts base-devel
         else
-            sudo pacman -Sy --noconfirm git curl wget zsh fzf tmux powerline-fonts base-devel
+            sudo pacman -Sy --noconfirm git curl wget unzip zsh fzf tmux powerline-fonts base-devel
         fi
         log_success "Packages installed via pacman"
     else
@@ -542,78 +542,107 @@ install_shell_ai() {
     fi
 }
 
-# Install Node Version Manager
-install_nvm() {
-    log_info "Installing NVM..."
+# Node version manager settings.
+#
+# FNM_DEFAULT_NODE is the version you land in by default; some work is pinned
+# to 22, so do not bump it casually. FNM_EXTRA_NODE is installed alongside it
+# so `fnm use 26` works offline, but is not made the default.
+#
+# FNM_RELEASE is pinned for the same reason the old NVM_INSTALL_URL was: an
+# unpinned installer means a machine set up next year gets a different tool
+# than one set up today.
+FNM_RELEASE="v1.39.0"
+FNM_DEFAULT_NODE="22"
+FNM_EXTRA_NODE="26"
+FNM_INSTALL_DIR=".local/share/fnm"
 
-    # Check if already installed
-    if [[ -d "$USER_HOME/.nvm" ]]; then
-        log_info "NVM already installed"
+# Install fnm (Rust-based node version manager; replaced NVM).
+#
+# Chosen over NVM because NVM is a ~4k-line shell script sourced on every
+# shell start, and .zshenv now sources the version manager for EVERY zsh
+# invocation (see .zshenv) -- paying NVM's startup cost per script was not
+# acceptable. fnm is a single binary and reads the same .nvmrc files.
+install_fnm() {
+    log_info "Installing fnm..."
+
+    local fnm_bin="$USER_HOME/$FNM_INSTALL_DIR/fnm"
+
+    if [[ -x "$fnm_bin" ]]; then
+        log_info "fnm already installed"
         return 0
     fi
 
-    # Check for curl or wget
-    if ! command -v curl >/dev/null 2>&1 && ! command -v wget >/dev/null 2>&1; then
-        log_warning "Cannot install NVM (curl/wget not available)"
-        SKIPPED_OPERATIONS+=("NVM installation")
+    # The official installer is curl-only (it pipes a zip through unzip).
+    if ! command -v curl >/dev/null 2>&1; then
+        log_warning "Cannot install fnm (curl not available)"
+        SKIPPED_OPERATIONS+=("fnm installation")
+        return 1
+    fi
+    if ! command -v unzip >/dev/null 2>&1; then
+        log_warning "Cannot install fnm (unzip not available)"
+        SKIPPED_OPERATIONS+=("fnm installation")
         return 1
     fi
 
-    # Set PROFILE to prevent interactive prompt
-    export PROFILE=/dev/null
-    local NVM_INSTALL_URL="https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh"
+    # --skip-shell: .zshenv already evaluates `fnm env`, and letting the
+    # installer append its own block would duplicate it on every re-run.
+    local install_cmd
+    install_cmd="curl -fsSL https://fnm.vercel.app/install | bash -s --"
+    install_cmd+=" --install-dir \"\$HOME/$FNM_INSTALL_DIR\""
+    install_cmd+=" --release $FNM_RELEASE --skip-shell"
 
-    # Run installation based on context
     local install_success=false
-
     if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-        if command -v curl >/dev/null 2>&1; then
-            su - "$ACTUAL_USER" -c "export PROFILE=/dev/null; curl -o- $NVM_INSTALL_URL | bash" </dev/null && install_success=true
-        else
-            su - "$ACTUAL_USER" -c "export PROFILE=/dev/null; wget -qO- $NVM_INSTALL_URL | bash" </dev/null && install_success=true
-        fi
+        su - "$ACTUAL_USER" -c "$install_cmd" </dev/null && install_success=true
     else
-        if command -v curl >/dev/null 2>&1; then
-            curl -o- "$NVM_INSTALL_URL" 2>/dev/null | bash && install_success=true
-        else
-            wget -qO- "$NVM_INSTALL_URL" 2>/dev/null | bash && install_success=true
-        fi
+        HOME="$USER_HOME" bash -c "$install_cmd" </dev/null && install_success=true
     fi
 
     if [[ "$install_success" == true ]]; then
-        log_success "NVM installed"
+        log_success "fnm installed"
         return 0
     else
-        log_warning "Failed to install NVM"
-        SKIPPED_OPERATIONS+=("NVM installation")
+        log_warning "Failed to install fnm"
+        SKIPPED_OPERATIONS+=("fnm installation")
         return 1
     fi
 }
 
-# Setup Node.js via NVM
-setup_nodejs_via_nvm() {
-    if [[ ! -f "$USER_HOME/.nvm/nvm.sh" ]]; then
+# Setup Node.js via fnm
+setup_nodejs_via_fnm() {
+    local fnm_bin="$USER_HOME/$FNM_INSTALL_DIR/fnm"
+
+    if [[ ! -x "$fnm_bin" ]]; then
         return 1
     fi
 
-    log_info "Setting up Node.js via NVM..."
+    log_info "Setting up Node.js via fnm..."
+
+    # `fnm install` is a no-op if the version is already present, so this is
+    # safe to re-run. The extra version is best-effort: failing to fetch it
+    # must not fail the whole setup, since the default is what matters.
+    local setup_cmd
+    setup_cmd="\"$fnm_bin\" install $FNM_DEFAULT_NODE"
+    setup_cmd+=" && \"$fnm_bin\" default $FNM_DEFAULT_NODE"
+    setup_cmd+=" && { \"$fnm_bin\" install $FNM_EXTRA_NODE || true; }"
+    setup_cmd+=" && eval \"\$(\"$fnm_bin\" env --shell bash)\" && node --version && npm --version"
 
     if [[ "$IS_ROOT" == true ]] && [[ "$ACTUAL_USER" != "root" ]]; then
-        if su - "$ACTUAL_USER" -c "source \"$USER_HOME/.nvm/nvm.sh\" && (nvm current || nvm install --lts) && nvm use --lts && npm --version" </dev/null 2>&1; then
-            log_success "Node.js is ready via NVM"
+        if su - "$ACTUAL_USER" -c "$setup_cmd" </dev/null 2>&1; then
+            log_success "Node.js is ready via fnm (default $FNM_DEFAULT_NODE)"
             return 0
         fi
     else
-        # shellcheck source=/dev/null
-        if (source "$USER_HOME/.nvm/nvm.sh" && (nvm current || nvm install --lts) && nvm use --lts && npm --version) </dev/null 2>&1; then
-            log_success "Node.js is ready via NVM"
-            # shellcheck source=/dev/null
-            source "$USER_HOME/.nvm/nvm.sh" 2>/dev/null && nvm use --lts 2>/dev/null || true
+        if HOME="$USER_HOME" bash -c "$setup_cmd" </dev/null 2>&1; then
+            log_success "Node.js is ready via fnm (default $FNM_DEFAULT_NODE)"
+            # Make node available to the rest of THIS script run (npm is used
+            # below to install Claude Code).
+            eval "$(HOME="$USER_HOME" "$fnm_bin" env --shell bash)" 2>/dev/null || true
             return 0
         fi
     fi
 
-    log_warning "Failed to setup Node.js via NVM"
+    log_warning "Failed to setup Node.js via fnm"
     return 1
 }
 
@@ -627,8 +656,8 @@ install_claude_code() {
         return 0
     fi
 
-    # Try to setup Node.js via NVM first
-    setup_nodejs_via_nvm
+    # Try to setup Node.js via fnm first
+    setup_nodejs_via_fnm
 
     # Install via npm (required for auto-updates)
     if command -v npm >/dev/null 2>&1; then
@@ -794,9 +823,9 @@ install_graphite_cli() {
         return 0
     fi
 
-    # Try to setup Node.js via NVM first if not already available
+    # Try to setup Node.js via fnm first if not already available
     if ! command -v npm >/dev/null 2>&1; then
-        setup_nodejs_via_nvm
+        setup_nodejs_via_fnm
     fi
 
     # Check if npm is available
@@ -832,8 +861,8 @@ install_graphite_cli() {
 install_dev_tools() {
     log_info "Installing additional development tools..."
 
-    # Install NVM
-    install_nvm
+    # Install fnm (node version manager)
+    install_fnm
 
     # Install Claude Code
     install_claude_code

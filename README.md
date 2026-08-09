@@ -149,6 +149,47 @@ cp ~/.config/.environment-specifics.example.zshrc ~/.environment-specifics.zshrc
 chmod 600 ~/.environment-specifics.zshrc
 ```
 
+### Node (fnm)
+
+Node is managed by [fnm](https://github.com/Schniz/fnm), not nvm and not
+Homebrew. **Node 22 is the default**, because some work is pinned to it; 26 is
+installed alongside it, so `fnm use 26` works without a download.
+
+```bash
+fnm list                 # what's installed, and which is default
+fnm default 22           # change the default (do this deliberately)
+fnm install 24 && fnm use 24
+```
+
+`.nvmrc` / `.node-version` files are picked up automatically on `cd`, searching
+upward to the repo root (`--use-on-cd --version-file-strategy recursive`), so a
+monorepo subdirectory still resolves the root's pinned version.
+
+**Why three files.** The fnm setup is split across `.zshenv`, `.zprofile`, and
+the end of `.zshrc`, which looks redundant but isn't — each covers a case the
+others miss:
+
+| File | Sourced by | Why it's needed |
+| --- | --- | --- |
+| `.zshenv` | **every** zsh, incl. non-interactive | Runs `fnm env`. Scripts, git hooks and cron never read `.zshrc`, so without this they got a different node than the terminal. |
+| `.zprofile` | login shells, after `/etc/zprofile` | macOS's `/etc/zprofile` runs `path_helper`, which rebuilds `PATH` and demotes fnm's entry. Re-asserts it. |
+| `.zshrc` (last line) | interactive shells | Re-asserts again, after every other `PATH` prepend in the file. Must stay last. |
+
+Only `.zshenv` evaluates `fnm env`; the other two just re-prepend
+`$FNM_MULTISHELL_PATH/bin`, so no extra multishell directories are allocated.
+
+This was a real bug, not theoretical: an interactive shell ran node 22 while
+`zsh -c` ran Homebrew's node 26.
+
+**Homebrew's `node` is deliberately not in the Brewfile.** It remains installed
+only as `neonctl`'s dependency (receipt marked as a dependency, not
+on-request, so `audit-brew.sh` stays quiet). Adding `brew "node"` back would
+reintroduce a second runtime on `PATH`.
+
+On Linux, `setup-linux-dev.sh` installs fnm from a pinned release and applies
+the same default — see `FNM_RELEASE` / `FNM_DEFAULT_NODE` near the top of
+`install_fnm()`.
+
 ### Homebrew Packages
 
 `Brewfile` is the curated Homebrew baseline used by the macOS setup script.
@@ -275,6 +316,7 @@ limited install (skips system packages).
   [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
 - [tmux](https://github.com/tmux/tmux) - terminal multiplexer
 - [fzf](https://github.com/junegunn/fzf) - fuzzy finder
+- [fnm](https://github.com/Schniz/fnm) - node version manager (see [Node (fnm)](#node-fnm))
 
 ### macOS Apps
 

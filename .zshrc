@@ -38,8 +38,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # corepack: prevent auto-pinning packageManager into package.json
 export COREPACK_ENABLE_AUTO_PIN=0
 
-# fnm: node version manager. `fnm default <ver>` sets the version used everywhere.
-eval "$(fnm env --shell zsh)"
+# fnm (node version manager) is set up in .zshenv, so non-interactive shells
+# get the same node as this one. Its PATH entry is re-asserted at the end of
+# this file. `fnm default <ver>` sets the version used everywhere.
 
 
 # git aliases
@@ -341,3 +342,12 @@ doc-from-task () {
 
 # Niteshift CLI
 [[ -d "$HOME/code/niteshift-cli" ]] && export PATH="$HOME/code/niteshift-cli:$PATH"
+
+# fnm: re-assert the PATH entry .zshenv set. Two things demote it on the way
+# here -- /etc/zprofile's `path_helper`, which rebuilds PATH from /etc/paths.d
+# and pushes fnm behind /opt/homebrew/bin (where a `node` lives as neonctl's
+# dependency), and every PATH prepend above. This must therefore stay LAST:
+# anything added after it that ships its own `node` would shadow fnm again.
+# `fnm env` is not re-run, so this costs nothing and allocates no second
+# multishell directory.
+[[ -n "$FNM_MULTISHELL_PATH" ]] && export PATH="$FNM_MULTISHELL_PATH/bin:$PATH"

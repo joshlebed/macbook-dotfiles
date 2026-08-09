@@ -58,7 +58,10 @@ brew "withgraphite/tap/graphite"
 # Languages & runtimes
 # ============================================================================
 
-brew "node"
+# Node itself is deliberately NOT declared here. fnm owns the node runtime
+# (see .zshenv); a second Homebrew node on PATH is what made scripts and the
+# terminal disagree about the version. It stays installed only as neonctl's
+# dependency, which `brew bundle` resolves on its own.
 brew "fnm"
 brew "pnpm"
 brew "yarn"

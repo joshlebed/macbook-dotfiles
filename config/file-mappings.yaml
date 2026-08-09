@@ -8,6 +8,15 @@ symlinks:
   - source: .zshrc
     target: ~/.zshrc
 
+  # Sourced by every zsh invocation, interactive or not -- this is what gives
+  # scripts and git hooks the same node as the terminal. See the file itself.
+  - source: .zshenv
+    target: ~/.zshenv
+
+  # Login shells: undoes /etc/zprofile's path_helper reshuffle. See the file.
+  - source: .zprofile
+    target: ~/.zprofile
+
   - source: .tmux.conf
     target: ~/.tmux.conf
 
