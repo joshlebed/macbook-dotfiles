@@ -57,11 +57,36 @@
 #      NSPasteboard in-process also retired the pbpaste/MacRoman transcoding
 #      bug that LC_CTYPE below was working around.
 #
-# Remaining upside: ~86ms (40ms osascript start + 46ms bridge load) is pure
-# per-process startup that does no work, and only a compiled binary removes it.
-# That would put this at ~130ms against a hard floor of ~85ms (27ms for the app
-# to write the clipboard + 57ms for LaunchServices/Velja), neither of which is
-# ours to optimize.
+# NOT DONE -- possible future work: compile this to Swift, worth ~85ms.
+#
+# The 40ms osascript start and the 46ms bridge load are both pure per-process
+# startup that does no work, and only a compiled binary removes them (the same
+# CGEvent sequence measured 0.0ms in Swift, and a bare Swift binary starts in
+# under 5ms). That would take this from ~215ms to ~130ms, against a hard floor
+# of ~85ms: 27ms for the app to write the clipboard plus 57ms for
+# LaunchServices/Velja, neither of which is ours to optimize.
+#
+# Estimated 3-4 hours. The port itself is small -- the routing below is
+# mechanical, and NSPasteboard/CGEvent/NSWorkspace are all already prototyped
+# here. The cost is infrastructure: a compiled binary cannot carry Raycast's
+# `@raycast.*` metadata headers, so this file would survive as a thin wrapper
+# that execs it (the 3ms bash spawn stays), and this repo has no build step for
+# compiled artifacts today. Committing the binary is wrong -- arch-specific --
+# so setup-macos.sh would have to build it. swiftc is present and
+# verify-setup.sh already guards the Xcode license gate.
+#
+# DO THE 15-MINUTE SPIKE FIRST. Everything hinges on one unverified assumption:
+# that a Raycast-spawned binary inherits Raycast's Accessibility grant through
+# responsible-process attribution. A Swift binary posting CGEvents was verified
+# working when spawned from a terminal, but terminal-responsible is not
+# Raycast-responsible. Before porting anything, build a 10-line binary that
+# posts cmd+c and logs whether the clipboard changed, point this wrapper at it,
+# and press cmd+g once. If the clipboard moves, TCC inherits and the port is
+# safe. If it does not, the binary needs its own Accessibility grant, and an
+# ad-hoc signature changes every build -- the same re-granting problem the
+# README documents for InstantSpaceSwitcher. Survivable (sign with Developer ID
+# Q65U6C65ZZ, grant once), but it turns an afternoon into a maintenance burden
+# for 85ms. If the spike fails, it is probably not worth it.
 #
 # Reliability: this used to be `keystroke c` + `sleep 0.15`, which was a race.
 # The osascript round trip alone ate ~130ms of that budget, leaving the target
@@ -134,7 +159,14 @@ function run(argv) {
   $.CGEventPost(SESSION_TAP, up);
 
   var t0 = $.NSDate.date.timeIntervalSince1970;
-  var deadline = t0 + 1.2;
+  // 500ms, not 1.2s. This deadline used to be a pure safety margin -- if it
+  // expired we aborted, so waiting longer only ever made us more certain. Now
+  // that expiry falls back to the existing clipboard, it is a cost paid on
+  // every cmd+g in an app that never writes to the pasteboard (the Claude Code
+  // TUI is one: it draws its own selection, so iTerm has nothing to copy).
+  // 500ms is still ~7x the slowest copy ever observed here (71ms; real runs
+  // range 9-71ms) while more than halving the penalty in that case.
+  var deadline = t0 + 0.5;
   var changed = false;
   while ($.NSDate.date.timeIntervalSince1970 < deadline) {
     if (pb.changeCount !== before) { changed = true; break; }
@@ -150,7 +182,20 @@ function run(argv) {
             fallback || "", preview || ""].join("\n");
   }
 
-  if (!changed) return emit("STALE", "abort/no-copy");
+  // If the copy never landed, fall back to whatever is already on the
+  // clipboard rather than aborting. Some apps genuinely never write on cmd+c
+  // (the Claude Code TUI in iTerm -- note plain iTerm selections copy fine), and
+  // there "use the last thing I copied" beats doing nothing.
+  //
+  // This is a deliberate, narrow re-admission of the bug fixed earlier, and the
+  // deadline is what keeps them distinct. That bug read the clipboard after a
+  // fixed 150ms, mistaking "hasn't landed yet" for "never will", and silently
+  // opened the previous URL. Here we have waited 500ms -- past any copy latency
+  // ever measured on this machine -- so expiry means the app is not going to
+  // copy, not that it is slow. Runs that take this path are logged as
+  // copy=FALLBACK precisely because they CAN open something you did not select;
+  // if those start appearing for apps that should copy, raise the deadline.
+  var copyStatus = changed ? "OK" : "FALLBACK";
   var raw = ObjC.unwrap(pb.stringForType($.NSPasteboardTypeString));
   if (raw == null) return emit("NOTEXT", "abort/non-text");
 
@@ -162,42 +207,42 @@ function run(argv) {
                encodeURIComponent(input).replace(/%20/g, "+");
 
   // 1. URL with explicit scheme
-  if (/^https?:\/\/\S+$/.test(input)) return emit("OK", "url", input, "default", "", preview);
+  if (/^https?:\/\/\S+$/.test(input)) return emit(copyStatus,"url", input, "default", "", preview);
 
   // 2. Linear ticket (whitelisted team prefixes only, normalized to uppercase)
   var ticket = input.toUpperCase();
   if (new RegExp("^(" + PREFIXES + ")-[0-9]+$").test(ticket)) {
-    return emit("OK", "linear", "https://linear.app/" + WORKSPACE + "/issue/" + ticket,
+    return emit(copyStatus,"linear", "https://linear.app/" + WORKSPACE + "/issue/" + ticket,
                 "default", "", ticket);
   }
 
   // 3. GitHub PR/issue in the default repo -> open in Graphite
   if (/^#[0-9]+$/.test(input)) {
-    return emit("OK", "graphite", "https://app.graphite.com/github/pr/" + REPO + "/" + input.slice(1),
+    return emit(copyStatus,"graphite", "https://app.graphite.com/github/pr/" + REPO + "/" + input.slice(1),
                 "default", "", preview);
   }
 
   // 4. Bare domain or domain/path (no scheme, no spaces)
   if (/^[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}(\/\S*)?$/.test(input)) {
-    return emit("OK", "url/implicit-https", "https://" + input, "default", "", preview);
+    return emit(copyStatus,"url/implicit-https", "https://" + input, "default", "", preview);
   }
 
   // 5. Chrome internal page -> hand straight to Chrome.
   //    Must come before rule 6: nothing claims the bare `chrome:` scheme in
   //    LaunchServices (only `google-chrome:`), so plain `open` fails and these
   //    would fall through to a Google search. `open -a` bypasses the lookup.
-  if (/^chrome:\/\/\S+$/.test(input)) return emit("OK", "chrome-internal", input, "chrome", "", preview);
+  if (/^chrome:\/\/\S+$/.test(input)) return emit(copyStatus,"chrome-internal", input, "chrome", "", preview);
 
   // 6. Custom URL scheme -> let macOS open the registered app (spotify:,
   //    slack://, zoommtg://, mailto:, vscode://). We cannot know here whether
   //    anything claims the scheme, so hand bash the Google URL as a fallback to
   //    use when `open` exits non-zero.
   if (/^[a-zA-Z][a-zA-Z0-9+.-]*:\S+$/.test(input)) {
-    return emit("OK", "scheme", input, "default", google, preview);
+    return emit(copyStatus,"scheme", input, "default", google, preview);
   }
 
   // 7. Fallback: Google search
-  return emit("OK", "google", google, "default", "", preview);
+  return emit(copyStatus,"google", google, "default", "", preview);
 }
 JXA
 )"
@@ -239,21 +284,16 @@ log() {
 # detail -- so if the HUD ever becomes noise, delete the three `echo` lines
 # below and this becomes completely silent.
 case "$status" in
-    STALE)
-        # Nothing was copied: no selection, or the app ignored cmd+c. Acting on
-        # the clipboard here would open whatever was last copied.
-        log "$preview"
-        echo "Nothing copied — is anything selected?"
-        exit 0
-        ;;
     NOTEXT)
         log "$preview"
         echo "Selection is not text"
         exit 0
         ;;
     EMPTY)
+        # Nothing selected AND nothing on the clipboard -- there is no input to
+        # fall back to, so this is the one case that still genuinely aborts.
         log "$preview"
-        echo "Selection is empty"
+        echo "Nothing selected and clipboard is empty"
         exit 0
         ;;
 esac
