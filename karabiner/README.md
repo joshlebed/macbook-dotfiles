@@ -20,10 +20,37 @@ When `nav_mode` is active, the right hand becomes a Vim-like navigation cluster
 Other rules outside `nav_mode` (in `misc_shortcuts`) handle app-specific
 overrides, Cmd+W behavior, and volume control.
 
+## Mouse layer (Caps Lock + Option)
+
+Adding **Option** to the caps layer turns the right hand into a pointer, for
+when no mouse is paired:
+
+| Keys | Action |
+| --- | --- |
+| `caps+opt+i/k/j/l` | move pointer up / down / left / right |
+| `caps+opt+shift+i/k/j/l` | move slowly, for precise targeting |
+| `caps+opt+;` | left click — hold it while moving to drag |
+| `caps+opt+'` | right click |
+| `caps+opt+p` / `caps+opt+/` | scroll up / down |
+
+Directions combine, so `i`+`l` moves diagonally. Speeds are the
+`pointer_*` constants at the top of `mouse_mappings` in `karabiner.js`.
+
+**Why this exists rather than a Hammerspoon script.** Karabiner emits pointer
+events through its virtual HID device, so macOS treats them as real hardware.
+That matters for the one case a scripted mouse can't handle: system security
+prompts — `"iTerm would like to use Bluetooth"` — ignore synthetic clicks from
+Hammerspoon or AppleScript entirely. Since that prompt is what gates
+`blueutil`, and `blueutil` is how you'd re-pair a mouse from the terminal,
+without this layer a missing mouse is a genuine deadlock. (Note that `blueutil`
+only speaks classic Bluetooth, so a BLE mouse still has to be paired from the
+Bluetooth pane — which is also a click.)
+
 ## How the config is structured
 
 ```
 karabiner.js          ← source of truth, edit this
+  ├── mouse_mappings[] ← caps+option pointer control (folded into nav_mappings)
   ├── nav_mappings[]  ← nav_mode bindings (auto-wrapped with nav_mode condition)
   ├── misc_shortcuts  ← non-nav rules (app overrides, function keys, etc.)
   ├── command_for_raycast ← tap-Command = Raycast

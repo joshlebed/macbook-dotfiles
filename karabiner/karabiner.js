@@ -41,7 +41,62 @@ const app_bundle_identifiers_with_option_f_to_toggle_case_and_word_search = [
   "com\\.todesktop\\.230313mzl4w4u92", // cursor
 ];
 
+// Mouse layer: caps + option turns the right hand into a pointer.
+//
+// This is the fallback for having no working mouse — including the one case
+// other automation can't cover. Karabiner emits these events through its
+// virtual HID device, so the window server treats them as real hardware.
+// macOS security prompts (e.g. "iTerm would like to use Bluetooth") ignore
+// synthetic clicks from Hammerspoon or AppleScript, but accept these — and
+// that prompt is exactly what stands between you and re-pairing a mouse.
+const pointer_speed = 1536;
+const pointer_precise_speed = 250;
+const pointer_scroll_speed = 32;
+
+const pointer_direction_keys = [
+  { key_code: "i", axis: "y", direction: -1 },
+  { key_code: "k", axis: "y", direction: 1 },
+  { key_code: "j", axis: "x", direction: -1 },
+  { key_code: "l", axis: "x", direction: 1 },
+];
+
+// The plain and shift-held variants can't collide regardless of order: a
+// manipulator matches only when every pressed modifier appears in its
+// mandatory or optional set, so option+shift never matches the option-only
+// entry. Nothing else in nav_mode claims option on these keys either.
+const mouse_mappings = [
+  ...pointer_direction_keys.map(({ key_code, axis, direction }) => ({
+    from: { key_code, modifiers: { mandatory: ["option"] } },
+    to: { mouse_key: { [axis]: direction * pointer_speed } },
+  })),
+  ...pointer_direction_keys.map(({ key_code, axis, direction }) => ({
+    from: { key_code, modifiers: { mandatory: ["option", "shift"] } },
+    to: { mouse_key: { [axis]: direction * pointer_precise_speed } },
+  })),
+  // hold a click key while moving with ijkl to drag
+  {
+    from: { key_code: "semicolon", modifiers: { mandatory: ["option"] } },
+    to: { pointing_button: "button1" },
+  },
+  {
+    from: { key_code: "quote", modifiers: { mandatory: ["option"] } },
+    to: { pointing_button: "button2" },
+  },
+  // vertical_wheel is a raw HID wheel delta, so macOS natural scrolling
+  // decides which way the content actually goes: negative scrolls up here.
+  {
+    from: { key_code: "p", modifiers: { mandatory: ["option"] } },
+    to: { mouse_key: { vertical_wheel: -pointer_scroll_speed } },
+  },
+  {
+    from: { key_code: "slash", modifiers: { mandatory: ["option"] } },
+    to: { mouse_key: { vertical_wheel: pointer_scroll_speed } },
+  },
+];
+
 const nav_mappings = [
+  // mouse layer — defined above, gated behind nav_mode like everything else
+  ...mouse_mappings,
   { from: { key_code: "quote" }, to: { key_code: "return_or_enter" } },
   // text nav
   {
