@@ -41,6 +41,10 @@ claude/notify-end.log
 claude/plugins/installed_plugins.json
 claude/plugins/known_marketplaces.json
 
+# Superset's Claude Code plugin — tool-installed and tool-updated (it carries
+# its own .superset-managed marker), so it's reinstalled rather than restored.
+claude/skills/superset/
+
 # one password
 op
 
