@@ -24,23 +24,44 @@
 #        scheme:rest            -> open in the registered app (spotify:, slack://, mailto:, ...)
 #        anything else          -> Google search
 #
-# Latency budget (measured). Copy + wait + routing all happen in ONE osascript
-# process; this script only forks `open` at the end.
+# Runs silently. Nothing is shown on success -- Raycast only raises a HUD when
+# this script writes to stdout, so the success paths deliberately print nothing
+# and only failures say anything. Every run, success or not, is appended to
+# $LOG; that file is the debugging surface.
 #
-#     osascript start        40ms   fixed
-#     CGEvent cmd+c           0ms   was ~90ms via System Events
-#     app writes clipboard   29ms   native; Electron is far slower, hence the poll
+# Latency budget, all measured on this machine. Copy + wait + routing happen in
+# ONE osascript process; this script only forks `open` at the end.
+#
+#     bash spawn              3ms
+#     osascript start        40ms   fixed per-process cost
+#     CGEvent cmd+c          46ms   ObjC-bridge tax, NOT the event itself
+#     app writes clipboard   23-31ms native (9-71ms seen in real use);
+#                                   Electron is far slower, hence the poll
 #     routing                ~0ms   was +30ms when it shelled out to python3
 #     open -> Velja -> Chrome 57ms  Velja earns this (routes linear.app to the app)
 #
-# Two rewrites got it from ~330ms to ~130ms:
+# Two rewrites took this from ~385ms to ~215ms wall clock (330ms -> 160ms when
+# measured with `open` stubbed out):
 #
 #   1. Sending cmd+c through `System Events` cost ~90ms in Apple Event round
-#      trip. CGEventPost does the same thing in-process for ~0ms. osascript is
-#      still the process posting the event, so the Accessibility grant this
-#      needs is the same one it already had -- no new TCC identity.
+#      trip. CGEventPost replaces it for ~46ms, so it saves ~44ms -- not the
+#      full 90ms. The 46ms is almost entirely a one-time BridgeSupport metadata
+#      load for CoreGraphics: the first CGEventCreateKeyboardEvent costs 42ms
+#      and every subsequent call costs 0ms. It is per-process, so batching or
+#      reducing call count cannot recover it; only compiling can (the same
+#      sequence measured 0.0ms in Swift). osascript is still the process
+#      posting the event, so the Accessibility grant needed here is the one it
+#      already had -- no new TCC identity.
 #   2. Routing and percent-encoding moved into the same JXA process, which
-#      removes a python3 spawn (~30ms) from the Google path.
+#      removes a python3 spawn (~30ms) from the Google path. Reading
+#      NSPasteboard in-process also retired the pbpaste/MacRoman transcoding
+#      bug that LC_CTYPE below was working around.
+#
+# Remaining upside: ~86ms (40ms osascript start + 46ms bridge load) is pure
+# per-process startup that does no work, and only a compiled binary removes it.
+# That would put this at ~130ms against a hard floor of ~85ms (27ms for the app
+# to write the clipboard + 57ms for LaunchServices/Velja), neither of which is
+# ours to optimize.
 #
 # Reliability: this used to be `keystroke c` + `sleep 0.15`, which was a race.
 # The osascript round trip alone ate ~130ms of that budget, leaving the target
@@ -69,15 +90,19 @@ ObjC.import("ApplicationServices");
 function run(argv) {
   var WORKSPACE = argv[0], PREFIXES = argv[1], REPO = argv[2];
 
-  // Probe the Accessibility zero-copy path, but do NOT act on it yet.
+  // Probe the Accessibility zero-copy path. Currently RULED OUT -- kept only as
+  // ongoing evidence, since it costs ~0.1ms to ask.
   //
-  // Reading AXSelectedText off the focused element takes ~0.1ms and would skip
-  // the clipboard entirely -- no copy race, no Electron variability, and it
-  // would stop clobbering the clipboard. It currently returns
-  // kAXErrorCannotComplete (-25204) when tested from a terminal, but Raycast
-  // holds a real Accessibility grant and may do better. So: log whether it
-  // WOULD have worked, and switch the fast path on once the log says it is
-  // reliably `ax=hit` in real use. Costs ~0.1ms to ask.
+  // Reading AXSelectedText off the focused element would skip the clipboard
+  // entirely: no copy race, no Electron variability, no clobbering the
+  // clipboard, and it would cut the ~27ms copy wait to zero. But it returns
+  // kAXErrorCannotComplete (-25204) in every context tried so far -- a Swift
+  // binary from a terminal, JXA from a terminal, and JXA under Raycast, which
+  // holds a real Accessibility grant. Real runs logged ax=miss 3 for 3.
+  //
+  // So the clipboard round trip is permanently on the critical path. If a macOS
+  // update ever changes this the log will show `ax=hit`, at which point the
+  // fast path is worth wiring up; otherwise this probe can simply be deleted.
   var ax = "miss";
   try {
     var sw = $.AXUIElementCreateSystemWide();
@@ -178,6 +203,7 @@ JXA
 )"
 
 if [ -z "$result" ]; then
+    # No log line is possible here -- we never got a status back.
     echo "Smart Search failed (osascript produced no output)"
     exit 1
 fi
@@ -195,55 +221,57 @@ next; preview="$field"
 
 read -r status wait_ms ax <<<"$statusline"
 
+# Log every run. Since nothing is shown on screen when this works, this file is
+# the only record of what happened -- so log the selection AND the URL it
+# resolved to, which is what you need to answer "why did it open that?".
 log() {
+    detail="$1"
+    if [ -n "$2" ] && [ "$2" != "$1" ]; then detail="$1 -> $2"; fi
     printf '%s  copy=%-6s wait=%-6s ax=%-5s %-19s %s\n' \
-        "$(date '+%Y-%m-%d %H:%M:%S')" "$status" "${wait_ms}ms" "$ax" "$1" "$2" >>"$LOG"
+        "$(date '+%Y-%m-%d %H:%M:%S')" "$status" "${wait_ms}ms" "$ax" "$route" "$detail" >>"$LOG"
     if [ "$(wc -l <"$LOG" 2>/dev/null || echo 0)" -gt 2000 ]; then
         tail -n 1000 "$LOG" >"${LOG}.tmp" && mv "${LOG}.tmp" "$LOG"
     fi
 }
 
+# Failures are the only thing that surfaces on screen. Even these are optional
+# -- a cmd+g that visibly does nothing is its own signal, and the log has the
+# detail -- so if the HUD ever becomes noise, delete the three `echo` lines
+# below and this becomes completely silent.
 case "$status" in
     STALE)
         # Nothing was copied: no selection, or the app ignored cmd+c. Acting on
         # the clipboard here would open whatever was last copied.
-        log "$route" ""
+        log "$preview"
         echo "Nothing copied — is anything selected?"
         exit 0
         ;;
     NOTEXT)
-        log "$route" ""
+        log "$preview"
         echo "Selection is not text"
         exit 0
         ;;
     EMPTY)
-        log "$route" ""
+        log "$preview"
         echo "Selection is empty"
         exit 0
         ;;
 esac
 
+# Success paths print nothing: any stdout here becomes a Raycast HUD.
 if [ "$opener" = "chrome" ]; then
-    log "$route" "$preview"
+    log "$preview" "$url"
     open -a "Google Chrome" "$url"
-    echo "Opening in Chrome: $url"
 elif [ -n "$fallback" ]; then
     # Rule 6: unknown scheme -> `open` exits non-zero, fall through to Google.
     if open "$url" 2>/dev/null; then
-        log "$route" "$preview"
-        echo "Opening: $url"
+        log "$preview" "$url"
     else
-        log "google/scheme-miss" "$preview"
+        route="google/scheme-miss"
+        log "$preview" "$fallback"
         open "$fallback"
-        echo "Searching Google"
     fi
 else
-    log "$route" "$preview"
+    log "$preview" "$url"
     open "$url"
-    case "$route" in
-        linear)   echo "Opening Linear: $preview" ;;
-        graphite) echo "Opening Graphite: $url" ;;
-        google)   echo "Searching Google" ;;
-        *)        echo "Opening URL" ;;
-    esac
 fi
