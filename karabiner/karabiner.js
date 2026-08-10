@@ -41,7 +41,7 @@ const app_bundle_identifiers_with_option_f_to_toggle_case_and_word_search = [
   "com\\.todesktop\\.230313mzl4w4u92", // cursor
 ];
 
-// Mouse layer: caps + option turns the right hand into a pointer.
+// Mouse layer: caps + control turns the right hand into a pointer.
 //
 // This is the fallback for having no working mouse — including the one case
 // other automation can't cover. Karabiner emits these events through its
@@ -62,40 +62,41 @@ const pointer_direction_keys = [
 
 // The plain and shift-held variants can't collide regardless of order: a
 // manipulator matches only when every pressed modifier appears in its
-// mandatory or optional set, so option+shift never matches the option-only
-// entry. Nothing else in nav_mode claims option on these keys either.
+// mandatory or optional set, so control+shift never matches the control-only
+// entry. Nothing else in nav_mode claims control on these keys either.
 const mouse_mappings = [
   ...pointer_direction_keys.map(({ key_code, axis, direction }) => ({
-    from: { key_code, modifiers: { mandatory: ["option"] } },
+    from: { key_code, modifiers: { mandatory: ["control"] } },
     to: { mouse_key: { [axis]: direction * pointer_speed } },
   })),
   ...pointer_direction_keys.map(({ key_code, axis, direction }) => ({
-    from: { key_code, modifiers: { mandatory: ["option", "shift"] } },
+    from: { key_code, modifiers: { mandatory: ["control", "shift"] } },
     to: { mouse_key: { [axis]: direction * pointer_precise_speed } },
   })),
   // hold a click key while moving with ijkl to drag
   {
-    from: { key_code: "semicolon", modifiers: { mandatory: ["option"] } },
+    from: { key_code: "semicolon", modifiers: { mandatory: ["control"] } },
     to: { pointing_button: "button1" },
   },
   {
-    from: { key_code: "quote", modifiers: { mandatory: ["option"] } },
+    from: { key_code: "quote", modifiers: { mandatory: ["control"] } },
     to: { pointing_button: "button2" },
   },
   // vertical_wheel is a raw HID wheel delta, so macOS natural scrolling
   // decides which way the content actually goes: negative scrolls up here.
   {
-    from: { key_code: "p", modifiers: { mandatory: ["option"] } },
+    from: { key_code: "p", modifiers: { mandatory: ["control"] } },
     to: { mouse_key: { vertical_wheel: -pointer_scroll_speed } },
   },
   {
-    from: { key_code: "slash", modifiers: { mandatory: ["option"] } },
+    from: { key_code: "slash", modifiers: { mandatory: ["control"] } },
     to: { mouse_key: { vertical_wheel: pointer_scroll_speed } },
   },
 ];
 
 const nav_mappings = [
   // mouse layer — defined above, gated behind nav_mode like everything else
+  // (caps+control; must stay first so it wins over the plain ijkl arrows)
   ...mouse_mappings,
   { from: { key_code: "quote" }, to: { key_code: "return_or_enter" } },
   // text nav
@@ -425,6 +426,41 @@ const nav_mode_rule = {
   })),
 };
 
+// Option + ijkl = command + shift + arrows, with or without caps held.
+//
+// Placed *before* nav_mode_rule in the rules list on purpose. Karabiner
+// evaluates the flattened manipulator list top to bottom and applies only the
+// first match, so sitting ahead of nav_mode is what makes this binding
+// genuinely caps-independent — and stops a future nav_mode binding on ijkl
+// from silently shadowing it.
+//
+// The strict `mandatory: ["option"]` with no optional modifiers is the whole
+// safety story: a manipulator matches only when every pressed modifier is
+// listed, so command+option+i never reaches this rule. That leaves Chrome's
+// cmd+opt+i / cmd+opt+j (devtools, console) and nav_mode's caps+cmd+ijkl
+// page/word jumps untouched. Adding `optional: ["any"]` here would break all
+// of them.
+//
+// Mandatory modifiers are removed from the to event, so the app receives a
+// clean cmd+shift+arrow: the option flag is consumed rather than riding along
+// as cmd+shift+opt+arrow, and option never reaches the app as the dead-key
+// composer that bare option+i normally is.
+const option_arrow_direction_keys = [
+  { key_code: "i", arrow: "up_arrow" },
+  { key_code: "k", arrow: "down_arrow" },
+  { key_code: "j", arrow: "left_arrow" },
+  { key_code: "l", arrow: "right_arrow" },
+];
+
+const option_ijkl_arrows = {
+  description: "option + ijkl = command + shift + arrows",
+  manipulators: option_arrow_direction_keys.map(({ key_code, arrow }) => ({
+    type: "basic",
+    from: { key_code, modifiers: { mandatory: ["option"] } },
+    to: { key_code: arrow, modifiers: ["left_command", "left_shift"] },
+  })),
+};
+
 // TODO: fix this so shift + press cmd, option + press cmd, etc does nothing
 const command_for_raycast = {
   description: "tap command to open raycast",
@@ -670,6 +706,8 @@ const global_vim_profile = {
   complex_modifications: {
     rules: [
       caps_lock_toggler,
+      // must precede nav_mode_rule — see the comment on option_ijkl_arrows
+      option_ijkl_arrows,
       nav_mode_rule,
       command_for_raycast,
       misc_shortcuts,

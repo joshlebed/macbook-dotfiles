@@ -20,18 +20,18 @@ When `nav_mode` is active, the right hand becomes a Vim-like navigation cluster
 Other rules outside `nav_mode` (in `misc_shortcuts`) handle app-specific
 overrides, Cmd+W behavior, and volume control.
 
-## Mouse layer (Caps Lock + Option)
+## Mouse layer (Caps Lock + Control)
 
-Adding **Option** to the caps layer turns the right hand into a pointer, for
+Adding **Control** to the caps layer turns the right hand into a pointer, for
 when no mouse is paired:
 
 | Keys | Action |
 | --- | --- |
-| `caps+opt+i/k/j/l` | move pointer up / down / left / right |
-| `caps+opt+shift+i/k/j/l` | move slowly, for precise targeting |
-| `caps+opt+;` | left click — hold it while moving to drag |
-| `caps+opt+'` | right click |
-| `caps+opt+p` / `caps+opt+/` | scroll up / down |
+| `caps+ctrl+i/k/j/l` | move pointer up / down / left / right |
+| `caps+ctrl+shift+i/k/j/l` | move slowly, for precise targeting |
+| `caps+ctrl+;` | left click — hold it while moving to drag |
+| `caps+ctrl+'` | right click |
+| `caps+ctrl+p` / `caps+ctrl+/` | scroll up / down |
 
 Directions combine, so `i`+`l` moves diagonally. Speeds are the
 `pointer_*` constants at the top of `mouse_mappings` in `karabiner.js`.
@@ -46,12 +46,40 @@ without this layer a missing mouse is a genuine deadlock. (Note that `blueutil`
 only speaks classic Bluetooth, so a BLE mouse still has to be paired from the
 Bluetooth pane — which is also a click.)
 
+## Option + IJKL = Cmd + Shift + arrows
+
+Independent of the caps layer — it fires whether or not Caps Lock is held:
+
+| Keys | Action |
+| --- | --- |
+| `opt+i` / `opt+k` | `cmd+shift+up` / `cmd+shift+down` |
+| `opt+j` / `opt+l` | `cmd+shift+left` / `cmd+shift+right` |
+
+Three details make this work, all of them load-bearing:
+
+- **It is its own rule, listed before `nav_mode_rule`.** Karabiner applies only
+  the *first* matching manipulator across the whole flattened list, so being
+  ahead of nav_mode is what guarantees caps-held and caps-free behave
+  identically — and keeps a future nav_mode binding on IJKL from silently
+  shadowing it.
+- **`mandatory: ["option"]` with no `optional`.** A manipulator matches only
+  when every pressed modifier is listed, so `cmd+opt+i` never reaches this rule
+  — Chrome's devtools (`cmd+opt+i`) and console (`cmd+opt+j`), and nav_mode's
+  `caps+cmd+ijkl` page/word jumps, are all untouched. Adding `optional: ["any"]`
+  would break every one of them.
+- **Mandatory modifiers are removed from the `to` event.** Option is consumed
+  rather than passed along, so apps receive a clean `cmd+shift+arrow` and never
+  see the dead key that bare `opt+i` normally produces.
+
+`to.repeat` defaults to true, so holding a key keeps extending the selection.
+
 ## How the config is structured
 
 ```
 karabiner.js          ← source of truth, edit this
-  ├── mouse_mappings[] ← caps+option pointer control (folded into nav_mappings)
+  ├── mouse_mappings[] ← caps+control pointer control (folded into nav_mappings)
   ├── nav_mappings[]  ← nav_mode bindings (auto-wrapped with nav_mode condition)
+  ├── option_ijkl_arrows ← opt+ijkl = cmd+shift+arrows (runs before nav_mode)
   ├── misc_shortcuts  ← non-nav rules (app overrides, function keys, etc.)
   ├── command_for_raycast ← tap-Command = Raycast
   └── profiles[]      ← Global VIM (active), Tetris, Empty
