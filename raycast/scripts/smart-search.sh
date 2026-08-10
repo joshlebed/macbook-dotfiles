@@ -18,7 +18,7 @@
 #   2. Routes the clipboard contents:
 #        https?://...           -> open as URL
 #        NS-790 (whitelisted prefixes) -> linear.app/<workspace>/issue/<ID>
-#        #4953                  -> app.graphite.com/github/pr/<default repo>/4953
+#        #4953, 10221           -> app.graphite.com/github/pr/<default repo>/<n>
 #        domain.tld[/path]      -> open as URL (auto-prefixes https://)
 #        chrome://...           -> open in Chrome (internal pages)
 #        scheme:rest            -> open in the registered app (spotify:, slack://, mailto:, ...)
@@ -104,16 +104,17 @@ export LC_CTYPE=UTF-8
 LINEAR_WORKSPACE="niteshift"
 LINEAR_TEAM_PREFIXES="NS" # pipe-separated whitelist, e.g. "NS|ENG"
 GITHUB_DEFAULT_REPO="niteshiftdev/niteshift"
+GITHUB_BARE_PR_DIGITS="5" # bare numbers of exactly this length are PR numbers
 
 LOG="${HOME}/Library/Logs/smart-search.log"
 
-result="$(osascript -l JavaScript - "$LINEAR_WORKSPACE" "$LINEAR_TEAM_PREFIXES" "$GITHUB_DEFAULT_REPO" <<'JXA'
+result="$(osascript -l JavaScript - "$LINEAR_WORKSPACE" "$LINEAR_TEAM_PREFIXES" "$GITHUB_DEFAULT_REPO" "$GITHUB_BARE_PR_DIGITS" <<'JXA'
 ObjC.import("AppKit");
 ObjC.import("CoreGraphics");
 ObjC.import("ApplicationServices");
 
 function run(argv) {
-  var WORKSPACE = argv[0], PREFIXES = argv[1], REPO = argv[2];
+  var WORKSPACE = argv[0], PREFIXES = argv[1], REPO = argv[2], PR_DIGITS = argv[3];
 
   // Probe the Accessibility zero-copy path. Currently RULED OUT -- kept only as
   // ongoing evidence, since it costs ~0.1ms to ask.
@@ -216,9 +217,15 @@ function run(argv) {
                 "default", "", ticket);
   }
 
-  // 3. GitHub PR/issue in the default repo -> open in Graphite
-  if (/^#[0-9]+$/.test(input)) {
-    return emit(copyStatus,"graphite", "https://app.graphite.com/github/pr/" + REPO + "/" + input.slice(1),
+  // 3. GitHub PR/issue in the default repo -> open in Graphite.
+  //    `#10221` always qualifies. A bare number qualifies only at exactly
+  //    PR_DIGITS digits, which is the width niteshift PR numbers are at today.
+  //    Narrower numbers are far more often a search than a PR (a year, a port,
+  //    an error code), so they still fall through to Google; widen the constant
+  //    when the repo rolls over to six digits.
+  if (/^#[0-9]+$/.test(input) || new RegExp("^[0-9]{" + PR_DIGITS + "}$").test(input)) {
+    return emit(copyStatus,"graphite",
+                "https://app.graphite.com/github/pr/" + REPO + "/" + input.replace(/^#/, ""),
                 "default", "", preview);
   }
 
