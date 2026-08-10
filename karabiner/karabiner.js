@@ -426,7 +426,7 @@ const nav_mode_rule = {
   })),
 };
 
-// Option + ijkl = command + shift + arrows, with or without caps held.
+// Option + ijkl = option + arrows (word/paragraph nav), with or without caps.
 //
 // Placed *before* nav_mode_rule in the rules list on purpose. Karabiner
 // evaluates the flattened manipulator list top to bottom and applies only the
@@ -434,17 +434,20 @@ const nav_mode_rule = {
 // genuinely caps-independent — and stops a future nav_mode binding on ijkl
 // from silently shadowing it.
 //
-// The strict `mandatory: ["option"]` with no optional modifiers is the whole
-// safety story: a manipulator matches only when every pressed modifier is
-// listed, so command+option+i never reaches this rule. That leaves Chrome's
-// cmd+opt+i / cmd+opt+j (devtools, console) and nav_mode's caps+cmd+ijkl
-// page/word jumps untouched. Adding `optional: ["any"]` here would break all
-// of them.
+// Option appears on *both* sides deliberately, and it is not a no-op: Karabiner
+// removes mandatory modifiers from the to event, so without re-adding
+// left_option here these would emit bare arrows rather than option+arrows.
 //
-// Mandatory modifiers are removed from the to event, so the app receives a
-// clean cmd+shift+arrow: the option flag is consumed rather than riding along
-// as cmd+shift+opt+arrow, and option never reaches the app as the dead-key
-// composer that bare option+i normally is.
+// `optional: ["shift"]` because optional modifiers, unlike mandatory ones, are
+// preserved in the to event — so option+shift+ijkl arrives as option+shift+
+// arrow and extends the selection by word/paragraph, exactly the way the real
+// arrow keys compose. Leaving shift out would instead emit the dead-key
+// characters bare option+shift+ijkl produce (Ô, Í, …) into the document.
+//
+// Command is deliberately absent from both lists: an unlisted pressed modifier
+// blocks the match, so cmd+opt+i / cmd+opt+j (Chrome devtools, console) and
+// nav_mode's caps+cmd+ijkl page/word jumps never reach this rule. Widening
+// this to `optional: ["any"]` would break every one of them.
 const option_arrow_direction_keys = [
   { key_code: "i", arrow: "up_arrow" },
   { key_code: "k", arrow: "down_arrow" },
@@ -453,11 +456,14 @@ const option_arrow_direction_keys = [
 ];
 
 const option_ijkl_arrows = {
-  description: "option + ijkl = command + shift + arrows",
+  description: "option + ijkl = option + arrows",
   manipulators: option_arrow_direction_keys.map(({ key_code, arrow }) => ({
     type: "basic",
-    from: { key_code, modifiers: { mandatory: ["option"] } },
-    to: { key_code: arrow, modifiers: ["left_command", "left_shift"] },
+    from: {
+      key_code,
+      modifiers: { mandatory: ["option"], optional: ["shift"] },
+    },
+    to: { key_code: arrow, modifiers: ["left_option"] },
   })),
 };
 

@@ -26,7 +26,7 @@ on run
     set theOriginal to theOriginalNS as text
     set LF to linefeed
     set fence to "```"
-    set theWrapped to LF & fence & LF & theOriginal & LF & fence & LF & LF
+    set theWrapped to fence & LF & theOriginal & LF & fence & LF & LF & LF
 
     pb's clearContents()
     pb's setString:theWrapped forType:"public.utf8-plain-text"

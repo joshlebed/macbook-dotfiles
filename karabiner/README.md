@@ -46,14 +46,16 @@ without this layer a missing mouse is a genuine deadlock. (Note that `blueutil`
 only speaks classic Bluetooth, so a BLE mouse still has to be paired from the
 Bluetooth pane — which is also a click.)
 
-## Option + IJKL = Cmd + Shift + arrows
+## Option + IJKL = Option + arrows
 
-Independent of the caps layer — it fires whether or not Caps Lock is held:
+Word and paragraph navigation on the home row. Independent of the caps layer —
+it fires whether or not Caps Lock is held:
 
 | Keys | Action |
 | --- | --- |
-| `opt+i` / `opt+k` | `cmd+shift+up` / `cmd+shift+down` |
-| `opt+j` / `opt+l` | `cmd+shift+left` / `cmd+shift+right` |
+| `opt+i` / `opt+k` | `opt+up` / `opt+down` (by paragraph) |
+| `opt+j` / `opt+l` | `opt+left` / `opt+right` (by word) |
+| `opt+shift+i/k/j/l` | same, extending the selection |
 
 Three details make this work, all of them load-bearing:
 
@@ -62,16 +64,21 @@ Three details make this work, all of them load-bearing:
   ahead of nav_mode is what guarantees caps-held and caps-free behave
   identically — and keeps a future nav_mode binding on IJKL from silently
   shadowing it.
-- **`mandatory: ["option"]` with no `optional`.** A manipulator matches only
-  when every pressed modifier is listed, so `cmd+opt+i` never reaches this rule
-  — Chrome's devtools (`cmd+opt+i`) and console (`cmd+opt+j`), and nav_mode's
-  `caps+cmd+ijkl` page/word jumps, are all untouched. Adding `optional: ["any"]`
+- **Option is on both sides, and that is not redundant.** Mandatory modifiers
+  are *removed* from the `to` event, so `to` has to re-add `left_option` — drop
+  it and these emit bare arrows instead of word jumps.
+- **`optional: ["shift"]`, but no `command` anywhere.** Optional modifiers are
+  preserved in the `to` event, so `opt+shift+j` arrives as `opt+shift+left` and
+  extends the selection, the way real arrow keys compose. Command is left out
+  on purpose: an unlisted pressed modifier blocks the match, so `cmd+opt+i` /
+  `cmd+opt+j` (Chrome devtools and console) and nav_mode's `caps+cmd+ijkl`
+  page/word jumps never reach this rule. Widening it to `optional: ["any"]`
   would break every one of them.
-- **Mandatory modifiers are removed from the `to` event.** Option is consumed
-  rather than passed along, so apps receive a clean `cmd+shift+arrow` and never
-  see the dead key that bare `opt+i` normally produces.
 
-`to.repeat` defaults to true, so holding a key keeps extending the selection.
+`to.repeat` defaults to true, so holding a key keeps jumping.
+
+Note this overlaps with nav_mode's `caps+h` / `caps+;`, which already emit
+`opt+left` / `opt+right` — same action, two triggers.
 
 ## How the config is structured
 
@@ -79,7 +86,7 @@ Three details make this work, all of them load-bearing:
 karabiner.js          ← source of truth, edit this
   ├── mouse_mappings[] ← caps+control pointer control (folded into nav_mappings)
   ├── nav_mappings[]  ← nav_mode bindings (auto-wrapped with nav_mode condition)
-  ├── option_ijkl_arrows ← opt+ijkl = cmd+shift+arrows (runs before nav_mode)
+  ├── option_ijkl_arrows ← opt+ijkl = opt+arrows (runs before nav_mode)
   ├── misc_shortcuts  ← non-nav rules (app overrides, function keys, etc.)
   ├── command_for_raycast ← tap-Command = Raycast
   └── profiles[]      ← Global VIM (active), Tetris, Empty
