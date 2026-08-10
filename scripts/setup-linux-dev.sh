@@ -544,16 +544,18 @@ install_shell_ai() {
 
 # Node version manager settings.
 #
-# FNM_DEFAULT_NODE is the version you land in by default; some work is pinned
-# to 22, so do not bump it casually. FNM_EXTRA_NODE is installed alongside it
-# so `fnm use 26` works offline, but is not made the default.
+# FNM_DEFAULT_NODE is the version you land in by default; FNM_EXTRA_NODE is
+# installed alongside it so `fnm use 22` works offline, but is not made the
+# default. These mirror macOS — 26 default, 22 on hand for the repos pinned to
+# it (see the Node section of README.md) — so both platforms land on the same
+# node.
 #
 # FNM_RELEASE is pinned for the same reason the old NVM_INSTALL_URL was: an
 # unpinned installer means a machine set up next year gets a different tool
 # than one set up today.
 FNM_RELEASE="v1.39.0"
-FNM_DEFAULT_NODE="22"
-FNM_EXTRA_NODE="26"
+FNM_DEFAULT_NODE="26"
+FNM_EXTRA_NODE="22"
 FNM_INSTALL_DIR=".local/share/fnm"
 
 # Install fnm (Rust-based node version manager; replaced NVM).

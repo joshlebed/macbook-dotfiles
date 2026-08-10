@@ -201,10 +201,10 @@ only as `neonctl`'s dependency (receipt marked as a dependency, not
 on-request, so `audit-brew.sh` stays quiet). Adding `brew "node"` back would
 reintroduce a second runtime on `PATH`.
 
-On Linux, `setup-linux-dev.sh` installs fnm from a pinned release — see
-`FNM_RELEASE` / `FNM_DEFAULT_NODE` near the top of `install_fnm()`. Note it
-still provisions **22** as the default, so a new Linux box does not match
-macOS's 26; bump `FNM_DEFAULT_NODE` if you want them aligned.
+On Linux, `setup-linux-dev.sh` installs fnm from a pinned release and applies
+the same default — 26, with 22 installed alongside it, matching macOS. See
+`FNM_RELEASE` / `FNM_DEFAULT_NODE` / `FNM_EXTRA_NODE` near the top of
+`install_fnm()`.
 
 ### Homebrew Packages
 
