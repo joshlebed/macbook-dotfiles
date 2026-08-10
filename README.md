@@ -152,18 +152,33 @@ chmod 600 ~/.environment-specifics.zshrc
 ### Node (fnm)
 
 Node is managed by [fnm](https://github.com/Schniz/fnm), not nvm and not
-Homebrew. **Node 22 is the default**, because some work is pinned to it; 26 is
-installed alongside it, so `fnm use 26` works without a download.
+Homebrew. **Node 26 is the default**; 22 is installed alongside it, so
+`fnm use 22` works without a download.
 
 ```bash
 fnm list                 # what's installed, and which is default
-fnm default 22           # change the default (do this deliberately)
+fnm default 26           # change the default (do this deliberately)
 fnm install 24 && fnm use 24
 ```
 
 `.nvmrc` / `.node-version` files are picked up automatically on `cd`, searching
 upward to the repo root (`--use-on-cd --version-file-strategy recursive`), so a
-monorepo subdirectory still resolves the root's pinned version.
+monorepo subdirectory still resolves the root's pinned version. fnm *also*
+reads `engines.node` from `package.json`, and resolves a range to the newest
+**installed** match — so `">=20.19.0"` selects 26, not 20.
+
+**niteshift is pinned to node 22 by path**, in `.zshenv`. It can't be pinned
+from inside the repo: it has no version file, and the `engines.node` range
+above is what silently promotes it to 26. Pinning by path is what lets the repo
+itself stay untouched. The pin is a `chpwd` hook registered *after* fnm's own,
+so it runs second and wins, plus one call at shell start — that hook only fires
+on `cd`, so a script launched with its cwd already inside the repo would
+otherwise never trigger one. It covers `~/code/niteshift` and
+`~/.superset/worktrees/niteshift`.
+
+fnm's `Using Node v26.7.0` line on every version change is silenced with
+`--log-level error`, which still lets genuine errors through. (`quiet` would
+mute those too.)
 
 **Why three files.** The fnm setup is split across `.zshenv`, `.zprofile`, and
 the end of `.zshrc`, which looks redundant but isn't — each covers a case the
@@ -186,9 +201,10 @@ only as `neonctl`'s dependency (receipt marked as a dependency, not
 on-request, so `audit-brew.sh` stays quiet). Adding `brew "node"` back would
 reintroduce a second runtime on `PATH`.
 
-On Linux, `setup-linux-dev.sh` installs fnm from a pinned release and applies
-the same default — see `FNM_RELEASE` / `FNM_DEFAULT_NODE` near the top of
-`install_fnm()`.
+On Linux, `setup-linux-dev.sh` installs fnm from a pinned release — see
+`FNM_RELEASE` / `FNM_DEFAULT_NODE` near the top of `install_fnm()`. Note it
+still provisions **22** as the default, so a new Linux box does not match
+macOS's 26; bump `FNM_DEFAULT_NODE` if you want them aligned.
 
 ### Homebrew Packages
 
