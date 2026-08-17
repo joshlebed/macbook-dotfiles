@@ -164,8 +164,10 @@ const finderLinks = [
   },
 ];
 
-// directories to open in cursor
-const cursorLinks = [
+// files and directories to open in the editor
+const EDITOR = "Visual Studio Code";
+
+const editorLinks = [
   {
     name: "Config",
     link: "~/.config/",
@@ -182,6 +184,10 @@ const cursorLinks = [
     name: "Libsync",
     link: "~/code/lib-sync/",
   },
+  {
+    name: "Build Raycast Text Paste Scripts",
+    link: "~/.config/scripts/build-raycast-text-paste-scripts.py",
+  },
 ];
 
 const config = [
@@ -192,9 +198,9 @@ const config = [
     openWith: "Google Chrome",
   })),
   ...finderLinks,
-  ...cursorLinks.map((link) => ({
+  ...editorLinks.map((link) => ({
     ...link,
-    openWith: "Cursor",
+    openWith: EDITOR,
   })),
 ];
 

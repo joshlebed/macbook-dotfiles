@@ -23,13 +23,18 @@ if command -v fnm >/dev/null 2>&1; then
   # range to the newest installed match — 26 — which beats the default. Pinning
   # by path here is what keeps the repo itself untouched.
   #
+  # Superset names worktree dirs after a task UUID, so the repo name isn't in
+  # the path and the glob has to cover every superset worktree. Fine while
+  # niteshift is the only repo I use it for; if that changes, match on
+  # `git rev-parse --git-common-dir` instead.
+  #
   # This is registered after fnm's own chpwd hook so it runs second and wins,
   # and is also called once immediately: that hook only fires on cd, so a
   # script started with its cwd already inside the repo never triggers one.
   autoload -U add-zsh-hook
   _fnm_niteshift_pin() {
     case "$PWD/" in
-      "$HOME"/code/niteshift/* | "$HOME"/.superset/worktrees/niteshift/*)
+      "$HOME"/code/niteshift/* | "$HOME"/.superset/worktrees/*/*)
         fnm use 22 --silent-if-unchanged
         ;;
     esac

@@ -62,12 +62,17 @@
   {"link": "/Applications/", "name": "Applications"},
   {"link": "~/Documents/", "name": "Documents"},
   {"link": "~/Documents/screenshots/", "name": "Screenshots"},
-  {"link": "~/.config/", "name": "Config", "openWith": "Cursor"},
-  {"link": "~/code/gentrace/", "name": "Gentrace", "openWith": "Cursor"},
+  {"link": "~/.config/", "name": "Config", "openWith": "Visual Studio Code"},
+  {"link": "~/code/gentrace/", "name": "Gentrace", "openWith": "Visual Studio Code"},
   {
     "link": "~/code/gentrace-dev-shell-scripts/gentrace_aliases.sh",
     "name": "Gentrace Scripts",
-    "openWith": "Cursor"
+    "openWith": "Visual Studio Code"
   },
-  {"link": "~/code/lib-sync/", "name": "Libsync", "openWith": "Cursor"}
+  {"link": "~/code/lib-sync/", "name": "Libsync", "openWith": "Visual Studio Code"},
+  {
+    "link": "~/.config/scripts/build-raycast-text-paste-scripts.py",
+    "name": "Build Raycast Text Paste Scripts",
+    "openWith": "Visual Studio Code"
+  }
 ]
