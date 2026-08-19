@@ -19,6 +19,7 @@
 #        https?://...           -> open as URL
 #        NS-790 (whitelisted prefixes) -> linear.app/<workspace>/issue/<ID>
 #        #4953, 10221           -> app.graphite.com/github/pr/<default repo>/<n>
+#        task_int_xxx           -> niteshift.dev/t/<id>
 #        domain.tld[/path]      -> open as URL (auto-prefixes https://)
 #        chrome://...           -> open in Chrome (internal pages)
 #        scheme:rest            -> open in the registered app (spotify:, slack://, mailto:, ...)
@@ -105,16 +106,18 @@ LINEAR_WORKSPACE="niteshift"
 LINEAR_TEAM_PREFIXES="NS" # pipe-separated whitelist, e.g. "NS|ENG"
 GITHUB_DEFAULT_REPO="niteshiftdev/niteshift"
 GITHUB_BARE_PR_DIGITS="5" # bare numbers of exactly this length are PR numbers
+NITESHIFT_TASK_BASE="https://niteshift.dev/t" # <base>/<task id> short link
 
 LOG="${HOME}/Library/Logs/smart-search.log"
 
-result="$(osascript -l JavaScript - "$LINEAR_WORKSPACE" "$LINEAR_TEAM_PREFIXES" "$GITHUB_DEFAULT_REPO" "$GITHUB_BARE_PR_DIGITS" <<'JXA'
+result="$(osascript -l JavaScript - "$LINEAR_WORKSPACE" "$LINEAR_TEAM_PREFIXES" "$GITHUB_DEFAULT_REPO" "$GITHUB_BARE_PR_DIGITS" "$NITESHIFT_TASK_BASE" <<'JXA'
 ObjC.import("AppKit");
 ObjC.import("CoreGraphics");
 ObjC.import("ApplicationServices");
 
 function run(argv) {
-  var WORKSPACE = argv[0], PREFIXES = argv[1], REPO = argv[2], PR_DIGITS = argv[3];
+  var WORKSPACE = argv[0], PREFIXES = argv[1], REPO = argv[2], PR_DIGITS = argv[3],
+      TASK_BASE = argv[4];
 
   // Probe the Accessibility zero-copy path. Currently RULED OUT -- kept only as
   // ongoing evidence, since it costs ~0.1ms to ask.
@@ -229,18 +232,26 @@ function run(argv) {
                 "default", "", preview);
   }
 
-  // 4. Bare domain or domain/path (no scheme, no spaces)
+  // 4. Niteshift task id -> the short /t/ link, which redirects to the task in
+  //    whatever repo owns it. `task_` is a namespaced prefix nobody googles, so
+  //    matching the whole family is safe and survives new id types being added
+  //    (task_int_, task_ext_, ...) without a config change here.
+  if (/^task_[A-Za-z0-9_-]+$/.test(input)) {
+    return emit(copyStatus,"niteshift-task", TASK_BASE + "/" + input, "default", "", preview);
+  }
+
+  // 5. Bare domain or domain/path (no scheme, no spaces)
   if (/^[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}(\/\S*)?$/.test(input)) {
     return emit(copyStatus,"url/implicit-https", "https://" + input, "default", "", preview);
   }
 
-  // 5. Chrome internal page -> hand straight to Chrome.
-  //    Must come before rule 6: nothing claims the bare `chrome:` scheme in
+  // 6. Chrome internal page -> hand straight to Chrome.
+  //    Must come before rule 7: nothing claims the bare `chrome:` scheme in
   //    LaunchServices (only `google-chrome:`), so plain `open` fails and these
   //    would fall through to a Google search. `open -a` bypasses the lookup.
   if (/^chrome:\/\/\S+$/.test(input)) return emit(copyStatus,"chrome-internal", input, "chrome", "", preview);
 
-  // 6. Custom URL scheme -> let macOS open the registered app (spotify:,
+  // 7. Custom URL scheme -> let macOS open the registered app (spotify:,
   //    slack://, zoommtg://, mailto:, vscode://). We cannot know here whether
   //    anything claims the scheme, so hand bash the Google URL as a fallback to
   //    use when `open` exits non-zero.
@@ -248,7 +259,7 @@ function run(argv) {
     return emit(copyStatus,"scheme", input, "default", google, preview);
   }
 
-  // 7. Fallback: Google search
+  // 8. Fallback: Google search
   return emit(copyStatus,"google", google, "default", "", preview);
 }
 JXA
@@ -310,7 +321,7 @@ if [ "$opener" = "chrome" ]; then
     log "$preview" "$url"
     open -a "Google Chrome" "$url"
 elif [ -n "$fallback" ]; then
-    # Rule 6: unknown scheme -> `open` exits non-zero, fall through to Google.
+    # Rule 7: unknown scheme -> `open` exits non-zero, fall through to Google.
     if open "$url" 2>/dev/null; then
         log "$preview" "$url"
     else
