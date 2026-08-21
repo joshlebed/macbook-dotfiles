@@ -25,6 +25,10 @@ fish/conf.d
 raycast/extensions
 
 raycast/config.json
+
+# Node's on-disk compile cache, written by Raycast's bundled node runtime
+raycast/node-compile-cache/
+
 grit/grit-receipt.json
 graphite/user_config
 uv/uv-receipt.json

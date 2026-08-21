@@ -32,43 +32,10 @@ for each PR:
 * reduce comment density - lots of comments are left behind that were useful when implementing, but are now fluff and are actively detrimental to humans and agents reviewing the PR and understanding the codebase. comments should be deleted unless they are truly helpful to clear up ambiguity and prevent mistakes in the future. the ones that stay should be reduced to one liners wherever possible, or 2 or 3 lines when there is real complexity that isn't clear from the code.
 
 * improve the PR description - the PR description should be clear, direct, and concise. it also might be out of date, so ensure that its claims are accurate and it's not missing anything important about the PR that a reviewer would care about.
-
-do a pass on all PRs in the stack.
-
-for each PR:
-
-* reduce comment density - lots of comments are left behind that were useful when implementing, but are now fluff and are actively detrimental to humans and agents reviewing the PR and understanding the codebase. comments should be deleted unless they are truly helpful to clear up ambiguity and prevent mistakes in the future. the ones that stay should be reduced to one liners wherever possible, or 2 or 3 lines when there is real complexity that isn't clear from the code.
-
-* improve the PR description - the PR description should be clear, direct, and concise. it also might be out of date, so ensure that its claims are accurate and it's not missing anything important about the PR that a reviewer would care about.
-
-
-
-send all PRs in this stack to the already existing PR review coordinator niteshift task. then poll the spawned tasks every 3 mins until they're all done. then read the reviews. for each finding in each review, verify the finding individually. do not assume that it is correct. then make a recommendation as to whether we should act on the finding or not. don't implement any code changes yet.
-
-at the end of your writeup on the full analysis of the reviews, write a section about the big picture. are there any signals/smells that some of our implementation should be rearchitected or rethought? are there any patterns that could be improved? it may be cheaper to rebuild or redesign now than to build this the wrong way and have to make bigger changes later after this is merged. if there is any possibility that we could land on a better design, explore those options and present them with an explanation of the trade offs.
-
-after the big picture analysis, give a summary of your recommendation. should we focus on the big picture architecture or design? if the big picture seems right, then what are the most important findings or issues that we should address?
-
-send this PR to the review coordinator niteshift task. then poll the spawned task every 3 mins until it's done. then read the review. for each finding in the review, verify the finding individually. do not assume that it is correct. then make a recommendation as to whether we should act on the finding or not. don't implement any code changes yet.
-
-at the end of your writeup on the full analysis of the review, write a section about the big picture. are there any signals/smells that some of our implementation should be rearchitected or rethought? are there any patterns that could be improved? it may be cheaper to rebuild or redesign now than to build this the wrong way and have to make bigger changes later after this is merged. if there is any possibility that we could land on a better design, explore those options and present them with an explanation of the trade offs.
-
-after the big picture analysis, give a summary of your recommendation. should we focus on the big picture architecture or design? if the big picture seems right, then what are the most important findings or issues that we should address?
-
-
-
-
-
-
-send this PR to the review coordinator niteshift task. then poll the spawned task every 3 mins until it's done. then read the review. for each finding in the review, verify the finding individually. do not assume that it is correct. then make a recommendation as to whether we should act on the finding or not. don't implement any code changes yet.
-
-at the end of your writeup on the full analysis of the review, write a section about the big picture. are there any signals/smells that some of our implementation should be rearchitected or rethought? are there any patterns that could be improved? it may be cheaper to rebuild or redesign now than to build this the wrong way and have to make bigger changes later after this is merged. if there is any possibility that we could land on a better design, explore those options and present them with an explanation of the trade offs.
-
-after the big picture analysis, give a summary of your recommendation. should we focus on the big picture architecture or design? if the big picture seems right, then what are the most important findings or issues that we should address?
 RAYCAST_TEXT
 )
 
-printf '%s' "$TEXT" | pbcopy
+printf '%s\n' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'
 
 # Give the paste time to land before putting the clipboard back. Restores text

@@ -20,6 +20,7 @@
 #        NS-790 (whitelisted prefixes) -> linear.app/<workspace>/issue/<ID>
 #        #4953, 10221           -> app.graphite.com/github/pr/<default repo>/<n>
 #        task_int_xxx           -> niteshift.dev/t/<id>
+#        task_xxx (any other)   -> admin.niteshift.dev customer-tasks/<id>
 #        domain.tld[/path]      -> open as URL (auto-prefixes https://)
 #        chrome://...           -> open in Chrome (internal pages)
 #        scheme:rest            -> open in the registered app (spotify:, slack://, mailto:, ...)
@@ -106,18 +107,19 @@ LINEAR_WORKSPACE="niteshift"
 LINEAR_TEAM_PREFIXES="NS" # pipe-separated whitelist, e.g. "NS|ENG"
 GITHUB_DEFAULT_REPO="niteshiftdev/niteshift"
 GITHUB_BARE_PR_DIGITS="5" # bare numbers of exactly this length are PR numbers
-NITESHIFT_TASK_BASE="https://niteshift.dev/t" # <base>/<task id> short link
+NITESHIFT_TASK_BASE="https://niteshift.dev/t" # <base>/<task id> short link (task_int_*)
+NITESHIFT_CUSTOMER_TASK_BASE="https://admin.niteshift.dev/internal/admin/customer-tasks" # every other task_*
 
 LOG="${HOME}/Library/Logs/smart-search.log"
 
-result="$(osascript -l JavaScript - "$LINEAR_WORKSPACE" "$LINEAR_TEAM_PREFIXES" "$GITHUB_DEFAULT_REPO" "$GITHUB_BARE_PR_DIGITS" "$NITESHIFT_TASK_BASE" <<'JXA'
+result="$(osascript -l JavaScript - "$LINEAR_WORKSPACE" "$LINEAR_TEAM_PREFIXES" "$GITHUB_DEFAULT_REPO" "$GITHUB_BARE_PR_DIGITS" "$NITESHIFT_TASK_BASE" "$NITESHIFT_CUSTOMER_TASK_BASE" <<'JXA'
 ObjC.import("AppKit");
 ObjC.import("CoreGraphics");
 ObjC.import("ApplicationServices");
 
 function run(argv) {
   var WORKSPACE = argv[0], PREFIXES = argv[1], REPO = argv[2], PR_DIGITS = argv[3],
-      TASK_BASE = argv[4];
+      TASK_BASE = argv[4], CUSTOMER_TASK_BASE = argv[5];
 
   // Probe the Accessibility zero-copy path. Currently RULED OUT -- kept only as
   // ongoing evidence, since it costs ~0.1ms to ask.
@@ -232,12 +234,22 @@ function run(argv) {
                 "default", "", preview);
   }
 
-  // 4. Niteshift task id -> the short /t/ link, which redirects to the task in
-  //    whatever repo owns it. `task_` is a namespaced prefix nobody googles, so
-  //    matching the whole family is safe and survives new id types being added
-  //    (task_int_, task_ext_, ...) without a config change here.
+  // 4. Niteshift task id. `task_` is a namespaced prefix nobody googles, so
+  //    matching the whole family is safe. The `_int_` infix splits it in two:
+  //
+  //      task_int_*  internal task -> the short /t/ link, which redirects to
+  //                  the task in whatever repo owns it
+  //      task_*      customer task -> the admin console, which has no short
+  //                  link, so the id goes straight into the full path
+  //
+  //    Customer ids are the open-ended case (any non-`_int_` shape lands
+  //    there), so keep it as the fallback and match `_int_` explicitly.
   if (/^task_[A-Za-z0-9_-]+$/.test(input)) {
-    return emit(copyStatus,"niteshift-task", TASK_BASE + "/" + input, "default", "", preview);
+    if (/^task_int_/.test(input)) {
+      return emit(copyStatus,"niteshift-task", TASK_BASE + "/" + input, "default", "", preview);
+    }
+    return emit(copyStatus,"niteshift-customer-task", CUSTOMER_TASK_BASE + "/" + input,
+                "default", "", preview);
   }
 
   // 5. Bare domain or domain/path (no scheme, no spaces)
