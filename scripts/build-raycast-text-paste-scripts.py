@@ -133,7 +133,12 @@ def render(entry):
 # @raycast.authorURL https://github.com/joshlebed
 
 # Raycast runs scripts without a UTF-8 locale; without this, pbcopy/pbpaste
-# transcode non-ASCII text to MacRoman (and drop emoji).
+# transcode non-ASCII text to MacRoman — 🤖 pastes as "ü§ñ".
+#
+# LC_ALL has to be cleared, not just overridden: it outranks LC_CTYPE, so
+# exporting LC_CTYPE alone is silently a no-op whenever anything in the
+# environment exports LC_ALL. (LANG is harmless — LC_CTYPE already beats it.)
+unset LC_ALL
 export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
