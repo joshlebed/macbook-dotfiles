@@ -346,116 +346,99 @@ limited install (skips system packages).
 - [iTerm2](https://iterm2.com/) - terminal
 - [Thaw](https://github.com/stonerl/Thaw/) - menu bar management
 - [Velja](https://sindresorhus.com/velja) - browser routing (sandboxed plist; see [CLAUDE.md](CLAUDE.md#velja-config))
-- [InstantSpaceSwitcher](https://github.com/joshlebed/InstantSpaceSwitcher) - instant Space switching + move-window-to-desktop (custom fork; see [below](#instantspaceswitcher))
+- [InstantSpaceSwitcher](https://github.com/jurplel/InstantSpaceSwitcher) - instant Space switching, no slide animation (see [below](#instantspaceswitcher))
 
 ### InstantSpaceSwitcher
 
-A custom fork of [InstantSpaceSwitcher](https://github.com/joshlebed/InstantSpaceSwitcher)
-(upstream: [jurplel/InstantSpaceSwitcher](https://github.com/jurplel/InstantSpaceSwitcher))
-that does two things:
-
-- **Instant Space switching** — no slide animation (synthetic high-velocity
-  dock-swipe gesture). This is the upstream feature.
-- **Move window & follow** (fork addition) — move the focused window to the
-  adjacent desktop and switch there with it.
-
-**Wiring.** The hotkeys don't go through macOS shortcuts; Karabiner's nav layer
-(`karabiner/`) emits intermediate `F16` combos that the running app listens for:
-
-| Keys (nav layer) | Karabiner emits | Action |
-| --- | --- | --- |
-| `caps+d` / `caps+f` | `ctrl+←` / `ctrl+→` | switch desktop left / right |
-| `caps+cmd+d` / `caps+cmd+f` | `⌥⇧⌘F16` / `⌥⌘F16` | move focused window to desktop left / right |
-
-**How the move works (macOS 26).** Apple gated the private "move window to a
-Space by id" APIs, so the app replicates Raycast's technique: warp the real
-cursor to the window's title bar, hold a zero-motion left-click, switch desktops
-(carrying the held window), then release and restore the cursor. Works for
-normal Cocoa windows and Spotify with zero drift. **Known limitation:** Electron
-apps (Claude, ChatGPT) don't move yet — their in-app drag loop swallows the
-Space-switch keystroke (even Raycast can't move them). Full design notes and the
-plan for fixing it: [`docs/move-window-and-follow.md`](https://github.com/joshlebed/InstantSpaceSwitcher/blob/main/docs/move-window-and-follow.md).
-
-**Do not install the Homebrew cask.** `jurplel/tap/instant-space-switcher`
-installs upstream's build to `/Applications/InstantSpaceSwitcher.app` — the same
-path the fork build uses — so it silently replaces the fork and the
-move-window-and-follow feature disappears. It is deliberately absent from the
-Brewfile, and `brew uninstall --cask` would delete the fork build, so if it ever
-gets installed, remove it with
-`rm -rf /opt/homebrew/Caskroom/instant-space-switcher` instead.
-
-#### Setting it up on a new machine
-
-Nothing here is automated by the setup scripts.
-
-**1. Clone the fork.** `main` is the fork's own default branch and carries all
-the work — no branch checkout needed.
+[jurplel/InstantSpaceSwitcher](https://github.com/jurplel/InstantSpaceSwitcher)
+switches Spaces with no slide animation, by synthesizing a trackpad dock-swipe
+gesture at an artificially high velocity. It's in the Brewfile:
 
 ```bash
-git clone git@github.com:joshlebed/InstantSpaceSwitcher.git ~/code/InstantSpaceSwitcher
-cd ~/code/InstantSpaceSwitcher
-git remote add upstream git@github.com:jurplel/InstantSpaceSwitcher.git   # optional, for pulling upstream fixes
+brew install --cask jurplel/tap/instant-space-switcher
 ```
 
-**2. Build and install:**
+Then grant **Accessibility** (System Settings → Privacy & Security) and add it
+to Login Items — `./scripts/login-items.sh --apply` already includes it.
+
+**Wiring.** `caps+d` / `caps+f` on Karabiner's nav layer emit **`⌃⌥⌘←` / `⌃⌥⌘→`**,
+which is ISS's *own default hotkey* — not a macOS shortcut.
+
+That distinction is the whole trick, so don't "simplify" it:
+
+- macOS's native "move left/right a space" is plain `ctrl+←` / `ctrl+→`, and it
+  stays enabled. Symbolic hotkeys match an exact modifier set, so `⌃⌥⌘←` never
+  triggers it. Only ISS fires, and the switch is instant.
+- Emitting plain `ctrl+←` instead would hit the *native* shortcut and animate.
+  Making that work would mean rebinding ISS **and** disabling symbolic hotkeys
+  79/81 — otherwise both fire and you jump two Spaces.
+
+So nothing needs disabling, and pressing `ctrl+←` by hand still does the normal
+animated switch.
+
+If you ever rebind ISS's hotkey in its preferences, update `karabiner/karabiner.js`
+(`// spaces nav`) to match. ISS stores hotkeys in `com.interversehq.InstantSpaceSwitcher`
+as `JSONEncoder`-encoded blobs under `hotkey.left` / `hotkey.right`, so scripting
+that side is possible but awkward — moving the Karabiner mapping is the easy half.
+
+**Only 2 of ISS's 13 hotkeys are enabled.** Out of the box it also grabs
+`⌃⌥⌘1`–`⌃⌥⌘0` (jump to space 1–10) and `⌃⌥⌘+` (last space), none of which are
+used here. Those are turned off, so ISS squats two global shortcuts instead of
+thirteen.
+
+Unlike the hotkey combos, the enable flags are plain booleans (`enabled.left`,
+`enabled.right`, `enabled.space1`…`space10`, `enabled.lastSpace`), so they're
+scriptable directly:
 
 ```bash
-./dist/build.sh      # universal release → build/InstantSpaceSwitcher.app (ad-hoc signed)
-./dist/install.sh    # quits, replaces /Applications, strips quarantine, launches
+osascript -e 'quit app "InstantSpaceSwitcher"'   # it rewrites its plist on exit
+for i in 1 2 3 4 5 6 7 8 9 10; do
+  defaults write com.interversehq.InstantSpaceSwitcher "enabled.space$i" -bool false
+done
+defaults write com.interversehq.InstantSpaceSwitcher "enabled.lastSpace" -bool false
+open -a InstantSpaceSwitcher
 ```
 
-> If `build.sh` fails with *"You have not agreed to the Xcode license
-> agreements"*, run `sudo xcodebuild -license accept`. Once full Xcode is
-> installed (the Brewfile pulls it via `mas`), every `xcodebuild`/`xcrun` call —
-> including `swift build` — is gated on it. `setup-macos.sh` step 2 handles this,
-> and `verify-setup.sh` fails loudly if it's outstanding.
+This is tracked as a plist copy (`config/file-mappings.yaml`), so
+`./scripts/link-files.sh` reapplies it on a new machine and
+`./scripts/export-preferences.sh --check` reports drift. ISS treats a *missing*
+flag as enabled, so `enabled.left` / `enabled.right` are stored explicitly
+`true` — the file states the intent rather than depending on that default.
 
-`install.sh --reset-permissions` also clears the existing Accessibility / Input
-Monitoring grants — use it when the signing identity changed and macOS is
-treating the rebuild as a different app.
+#### Why upstream, not the old fork
 
-**3. Signing (optional, but saves repeated permission grants).**
+A [personal fork](https://github.com/joshlebed/InstantSpaceSwitcher) was used
+until 2026-09. It added exactly one feature — **move window & follow** on
+`caps+cmd+d`/`caps+cmd+f`, via a cursor-warp drag-carry — and it never worked
+for Electron apps (Claude, ChatGPT), whose in-app drag loop swallows the
+Space-switch keystroke. Instant switching itself was always 100% upstream code;
+the fork's 6 commits touched none of it.
 
-macOS ties Accessibility and Input Monitoring grants to the app's *code
-signature*. `build.sh` signs **ad-hoc**, and an ad-hoc signature differs on every
-build — so macOS sees each rebuild as a new app and you re-grant both
-permissions every time. Signing with a stable Developer ID makes the grants
-stick:
+Dropped because the fork had drifted 9 commits behind upstream, missing among
+other things `fix: guard CF null returns in ISS event-tap setup` — a hardening
+fix in the event tap the entire app runs on. It also required a full Xcode
+toolchain to rebuild, where the cask updates with `brew upgrade`.
 
-```bash
-codesign --force --deep --options runtime \
-  --sign "Developer ID Application: JOSHUA AARON LEBEDINSKY (Q65U6C65ZZ)" \
-  build/InstantSpaceSwitcher.app
-```
+**The cask is not notarized.** It is ad-hoc signed too (`Signature=adhoc`,
+`TeamIdentifier=not set`) and `spctl -a -t install` rejects it, which is why
+upstream's README has a whole section on getting past "Apple could not verify…".
+Installing via the cask and launching with `open -a InstantSpaceSwitcher` worked
+first try regardless. If a future machine does get blocked, follow
+[upstream's instructions](https://wiki.hacks.guide/wiki/Open_unsigned_applications_on_macOS_Sequoia_and_newer)
+or clear the flag with `xattr -d com.apple.quarantine /Applications/InstantSpaceSwitcher.app`.
 
-That identity lives in a keychain, not this repo — Apple doesn't store the
-private key, so it can't be re-downloaded. Either export it from an existing Mac
-(Keychain Access → My Certificates → right-click → Export → `.p12`) or generate
-a fresh one from the Apple Developer portal. Check what's available with:
+That means ad-hoc signing was never a *fork-specific* problem — but the exposure
+differs a lot. macOS ties Accessibility grants to the code signature, and an
+ad-hoc signature changes with every build. Rebuilding the fork locally meant
+re-granting constantly; with the cask it only happens when a new version ships.
+The Developer ID that fixed this properly lived only in one machine's keychain
+and can't be reissued by Apple, so it isn't a portable answer.
 
-```bash
-security find-identity -v -p codesigning
-```
-
-Skipping this costs nothing but the repeated re-granting.
-
-`install.sh --reset-permissions` also clears the existing TCC grants, which is
-what you want if the signature changed and macOS is confused about the app.
-
-**4. Grant permissions and autostart.** System Settings → Privacy & Security →
-**Accessibility** and **Input Monitoring**. Then add it to Login Items (or run
-`./scripts/login-items.sh --apply` from this repo, which includes it).
-
-The Karabiner nav layer in this repo emits the `F16` combos the app listens for,
-so `caps+cmd+d/f` only works against a build from this fork — upstream has no
-F16 handling at all.
-
-The installed build records the commit it came from, so you can always tell what
-you're running:
-
-```bash
-defaults read /Applications/InstantSpaceSwitcher.app/Contents/Info GitCommitHash
-```
+**Note:** `caps+cmd+d` / `caps+cmd+f` still emit `⌥⇧⌘F16` / `⌥⌘F16` from the nav
+layer. Keyboard Maestro and Hammerspoon don't bind those (Hammerspoon takes only
+bare and shift `F16`, for directional focus), and Raycast's config database is
+encrypted, so the consumer is unconfirmed — most likely a Raycast window-management
+hotkey. Worth confirming and documenting here.
 
 ### Editors
 

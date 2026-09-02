@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>enabled.lastSpace</key>
+	<false/>
+	<key>enabled.left</key>
+	<true/>
+	<key>enabled.right</key>
+	<true/>
+	<key>enabled.space1</key>
+	<false/>
+	<key>enabled.space10</key>
+	<false/>
+	<key>enabled.space2</key>
+	<false/>
+	<key>enabled.space3</key>
+	<false/>
+	<key>enabled.space4</key>
+	<false/>
+	<key>enabled.space5</key>
+	<false/>
+	<key>enabled.space6</key>
+	<false/>
+	<key>enabled.space7</key>
+	<false/>
+	<key>enabled.space8</key>
+	<false/>
+	<key>enabled.space9</key>
+	<false/>
+</dict>
+</plist>

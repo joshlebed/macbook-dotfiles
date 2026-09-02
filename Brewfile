@@ -18,6 +18,7 @@ tap "derailed/k9s"           # k9s
 tap "hashicorp/tap"          # terraform
 tap "ibigio/tap"             # shell-ai
 tap "infisical/get-cli"      # infisical
+tap "jurplel/tap"            # instant-space-switcher
 tap "ngrok/ngrok"            # ngrok
 tap "smudge/smudge"          # nightlight
 tap "supabase/tap"           # supabase
@@ -155,10 +156,11 @@ cask "hammerspoon"
 cask "thaw"
 cask "keyboard-maestro"
 cask "raycast"
-# NOT instant-space-switcher: the upstream cask installs jurplel's build to
-# /Applications/InstantSpaceSwitcher.app — the same path our fork build uses, so
-# it would silently replace the fork and lose the move-window-and-follow feature.
-# Build from the fork instead; see the README's InstantSpaceSwitcher section.
+# Upstream build, deliberately — NOT the joshlebed fork. The fork only ever
+# added move-window-and-follow (which never worked for Electron apps), while
+# instant switching itself is entirely upstream's. See the README's
+# InstantSpaceSwitcher section for the full rationale.
+cask "instant-space-switcher"
 cask "logi-options+"
 cask "hazeover"
 

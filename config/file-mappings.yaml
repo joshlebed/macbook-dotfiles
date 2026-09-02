@@ -122,3 +122,14 @@ copies:
     target: ~/Library/Containers/com.sindresorhus.Velja/Data/Library/Preferences/com.sindresorhus.Velja.plist
     os: macos
     reason: Sandboxed app — quit Velja before running link-files.sh to avoid cfprefsd clobbering the write
+
+  # Holds only the enabled.* hotkey flags: ISS ships 13 global hotkeys enabled,
+  # and we use exactly two (left/right, driven by caps+d / caps+f in
+  # karabiner/). The other 11 are turned off here so ISS stops squatting
+  # ⌃⌥⌘1-0 and ⌃⌥⌘+. left/right are written explicitly true rather than left
+  # absent, so the file states the intent instead of relying on ISS's
+  # absent-means-enabled default. See README's InstantSpaceSwitcher section.
+  - source: preferences/com.interversehq.InstantSpaceSwitcher.plist
+    target: ~/Library/Preferences/com.interversehq.InstantSpaceSwitcher.plist
+    os: macos
+    reason: Quit InstantSpaceSwitcher before running link-files.sh — it rewrites its plist on exit

@@ -254,13 +254,25 @@ const nav_mappings = [
   },
 
   // spaces nav
+  // ctrl+opt+cmd+arrow is InstantSpaceSwitcher's default hotkey, not macOS's.
+  // macOS's own "move left/right a space" is plain ctrl+arrow, and it stays
+  // enabled — the modifier sets differ, so only ISS fires here and we get the
+  // instant (animation-free) switch. Emitting plain ctrl+arrow instead would
+  // hit the native shortcut and animate. See README's InstantSpaceSwitcher
+  // section; if ISS's hotkey is ever rebound, these must follow it.
   {
     from: { key_code: "d" },
-    to: { key_code: "left_arrow", modifiers: ["left_control"] },
+    to: {
+      key_code: "left_arrow",
+      modifiers: ["left_control", "left_option", "left_command"],
+    },
   },
   {
     from: { key_code: "f" },
-    to: { key_code: "right_arrow", modifiers: ["left_control"] },
+    to: {
+      key_code: "right_arrow",
+      modifiers: ["left_control", "left_option", "left_command"],
+    },
   },
   {
     from: { key_code: "g" },
