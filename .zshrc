@@ -343,6 +343,14 @@ doc-from-task () {
 # Niteshift CLI
 [[ -d "$HOME/code/niteshift-cli" ]] && export PATH="$HOME/code/niteshift-cli:$PATH"
 
+# Console Ninja (VS Code extension). Its installer appends this to ~/.zshrc on
+# its own, which lands *after* the fnm block below -- moved up here to keep that
+# block last, per the rule stated there. Harmless where it was (the directory
+# holds only `console-ninja` and `loader.js`, no `node`), but it is a node tool
+# and a future version shipping a shim would silently shadow fnm. If it
+# reappears at the bottom after an extension update, move it back here.
+[[ -d "$HOME/.console-ninja/.bin" ]] && export PATH="$HOME/.console-ninja/.bin:$PATH"
+
 # fnm: re-assert the PATH entry .zshenv set. Two things demote it on the way
 # here -- /etc/zprofile's `path_helper`, which rebuilds PATH from /etc/paths.d
 # and pushes fnm behind /opt/homebrew/bin (where a `node` lives as neonctl's
