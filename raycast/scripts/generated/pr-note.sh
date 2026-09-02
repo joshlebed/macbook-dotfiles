@@ -30,7 +30,6 @@ export LC_CTYPE=UTF-8
 ORIGINAL=$(pbpaste)
 
 TEXT=$(cat <<'RAYCAST_TEXT'
-...
 
 ----
 
@@ -40,7 +39,7 @@ TEXT=$(cat <<'RAYCAST_TEXT'
 RAYCAST_TEXT
 )
 
-printf '%s\n\n\n' "$TEXT" | pbcopy
+printf '%s\n\n' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'
 
 # Give the paste time to land before putting the clipboard back. Restores text
