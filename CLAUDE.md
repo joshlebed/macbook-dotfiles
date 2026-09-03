@@ -2,6 +2,17 @@ See @README.md for project documentation.
 
 See @DEVELOPMENT.md for development documentation.
 
+## Global hotkeys
+
+⌘G belongs to Raycast's Smart Search (`raycast/scripts/smart-search.sh`), a
+copy-then-route dispatcher that is a critical part of the workflow. The
+disabled Keyboard Maestro "google it" macro on ⌘G is intentional — Smart Search
+replaced it — so don't re-enable it or bind ⌘G anywhere else. Raycast hotkey
+bindings live in its encrypted database and are invisible in this repo; the
+record is the Hotkeys table in `raycast/README.md`. Before claiming any global
+hotkey, check that table, the KM sync file, *and* grep the repo for the combo —
+a hotkey absent from one place can still be documented in another.
+
 ## Velja config
 
 Tracked as a full plist copy at `preferences/com.sindresorhus.Velja.plist`

@@ -75,7 +75,7 @@ Some apps need manual setup after running the script:
 | Thaw             | Grant Accessibility/Screen Recording; enable launch at login |
 | Velja            | Set as default browser; quit before running `link-files.sh`  |
 | Contexts         | License file is gitignored — copy it over by hand            |
-| Raycast          | Sign in; Cloud Sync restores hotkeys/aliases/extensions      |
+| Raycast          | Sign in; Cloud Sync restores hotkeys/aliases/extensions — incl. ⌘G → Smart Search (see [raycast/README.md](raycast/README.md#hotkeys)) |
 | Google Drive     | Sign in                                                      |
 | TickTick         | Sign in                                                      |
 

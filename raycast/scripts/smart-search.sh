@@ -24,6 +24,7 @@
 #        domain.tld[/path]      -> open as URL (auto-prefixes https://)
 #        chrome://...           -> open in Chrome (internal pages)
 #        scheme:rest            -> open in the registered app (spotify:, slack://, mailto:, ...)
+#        mermaid source         -> fullscreen render on mermaid.live/view
 #        anything else          -> Google search
 #
 # Runs silently. Nothing is shown on success -- Raycast only raises a HUD when
@@ -271,7 +272,23 @@ function run(argv) {
     return emit(copyStatus,"scheme", input, "default", google, preview);
   }
 
-  // 8. Fallback: Google search
+  // 8. Mermaid diagram source -> fullscreen render on mermaid.live. Only the
+  //    shape is decided here; building the URL needs zlib, which JXA lacks, so
+  //    the bash side does it (see the mermaid branch below). Two guards keep
+  //    searches from being misrouted: the input must span multiple lines (a
+  //    lone "timeline" or "kanban" is a query, real diagrams never fit on one
+  //    line), and `graph` -- an ordinary English word -- only counts with a
+  //    direction token. %%{...}%% init directives and %% comments may precede
+  //    the type keyword.
+  if (/\n/.test(input)) {
+    var mmBody = input.replace(/^\s*(%%\{[\s\S]*?\}%%\s*|%%[^\n]*\n\s*)*/, "");
+    if (/^(flowchart|sequenceDiagram|classDiagram|stateDiagram(-v2)?|erDiagram|gantt|journey|pie|mindmap|timeline|gitGraph|quadrantChart|requirementDiagram|C4Context|C4Container|C4Component|C4Dynamic|C4Deployment|xychart-beta|sankey-beta|block-beta|packet-beta|kanban|architecture-beta|zenuml)\b/.test(mmBody) ||
+        /^graph\s+(TB|TD|BT|RL|LR)\b/.test(mmBody)) {
+      return emit(copyStatus, "mermaid", "", "default", "", preview);
+    }
+  }
+
+  // 9. Fallback: Google search
   return emit(copyStatus,"google", google, "default", "", preview);
 }
 JXA
@@ -329,7 +346,24 @@ case "$status" in
 esac
 
 # Success paths print nothing: any stdout here becomes a Raycast HUD.
-if [ "$opener" = "chrome" ]; then
+if [ "$route" = "mermaid" ]; then
+    # mermaid.live needs no page automation: the URL fragment IS the diagram
+    # -- the editor state as JSON, zlib-deflated and base64url-encoded
+    # ("#pako:...") -- and /view is the chrome-free fullscreen render. The
+    # python3 spawn is for zlib (~30ms), but only this route pays it, so the
+    # hot Google path stays fork-free. The clipboard is re-read here because
+    # the newline-delimited 6-line protocol cannot carry multiline text.
+    url="$(/usr/bin/pbpaste | /usr/bin/python3 -c '
+import base64, json, sys, zlib
+state = {"code": sys.stdin.read(),
+         "mermaid": json.dumps({"theme": "dark"}, indent=2),
+         "autoSync": True, "updateDiagram": True}
+blob = zlib.compress(json.dumps(state).encode(), 9)
+print("https://mermaid.live/view#pako:"
+      + base64.urlsafe_b64encode(blob).decode().rstrip("="))')"
+    log "$preview" "$url"
+    open "$url"
+elif [ "$opener" = "chrome" ]; then
     log "$preview" "$url"
     open -a "Google Chrome" "$url"
 elif [ -n "$fallback" ]; then

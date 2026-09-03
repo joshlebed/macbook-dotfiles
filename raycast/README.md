@@ -107,6 +107,21 @@ kept only because it contains text no longer in the repo. Nothing reads it.
 
 Scripts are custom commands that can be run from Raycast.
 
+### Hotkeys
+
+Hotkey bindings live in Raycast's own config (encrypted database, restored by
+Cloud Sync), so they are invisible everywhere in this repo. This table is the
+record — add a row whenever a script gets a hotkey:
+
+| Hotkey | Script                                                  |
+| ------ | ------------------------------------------------------- |
+| ⌘G     | `scripts/smart-search.sh` — copy selection, route it    |
+
+⌘G is load-bearing: Smart Search replaced the old Keyboard Maestro "google it"
+macro on that key, which is why that macro still exists but is deliberately
+disabled. Don't bind ⌘G anywhere else — a global Keyboard Maestro hotkey would
+swallow it before Raycast ever sees it.
+
 ### Setup
 
 1. Go to Raycast -> Settings -> Extensions -> Scripts -> Script Commands -> Add
