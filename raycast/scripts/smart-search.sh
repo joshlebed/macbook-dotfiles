@@ -278,10 +278,12 @@ function run(argv) {
   //    searches from being misrouted: the input must span multiple lines (a
   //    lone "timeline" or "kanban" is a query, real diagrams never fit on one
   //    line), and `graph` -- an ordinary English word -- only counts with a
-  //    direction token. %%{...}%% init directives and %% comments may precede
-  //    the type keyword.
+  //    direction token. A leading `---`-fenced YAML frontmatter block (title,
+  //    config -- mermaid 10.5+), %%{...}%% init directives and %% comments may
+  //    precede the type keyword.
   if (/\n/.test(input)) {
-    var mmBody = input.replace(/^\s*(%%\{[\s\S]*?\}%%\s*|%%[^\n]*\n\s*)*/, "");
+    var mmBody = input.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, "")
+                      .replace(/^\s*(%%\{[\s\S]*?\}%%\s*|%%[^\n]*\n\s*)*/, "");
     if (/^(flowchart|sequenceDiagram|classDiagram|stateDiagram(-v2)?|erDiagram|gantt|journey|pie|mindmap|timeline|gitGraph|quadrantChart|requirementDiagram|C4Context|C4Container|C4Component|C4Dynamic|C4Deployment|xychart-beta|sankey-beta|block-beta|packet-beta|kanban|architecture-beta|zenuml)\b/.test(mmBody) ||
         /^graph\s+(TB|TD|BT|RL|LR)\b/.test(mmBody)) {
       return emit(copyStatus, "mermaid", "", "default", "", preview);
