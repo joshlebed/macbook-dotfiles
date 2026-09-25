@@ -1,0 +1,6 @@
+---
+name: split
+---
+can it be split into 2 or more easily reviewable stacked PRs? or would that be too much trouble?
+
+ideally each PR is simple, atomic, and easy to understand.
