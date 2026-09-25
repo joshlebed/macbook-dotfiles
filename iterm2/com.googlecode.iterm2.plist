@@ -30,6 +30,8 @@
 	<true/>
 	<key>AutoHideTmuxClientSession</key>
 	<true/>
+	<key>ClaudeCodeTriggersInstalled</key>
+	<true/>
 	<key>ClosingTmuxTabKillsTmuxWindows</key>
 	<true/>
 	<key>ClosingTmuxTabKillsTmuxWindows_selection</key>
@@ -38,6 +40,33 @@
 	<true/>
 	<key>ClosingTmuxWindowKillsTmuxWindows_selection</key>
 	<integer>0</integer>
+	<key>CodeReviewSavedPrompts</key>
+	<data>
+	W3sidGV4dCI6IlJldmlldyB0aGUgcGVuZGluZyBjaGFuZ2VzIGluIHRoaXMgcmVwby4g
+	RmxhZyBpc3N1ZXMgYSBjYXJlZnVsIG1haW50YWluZXIgd291bGQgYmxvY2sgb24gYmVm
+	b3JlIG1lcmdlLCBpbiByb3VnaGx5IHRoaXMgb3JkZXI6XG4gIDEuIENvcnJlY3RuZXNz
+	IOKAlCBsb2dpYyBlcnJvcnMsIGJyb2tlbiBpbnZhcmlhbnRzLCBtaXNzZWQgZWRnZSBj
+	YXNlcywgb2ZmLWJ5LW9uZSwgcmFjZXMsIGxpZmV0aW1lXC9tZW1vcnkgYnVncywgZXJy
+	b3IgcGF0aHMgdGhhdCBzd2FsbG93IGZhaWx1cmVzLlxuICAyLiBTZWN1cml0eSDigJQg
+	aW5qZWN0aW9uLCBhdXRoblwvYXV0aHogbWlzdGFrZXMsIHNlY3JldCBoYW5kbGluZywg
+	dW5zYWZlIGRlc2VyaWFsaXphdGlvbiwgdW5zYWZlIGRlZmF1bHRzLCBUT0NUT1UuXG4g
+	IDMuIFJlbGlhYmlsaXR5ICYgcGVyZm9ybWFuY2Ug4oCUIGJsb2NraW5nIHRoZSB3cm9u
+	ZyB0aHJlYWQsIHVuYm91bmRlZCByZXNvdXJjZSB1c2UsIGFjY2lkZW50YWwgTyhOwrIp
+	LCByZXRyaWVzIHdpdGhvdXQgYmFja29mZiwgc2lsZW50IGZhaWx1cmUgcGF0aHMuXG4g
+	IDQuIENvbnRyYWN0IHJpc2sg4oCUIGJlaGF2aW9yIGNoYW5nZXMgY2FsbGVycyByZWx5
+	IG9uLCBzaWxlbnRseSBjaGFuZ2VkIGRlZmF1bHRzLCBicm9rZW4gYmFja3dhcmQgY29t
+	cGF0aWJpbGl0eSwgbWlzc2luZyBtaWdyYXRpb25zLlxuXG5Gb3IgZWFjaCBmaW5kaW5n
+	IGNpdGUgYGZpbGU6bGluZWAsIGV4cGxhaW4gKndoeSogaXQgaXMgd3JvbmcgKG5vdCB3
+	aGF0IHRoZSBjb2RlIGRvZXMpLCBhbmQgcHJvcG9zZSBhIGNvbmNyZXRlIGZpeCB3aGVu
+	IG9uZSBpcyBvYnZpb3VzLiBCZSBjYWxpYnJhdGVkOiBpZiBhIGZpbmRpbmcgaXMgbm90
+	IGhpZ2gtY29uZmlkZW5jZSwgc2F5IHNvIG9yIHNraXAgaXQuIFZlcmlmeSBjbGFpbXMg
+	YWdhaW5zdCB0aGUgYWN0dWFsIGNvZGUgcmF0aGVyIHRoYW4gaW5mZXJyaW5nIGZyb20g
+	bmFtZXMuXG5cblNraXAgcHVyZSBzdHlsZSwgZm9ybWF0dGluZywgbmFtaW5nLCBhbmQg
+	YW55dGhpbmcgYSBsaW50ZXIgb3IgQ0kgYWxyZWFkeSBlbmZvcmNlcy5cblxuSWYgeW91
+	IGZpbmQgbm90aGluZyB3b3J0aCBmaXhpbmcsIHNheSBzbyBwbGFpbmx5LiIsInV1aWQi
+	OiI0ODk1OUY5QS1EQjFGLTQ4NjAtOTk0Ni0wNTRCQzBFNzRERDYiLCJuYW1lIjoiRGVm
+	YXVsdCJ9XQ==
+	</data>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>Ubuntu</key>
@@ -1760,6 +1789,53 @@
 			<string>xterm-256color</string>
 			<key>Transparency</key>
 			<real>0.19246176861702127</real>
+			<key>Triggers</key>
+			<array>
+				<dict>
+					<key>action</key>
+					<string>iTermEnterWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+					</dict>
+					<key>matchType</key>
+					<integer>113</integer>
+					<key>parameter</key>
+					<string>builtin.claudeCode</string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>iTermExitWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+						<key>leaderOnly</key>
+						<true/>
+					</dict>
+					<key>matchType</key>
+					<integer>114</integer>
+					<key>parameter</key>
+					<string></string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+			</array>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -2154,6 +2230,53 @@
 			<string>xterm-256color</string>
 			<key>Transparency</key>
 			<real>0.18667998952963913</real>
+			<key>Triggers</key>
+			<array>
+				<dict>
+					<key>action</key>
+					<string>iTermEnterWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+					</dict>
+					<key>matchType</key>
+					<integer>113</integer>
+					<key>parameter</key>
+					<string>builtin.claudeCode</string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>iTermExitWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+						<key>leaderOnly</key>
+						<true/>
+					</dict>
+					<key>matchType</key>
+					<integer>114</integer>
+					<key>parameter</key>
+					<string></string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+			</array>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -3330,6 +3453,53 @@
 			<string>xterm-256color</string>
 			<key>Transparency</key>
 			<real>0.19246176861702127</real>
+			<key>Triggers</key>
+			<array>
+				<dict>
+					<key>action</key>
+					<string>iTermEnterWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+					</dict>
+					<key>matchType</key>
+					<integer>113</integer>
+					<key>parameter</key>
+					<string>builtin.claudeCode</string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>iTermExitWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+						<key>leaderOnly</key>
+						<true/>
+					</dict>
+					<key>matchType</key>
+					<integer>114</integer>
+					<key>parameter</key>
+					<string></string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+			</array>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -4510,6 +4680,53 @@
 			<string>xterm-256color</string>
 			<key>Transparency</key>
 			<real>0.19246176861702127</real>
+			<key>Triggers</key>
+			<array>
+				<dict>
+					<key>action</key>
+					<string>iTermEnterWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+					</dict>
+					<key>matchType</key>
+					<integer>113</integer>
+					<key>parameter</key>
+					<string>builtin.claudeCode</string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>iTermExitWorkgroupTrigger</string>
+					<key>contentregex</key>
+					<string></string>
+					<key>disabled</key>
+					<false/>
+					<key>eventParams</key>
+					<dict>
+						<key>jobName</key>
+						<string>claude</string>
+						<key>leaderOnly</key>
+						<true/>
+					</dict>
+					<key>matchType</key>
+					<integer>114</integer>
+					<key>parameter</key>
+					<string></string>
+					<key>partial</key>
+					<false/>
+					<key>regex</key>
+					<string></string>
+				</dict>
+			</array>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -8110,6 +8327,37 @@
 			</dict>
 		</array>
 	</dict>
+	<key>Workgroups</key>
+	<data>
+	W3sibmFtZSI6IkNsYXVkZSBDb2RlIiwic2Vzc2lvbnMiOlt7Im1vZGUiOiJyZWd1bGFy
+	IiwiY29tbWFuZCI6IiIsInBlckZpbGVDb21tYW5kIjoiIiwidG9vbGJhckl0ZW1zIjpb
+	eyJraW5kIjoibW9kZVN3aXRjaGVyIn0seyJraW5kIjoiZ2l0U3RhdHVzIn0seyJraW5k
+	IjoiYXV0b1JlcXVlc3RSZXZpZXdXaGVuSWRsZSJ9XSwia2luZCI6eyJraW5kIjoicm9v
+	dCJ9LCJ1cmxTdHJpbmciOiIiLCJkaXNwbGF5TmFtZSI6IkNoYXQiLCJ1bmlxdWVJZGVu
+	dGlmaWVyIjoiYnVpbHRpbi5jbGF1ZGVDb2RlLm1haW4ifSx7Im1vZGUiOiJkaWZmIiwi
+	Y29tbWFuZCI6ImdpdCBkaWZmdG9vbCAteSAteCB2aW1kaWZmIFxcKGdpdEJhc2UpIiwi
+	cGVyRmlsZUNvbW1hbmQiOiJnaXQgZGlmZnRvb2wgLXkgLXggdmltZGlmZiBcXChnaXRC
+	YXNlKSAtLSBcXChmaWxlKSIsInBhcmVudElEIjoiYnVpbHRpbi5jbGF1ZGVDb2RlLm1h
+	aW4iLCJ0b29sYmFySXRlbXMiOlt7ImtpbmQiOiJtb2RlU3dpdGNoZXIifSx7ImtpbmQi
+	OiJjaGFuZ2VkRmlsZVNlbGVjdG9yIn0seyJraW5kIjoiZ2l0QmFzZVNlbGVjdG9yIn0s
+	eyJyZWxvYWRTaG9ydGN1dCI6eyJzZXJpYWxpemVkIjoiMHg3Mi0weDEwMDAwMC0weGYi
+	fSwia2luZCI6Im5hdmlnYXRpb24iLCJmb3J3YXJkU2hvcnRjdXQiOnsic2VyaWFsaXpl
+	ZCI6IjB4ZjcwMy0weDM0MDAwMC0weDdjIn0sImJhY2tTaG9ydGN1dCI6eyJzZXJpYWxp
+	emVkIjoiMHhmNzAyLTB4MzQwMDAwLTB4N2IifX1dLCJraW5kIjp7ImtpbmQiOiJwZWVy
+	In0sInVybFN0cmluZyI6IiIsImRpc3BsYXlOYW1lIjoiRGlmZiIsInVuaXF1ZUlkZW50
+	aWZpZXIiOiJidWlsdGluLmNsYXVkZUNvZGUuZGlmZiJ9LHsibW9kZSI6ImNvZGVSZXZp
+	ZXciLCJjb21tYW5kIjoiY2xhdWRlIFxcKGNvZGVSZXZpZXdQcm9tcHQpIC0tYXBwZW5k
+	LXN5c3RlbS1wcm9tcHQtZmlsZSAnXFwoY29kZVJldmlld1N5c3RlbVByb21wdEZpbGUp
+	JyAtLXNldHRpbmdzICdcXChpdGVybTIuYXBwQnVuZGxlUGF0aClcL0NvbnRlbnRzXC9S
+	ZXNvdXJjZXNcL2NvZGUtcmV2aWV3LXNldHRpbmdzLnR4dCciLCJwZXJGaWxlQ29tbWFu
+	ZCI6IiIsInBhcmVudElEIjoiYnVpbHRpbi5jbGF1ZGVDb2RlLm1haW4iLCJ0b29sYmFy
+	SXRlbXMiOlt7ImtpbmQiOiJtb2RlU3dpdGNoZXIifSx7InNob3J0Y3V0Ijp7InNlcmlh
+	bGl6ZWQiOiIweDcyLTB4MTAwMDAwLTB4ZiJ9LCJraW5kIjoicmVsb2FkIn0seyJraW5k
+	IjoiYXV0b1NlbmRDbGlwcGluZ3NXaGVuSWRsZSJ9XSwia2luZCI6eyJraW5kIjoicGVl
+	ciJ9LCJ1cmxTdHJpbmciOiIiLCJkaXNwbGF5TmFtZSI6IkNvZGUgUmV2aWV3IiwidW5p
+	cXVlSWRlbnRpZmllciI6ImJ1aWx0aW4uY2xhdWRlQ29kZS5yZXZpZXcifV0sInVuaXF1
+	ZUlkZW50aWZpZXIiOiJidWlsdGluLmNsYXVkZUNvZGUifV0=
+	</data>
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 </dict>
