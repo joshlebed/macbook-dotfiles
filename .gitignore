@@ -69,6 +69,13 @@ neonctl/
 niteshift/
 graphite/auth
 
+# Local aster endpoint descriptor — holds a live bearer token
+raycast/aster-endpoint.json
+
+# Symlink into iTerm.app's bundle, created by iTerm2's Claude Code
+# integration; iTerm recreates it, and it'd dangle without iTerm installed
+iterm2/cc-status
+
 # Nested Raycast extensions fork — its own git repo; .git/config embeds an
 # OAuth token in the remote URL, so it must never be added from this repo.
 raycast/public-extensions-fork/
