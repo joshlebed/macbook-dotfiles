@@ -1,40 +1,18 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "agentPushNotifEnabled": true,
-  "alwaysThinkingEnabled": true,
-  "autoDreamEnabled": true,
-  "autoMemoryEnabled": false,
-  "editorMode": "normal",
-  "effortLevel": "xhigh",
-  "enabledPlugins": {
-    "clangd-lsp@claude-plugins-official": true,
-    "github@claude-plugins-official": false,
-    "pr-workflow@claude-extras": false,
-    "project-plan@claude-extras": false,
-    "slack@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": false
-  },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
-  "extraKnownMarketplaces": {
-    "claude-extras": {
-      "source": {
-        "repo": "joshlebed/claude-extras",
-        "source": "github"
-      }
-    }
-  },
-  "feedbackSurveyState": {
-    "lastShownTime": 1754086973944
+  "permissions": {
+    "defaultMode": "auto"
   },
   "hooks": {
     "Notification": [
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       }
@@ -43,8 +21,8 @@
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       },
@@ -62,8 +40,8 @@
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       },
@@ -92,8 +70,8 @@
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       }
@@ -102,8 +80,8 @@
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       },
@@ -120,8 +98,8 @@
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       },
@@ -138,8 +116,8 @@
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       },
@@ -156,8 +134,8 @@
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       },
@@ -174,8 +152,8 @@
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       },
@@ -192,8 +170,8 @@
       {
         "hooks": [
           {
-            "command": "/Users/joshlebed/.config/iterm2/cc-status",
-            "type": "command"
+            "type": "command",
+            "command": "/Users/joshlebed/.config/iterm2/cc-status"
           }
         ]
       },
@@ -217,19 +195,45 @@
       }
     ]
   },
-  "model": "fable[1m]",
-  "permissions": {
-    "defaultMode": "auto"
+  "enabledPlugins": {
+    "clangd-lsp@claude-plugins-official": true,
+    "github@claude-plugins-official": false,
+    "pr-workflow@claude-extras": false,
+    "project-plan@claude-extras": false,
+    "slack@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": false
   },
-  "preferredNotifChannel": "iterm2",
-  "remoteControlAtStartup": false,
-  "skipAutoPermissionPrompt": true,
-  "skipDangerousModePermissionPrompt": true,
-  "teammateMode": "tmux",
+  "extraKnownMarketplaces": {
+    "claude-extras": {
+      "source": {
+        "source": "github",
+        "repo": "joshlebed/claude-extras"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "high"
+    }
+  },
   "tui": "fullscreen",
   "voice": {
     "enabled": true,
     "mode": "hold"
   },
-  "voiceEnabled": true
+  "autoMemoryEnabled": false,
+  "autoDreamEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "editorMode": "normal",
+  "preferredNotifChannel": "iterm2",
+  "teammateMode": "tmux",
+  "remoteControlAtStartup": false,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754086973944
+  }
 }
