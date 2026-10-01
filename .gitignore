@@ -89,3 +89,6 @@ simple-update-notifier/
 # stray scratch file
 temp
 raycast-x/
+
+# Synced Claude skills (third-party, large; restored by sync, not tracked)
+claude/skills/synced/
