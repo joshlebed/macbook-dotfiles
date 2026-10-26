@@ -7,6 +7,11 @@ DEFAULT_USER="joshlebed"
 REPORTTIME=2
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
+# agnoster tweaks. Redefining the theme's segment functions after it loads
+# replaces them, so upstream agnoster is used as-is (and keeps getting
+# updates via `omz update`) instead of a forked copy of the whole file.
+prompt_dir() { prompt_segment "$AGNOSTER_DIR_BG" "$AGNOSTER_DIR_FG" '%c' }  # current dir name only, not the full path
+prompt_aws() { }                                                            # no AWS profile segment
 export EDITOR=vim
 
 if [[ "$OSTYPE" == "darwin"* ]]; then

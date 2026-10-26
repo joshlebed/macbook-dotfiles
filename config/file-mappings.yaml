@@ -20,10 +20,6 @@ symlinks:
   - source: .tmux.conf
     target: ~/.tmux.conf
 
-  - source: zsh-themes/agnoster.zsh-theme
-    target: ~/.oh-my-zsh/themes/agnoster.zsh-theme
-    reason: Custom theme
-
   - source: claude/settings.json
     target: ~/.claude/settings.json
     reason: Claude Code settings
