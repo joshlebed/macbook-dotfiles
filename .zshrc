@@ -359,3 +359,6 @@ doc-from-task () {
 # `fnm env` is not re-run, so this costs nothing and allocates no second
 # multishell directory.
 [[ -n "$FNM_MULTISHELL_PATH" ]] && export PATH="$FNM_MULTISHELL_PATH/bin:$PATH"
+
+# opencode
+export PATH=/Users/joshlebed/.opencode/bin:$PATH

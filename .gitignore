@@ -68,6 +68,8 @@ Alfred/*.contexts-license
 neonctl/
 niteshift/
 graphite/auth
+# opencode's local service password
+opencode/service.json
 
 # Local aster endpoint descriptor — holds a live bearer token
 raycast/aster-endpoint.json
