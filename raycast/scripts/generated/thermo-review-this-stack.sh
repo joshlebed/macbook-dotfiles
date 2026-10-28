@@ -30,7 +30,7 @@ export LC_CTYPE=UTF-8
 ORIGINAL=$(pbpaste)
 
 TEXT=$(cat <<'RAYCAST_TEXT'
-send this stack's PRs to the existing review dispatcher task, then poll the review tasks until they're done.
+send this stack's PRs to the existing review dispatcher task.
 the dispatcher just dispatches and returns a list of review tasks.
 if you only have one PR to review, that's fine.
 
@@ -41,17 +41,11 @@ if you only have one PR to review, that's fine.
 
 3. poll the dispatcher every 30 seconds until it replies with the PR → reviewer task mapping. That is the end of its job.
 
-4. poll those reviewer tasks every 3 minutes until they all finish.
-
-5. read each review. for each finding in each review, verify the finding individually. do not assume that it is correct. then make a recommendation as to whether we should act on the finding or not. don't implement any code changes yet.
-
-at the end of your writeup on the full analysis of the reviews, write a section about the big picture. are there any signals/smells that some of our implementation should be rearchitected or rethought? are there any patterns that could be improved? it may be cheaper to rebuild or redesign now than to build this the wrong way and have to make bigger changes later after this is merged. if there is any possibility that we could land on a better design, explore those options and present them with an explanation of the trade offs.
-
-after the big picture analysis, give a summary of your recommendation. should we focus on the big picture architecture or design? if the big picture seems right, then what are the most important findings or issues that we should address?
+4. report a copy of the PR → reviewer task mapping.
 RAYCAST_TEXT
 )
 
-printf '%s' "$TEXT" | pbcopy
+printf '%s\n' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'
 
 # Give the paste time to land before putting the clipboard back. Restores text
