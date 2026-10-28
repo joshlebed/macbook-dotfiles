@@ -30,22 +30,14 @@ export LC_CTYPE=UTF-8
 ORIGINAL=$(pbpaste)
 
 TEXT=$(cat <<'RAYCAST_TEXT'
-send this stack's PRs to the existing review dispatcher task.
-the dispatcher just dispatches and returns a list of review tasks.
-if you only have one PR to review, that's fine.
 
-1. list niteshift tasks to find the "review dispatcher" task
-
-2. send follow up to that task:
-   the PR list only, merge order, one per line. GitHub URL, Graphite URL, or #N / N (niteshiftdev/niteshift). No other instructions.
-
-3. poll the dispatcher every 30 seconds until it replies with the PR → reviewer task mapping. That is the end of its job.
-
-4. report a copy of the PR → reviewer task mapping.
+1. get the latest review prompt template from notion doc: https://app.notion.com/p/4050494456f681aa897bf75cdc764e97
+2. for each open PR you are responsible for, kick off a new review task with the filled in review prompt for that PR
+3. once you've kicked off all reviews, report how many reviews are in progress, as well as links to each review task in a table with the associated PR number. order the table by PR dependency order.
 RAYCAST_TEXT
 )
 
-printf '%s\n' "$TEXT" | pbcopy
+printf '%s' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'
 
 # Give the paste time to land before putting the clipboard back. Restores text

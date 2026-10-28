@@ -1,5 +1,5 @@
 ---
-name: thermo-review-this-stack-and-summarize
+name: thermo-review-this-stack-and-summarize-old
 ---
 send this stack's PRs to the existing review dispatcher task, then poll the review tasks until they're done.
 the dispatcher just dispatches and returns a list of review tasks.
