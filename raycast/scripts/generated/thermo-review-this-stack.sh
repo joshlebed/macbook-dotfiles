@@ -52,7 +52,7 @@ if there is an error starting the task, retry once with
    - model: `claude-opus-5-5`
    - effortLevel: `high`
    - speed: `fast`
-4. find and dismiss all other reviews which are in progress for those PRs. use `list_tasks` per PR, all in parallel:
+4. find and dismiss all other review tasks for your open PRs, if any exist. use `list_tasks` per PR, all in parallel:
    - nameContains: `#<n> (<first token of author.name, else author.login>):` (the title of the PR may have changed)
 5. Reply: table of PR | reviewer link (copy the `url` create_task returns)
 RAYCAST_TEXT
