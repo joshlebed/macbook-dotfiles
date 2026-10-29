@@ -29,14 +29,14 @@ export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
 
-TEXT=$(cat <<'RAYCAST_TEXT'
+IFS= read -r -d '' TEXT <<'RAYCAST_TEXT' || :
 for each PR in the stack:
 
 rewrite the PR description to be more clear and put the important stuff up front, as concisely as possible. what is the architectural and behavioral change? what problem is it solving? how is it implemented? what is the most important interface or API changing in the PR? what is the biggest complexity in this PR? what is the most controversial design decision? what are the biggest risks?
 
 answer all of these while staying concise and readable.
 RAYCAST_TEXT
-)
+TEXT=${TEXT%?}
 
 printf '%s' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'

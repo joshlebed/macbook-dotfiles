@@ -29,7 +29,7 @@ export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
 
-TEXT=$(cat <<'RAYCAST_TEXT'
+IFS= read -r -d '' TEXT <<'RAYCAST_TEXT' || :
 send this stack's PRs to the existing review dispatcher task, then poll the review tasks until they're done.
 the dispatcher just dispatches and returns a list of review tasks.
 if you only have one PR to review, that's fine.
@@ -51,7 +51,7 @@ at the end of your writeup on the full analysis of the reviews, write a section 
 
 after the big picture analysis, give a summary of your recommendation. should we focus on the big picture architecture or design? if the big picture seems right, then what are the most important findings or issues that we should address?
 RAYCAST_TEXT
-)
+TEXT=${TEXT%?}
 
 printf '%s' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'

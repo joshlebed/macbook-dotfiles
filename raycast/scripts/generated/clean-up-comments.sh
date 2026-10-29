@@ -29,7 +29,7 @@ export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
 
-TEXT=$(cat <<'RAYCAST_TEXT'
+IFS= read -r -d '' TEXT <<'RAYCAST_TEXT' || :
 do a pass on all PRs in the stack.
 
 for each PR:
@@ -38,7 +38,7 @@ for each PR:
 
 * improve the PR description - the PR description should be clear, direct, and concise. it also might be out of date, so ensure that its claims are accurate and it's not missing anything important about the PR that a reviewer would care about.
 RAYCAST_TEXT
-)
+TEXT=${TEXT%?}
 
 printf '%s\n' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'

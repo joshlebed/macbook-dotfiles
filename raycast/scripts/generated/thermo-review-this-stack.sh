@@ -29,15 +29,36 @@ export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
 
-TEXT=$(cat <<'RAYCAST_TEXT'
+IFS= read -r -d '' TEXT <<'RAYCAST_TEXT' || :
+let's get reviews for the latest versions of all open PRs:
 
 1. get the latest review prompt template from notion doc: https://app.notion.com/p/4050494456f681aa897bf75cdc764e97
-2. for each open PR you are responsible for, kick off a new review task with the filled in review prompt for that PR
-3. once you've kicked off all reviews, report how many reviews are in progress, as well as links to each review task in a table with the associated PR number. order the table by PR dependency order.
+2. get PR metadata for all PRs you are responsible for:
+```
+for n in <n1> <n2> ...; do
+  gh pr view $n --repo <owner>/<repo> --json number,title,author \
+    -q '[.number,.author.name,.author.login,.title]|@tsv' || echo "$n FAILED"
+done
+```
+3. `create_task` per PR, all in parallel:
+   - environmentName: `niteshift`
+   - projectIds: `["3c08b59d-0f99-45ab-a4fb-0fb64eb52f8d"]`
+   - model: `gpt-6.1-sol`
+   - effortLevel: `high`
+   - speed: `ultrafast`
+   - taskName `#<n> (<first token of author.name, else author.login>): <title>`
+   - prompt: the filled reviewer template
+if there is an error starting the task, retry once with
+   - model: `claude-opus-5-5`
+   - effortLevel: `high`
+   - speed: `fast`
+4. find and dismiss all other reviews which are in progress for those PRs. use `list_tasks` per PR, all in parallel:
+   - nameContains: `#<n> (<first token of author.name, else author.login>):` (the title of the PR may have changed)
+5. Reply: table of PR | reviewer link (copy the `url` create_task returns)
 RAYCAST_TEXT
-)
+TEXT=${TEXT%?}
 
-printf '%s' "$TEXT" | pbcopy
+printf '%s\n' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'
 
 # Give the paste time to land before putting the clipboard back. Restores text

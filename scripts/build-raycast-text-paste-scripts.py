@@ -103,11 +103,18 @@ def heredoc_delimiter(core):
 def render(entry):
     text = entry["text"]
 
-    # $(cat <<EOF) strips *all* trailing newlines, and a heredoc always adds
-    # one. So the body is split: everything up to the trailing run goes in the
-    # heredoc verbatim, and the exact trailing run is re-attached by printf.
-    # Get this wrong and every paste gains or loses a newline — which in a chat
-    # box or a terminal means submitting instead of typing.
+    # A heredoc always ends in exactly one newline, which the script strips
+    # (${TEXT%?}). So the body is split: everything up to the trailing run goes
+    # in the heredoc verbatim, and the exact trailing run is re-attached by
+    # printf. Get this wrong and every paste gains or loses a newline — which
+    # in a chat box or a terminal means submitting instead of typing.
+    #
+    # The heredoc is read with `read -d ''`, NOT `TEXT=$(cat <<'EOF' ...)`.
+    # macOS ships bash 3.2, whose parser scans $(...) for quotes and backticks
+    # *before* it notices the heredoc inside — so a body containing "let's" or
+    # `code` dies with "unexpected EOF while looking for matching `''", and
+    # Raycast just shows a failure toast. A quoted heredoc at statement level
+    # is not parsed at all.
     core = text.rstrip("\n")
     fmt = "%s" + "\\n" * (len(text) - len(core))
     delim = heredoc_delimiter(core)
@@ -143,10 +150,10 @@ export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
 
-TEXT=$(cat <<'{delim}'
+IFS= read -r -d '' TEXT <<'{delim}' || :
 {core}
 {delim}
-)
+TEXT=${{TEXT%?}}
 
 printf '{fmt}' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'

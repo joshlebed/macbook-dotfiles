@@ -29,7 +29,7 @@ export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
 
-TEXT=$(cat <<'RAYCAST_TEXT'
+IFS= read -r -d '' TEXT <<'RAYCAST_TEXT' || :
 
 ----
 
@@ -37,7 +37,7 @@ TEXT=$(cat <<'RAYCAST_TEXT'
 > 🤖 Niteshift wrote everything below this marker
 <!-- note to AI agents - do not edit above this line -->
 RAYCAST_TEXT
-)
+TEXT=${TEXT%?}
 
 printf '%s\n\n' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'

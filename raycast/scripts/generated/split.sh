@@ -29,12 +29,12 @@ export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
 
-TEXT=$(cat <<'RAYCAST_TEXT'
+IFS= read -r -d '' TEXT <<'RAYCAST_TEXT' || :
 can it be split into 2 or more easily reviewable stacked PRs? or would that be too much trouble?
 
 ideally each PR is simple, atomic, and easy to understand.
 RAYCAST_TEXT
-)
+TEXT=${TEXT%?}
 
 printf '%s' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'

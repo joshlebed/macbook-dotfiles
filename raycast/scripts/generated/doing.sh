@@ -29,10 +29,10 @@ export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
 
-TEXT=$(cat <<'RAYCAST_TEXT'
+IFS= read -r -d '' TEXT <<'RAYCAST_TEXT' || :
 what is this PR doing? what problem is it solving? what is the most important interface or API changing in the PR? what is the biggest complexity in this PR? what is the most controversial design decision? what are the biggest risks?
 RAYCAST_TEXT
-)
+TEXT=${TEXT%?}
 
 printf '%s' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'

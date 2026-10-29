@@ -99,6 +99,11 @@ subdirectories** (see below); `generated/` is one of them.
   clipboard-wrapping job properly.
 - **Generated scripts clobber the clipboard**, then restore it after 0.15s.
   Text only: a non-text clipboard (image, files) is not preserved.
+- **The heredoc is read with `read -d ''`, not `$(cat <<'EOF' …)`.** macOS
+  ships bash 3.2, whose parser scans `$(...)` for quotes and backticks before it
+  sees the heredoc inside, so a body containing `let's` or `` `code` `` fails
+  with ``unexpected EOF while looking for matching `'``. Raycast shows only a
+  failure toast; the actual stderr is in `~/Library/Logs/com.raycast.macos/`.
 
 `text/archive/` holds a one-off export of the Raycast Snippets this replaced,
 kept only because it contains text no longer in the repo. Nothing reads it.

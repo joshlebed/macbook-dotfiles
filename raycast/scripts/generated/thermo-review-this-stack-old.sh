@@ -29,7 +29,7 @@ export LC_CTYPE=UTF-8
 
 ORIGINAL=$(pbpaste)
 
-TEXT=$(cat <<'RAYCAST_TEXT'
+IFS= read -r -d '' TEXT <<'RAYCAST_TEXT' || :
 send this stack's PRs to the existing review dispatcher task.
 the dispatcher just dispatches and returns a list of review tasks.
 if you only have one PR to review, that's fine.
@@ -43,7 +43,7 @@ if you only have one PR to review, that's fine.
 
 4. report a copy of the PR → reviewer task mapping.
 RAYCAST_TEXT
-)
+TEXT=${TEXT%?}
 
 printf '%s\n' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'
