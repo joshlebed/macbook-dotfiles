@@ -58,7 +58,7 @@ if there is an error starting the task, retry once with
 RAYCAST_TEXT
 TEXT=${TEXT%?}
 
-printf '%s\n' "$TEXT" | pbcopy
+printf '%s' "$TEXT" | pbcopy
 osascript -e 'tell application "System Events" to keystroke "v" using command down'
 
 # Give the paste time to land before putting the clipboard back. Restores text
