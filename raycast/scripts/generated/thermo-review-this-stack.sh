@@ -54,7 +54,7 @@ if there is an error starting the task, retry once with
    - speed: `fast`
 4. find and dismiss all other review tasks for your open PRs, if any exist. use `list_tasks` per PR, all in parallel:
    - nameContains: `#<n> (<first token of author.name, else author.login>):` (the title of the PR may have changed)
-5. Reply: table of PR | reviewer link (copy the `url` create_task returns)
+5. Reply: table of PR link | reviewer link (copy the `url` create_task returns) | PR title
 RAYCAST_TEXT
 TEXT=${TEXT%?}
 
