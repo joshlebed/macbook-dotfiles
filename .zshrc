@@ -356,6 +356,9 @@ doc-from-task () {
 # reappears at the bottom after an extension update, move it back here.
 [[ -d "$HOME/.console-ninja/.bin" ]] && export PATH="$HOME/.console-ninja/.bin:$PATH"
 
+# OpenClaw Completion
+[ -f "$HOME/.openclaw/completions/openclaw.zsh" ] && source "$HOME/.openclaw/completions/openclaw.zsh"
+
 # fnm: re-assert the PATH entry .zshenv set. Two things demote it on the way
 # here -- /etc/zprofile's `path_helper`, which rebuilds PATH from /etc/paths.d
 # and pushes fnm behind /opt/homebrew/bin (where a `node` lives as neonctl's
