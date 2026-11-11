@@ -139,6 +139,14 @@ symlinks:
 
 Then run `./scripts/link-files.sh`.
 
+**Removing a mapping:** don't just delete the entry — move its `target` to the
+`retired:` section at the bottom of the file. Deleting only stops the symlink
+being *created*; machines that already have it keep it, dangling. `link-files.sh`
+removes retired targets (only if they are still symlinks into this repo) and,
+when the link was covering a file tracked by a git checkout, restores that
+file. This is what bit `omz update` (`agnoster.zsh-theme: needs merge`): the
+old theme symlink was left inside `~/.oh-my-zsh` after its mapping was deleted.
+
 ### Local Environment Secrets
 
 Local-only shell secrets live in `~/.environment-specifics.zshrc`, which is
