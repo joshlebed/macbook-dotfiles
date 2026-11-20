@@ -9,3 +9,7 @@
 # A login shell that is not interactive (`zsh -l -c ...`, `su -`, some launchd
 # jobs) never reaches .zshrc, so re-asserting there alone is not enough.
 [[ -n "$FNM_MULTISHELL_PATH" ]] && export PATH="$FNM_MULTISHELL_PATH/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/joshlebed/.local/bin:$PATH"

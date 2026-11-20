@@ -367,3 +367,12 @@ doc-from-task () {
 
 # opencode
 export PATH=/Users/joshlebed/.opencode/bin:$PATH
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/joshlebed/.lmstudio/bin"
+# End of LM Studio CLI section
+
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/joshlebed/.local/bin:$PATH"

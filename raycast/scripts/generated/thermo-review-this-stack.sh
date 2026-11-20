@@ -43,13 +43,13 @@ done
 3. `create_task` per PR, all in parallel:
    - environmentName: `niteshift`
    - projectIds: `["3c08b59d-0f99-45ab-a4fb-0fb64eb52f8d"]`
-   - model: `gpt-6.1-sol`
+   - model: `claude-opus-5-5`
    - effortLevel: `high`
    - speed: `fast`
    - taskName `#<n> (<first token of author.name, else author.login>): <title>`
    - prompt: the filled reviewer template
 if there is an error starting the task, retry once with
-   - model: `claude-opus-5-5`
+   - model: `gpt-6.1-sol`
    - effortLevel: `high`
    - speed: `fast`
 4. find and dismiss all other review tasks for your open PRs, if any exist. use `list_tasks` per PR, all in parallel:
