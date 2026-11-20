@@ -1,3 +1,6 @@
+---
+name: thermo-review-this-stack-and-summarize
+---
 let's get reviews for the latest versions of all open PRs:
 
 1. get PR metadata for all PRs you are responsible for:
