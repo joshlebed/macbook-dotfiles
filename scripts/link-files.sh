@@ -85,7 +85,7 @@ Options:
     -h, --help       Show this help message
     -n, --dry-run    Preview changes without applying them
     -v, --verify     Check status of all mappings (no changes)
-    -t, --type TYPE  Only process mappings of TYPE (symlink|copy)
+    -t, --type TYPE  Only process mappings of TYPE (symlink|copy|retired)
 
 Detected OS: $CURRENT_OS
 
@@ -202,6 +202,57 @@ create_symlink() {
     ln -s "$source" "$target"
     [[ "$CURRENT_OS" == "macos" ]] && chflags nouchg "$target" 2>/dev/null || true
     log_create "Symlinked: $name"; ((TOTAL_CREATED++))
+}
+
+# ----------------------------------------------------------------------------
+# Retired mappings
+# ----------------------------------------------------------------------------
+#
+# Deleting a mapping from file-mappings.yaml only stops *creating* the symlink.
+# Every machine that already ran the old mapping keeps the link, now dangling
+# or pointing at a file the repo no longer wants there. The `retired:` section
+# lists those targets so the next link-files.sh run cleans them up everywhere.
+#
+# Deliberately narrow: only a symlink that points into this repo is removed. A
+# real file, or a link to somewhere else, is someone else's and is left alone.
+#
+# If the link was sitting on top of a file tracked by a git checkout (the
+# agnoster theme inside ~/.oh-my-zsh was exactly this), the tracked file is
+# restored so that checkout is clean again -- a dirty oh-my-zsh checkout is
+# what makes `omz update` fail.
+retire_symlink() {
+    local target="$1"
+    local name=$(basename "$target")
+    local dir=$(dirname "$target")
+    local dest=""
+
+    [[ -L "$target" ]] && dest=$(readlink "$target")
+
+    if [[ "$dest" != "$CONFIG_DIR"/* ]]; then
+        [[ "$VERIFY_ONLY" == true ]] && log_success "retired: $name (gone)" || log_skip "Already retired: $name"
+        ((TOTAL_OK++)); return 0
+    fi
+
+    if [[ "$VERIFY_ONLY" == true ]]; then
+        log_warning "retired: $name (stale symlink -> $dest)"
+        ((TOTAL_FAILED++)); return 1
+    fi
+
+    if [[ "$DRY_RUN" == true ]]; then
+        log_dry "Would remove stale symlink: $target"; ((TOTAL_CREATED++)); return 0
+    fi
+
+    rm "$target"
+    if git -C "$dir" cat-file -e "HEAD:./$name" 2>/dev/null; then
+        if git -C "$dir" checkout HEAD -- "$name" 2>/dev/null; then
+            log_create "Removed stale symlink, restored tracked file: $name"
+        else
+            log_warning "Removed stale symlink: $name (could not restore tracked file; check git status in $dir)"
+        fi
+    else
+        log_create "Removed stale symlink: $name"
+    fi
+    ((TOTAL_CREATED++))
 }
 
 # ----------------------------------------------------------------------------
@@ -340,6 +391,17 @@ process_mappings() {
     local in_entry=false
 
     process_entry() {
+        # Retired entries have a target only.
+        if [[ "$current_type" == "retired" ]]; then
+            if [[ -n "$entry_target" ]] &&
+               [[ -z "$FILTER_TYPE" || "$FILTER_TYPE" == "retired" ]] &&
+               [[ -z "$entry_os" || "$entry_os" == "$CURRENT_OS" ]]; then
+                retire_symlink "$(expand_path "$entry_target")"
+            fi
+            entry_source="" entry_target="" entry_os=""
+            return
+        fi
+
         [[ -z "$entry_source" || -z "$entry_target" ]] && return
 
         # Skip if OS doesn't match
@@ -378,13 +440,16 @@ process_mappings() {
         [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
 
         # Detect section headers (symlinks:, copies:)
-        if [[ "$line" =~ ^(symlinks|copies):$ ]]; then
+        if [[ "$line" =~ ^(symlinks|copies|retired):$ ]]; then
+            # BASH_REMATCH is global and process_entry runs its own regex
+            # matches, so capture the section name before calling it.
+            local section="${BASH_REMATCH[1]}"
             # Process any pending entry before switching sections
             process_entry
-            local section="${BASH_REMATCH[1]}"
             case "$section" in
                 symlinks)  current_type="symlink"; log_section "Symlinks" ;;
                 copies)    current_type="copy"; log_section "Copies" ;;
+                retired)   current_type="retired"; log_section "Retired" ;;
             esac
             continue
         fi
@@ -397,6 +462,8 @@ process_mappings() {
             # Check if source is on same line: "  - source: value"
             if [[ "$line" =~ source:[[:space:]]*(.+)$ ]]; then
                 entry_source="${BASH_REMATCH[1]}"
+            elif [[ "$line" =~ target:[[:space:]]*(.+)$ ]]; then
+                entry_target="${BASH_REMATCH[1]}"
             fi
             continue
         fi

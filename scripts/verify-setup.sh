@@ -254,8 +254,8 @@ verify_file_mappings() {
         local ok issues
         # `.*` between the tag and the label because link-files.sh emits ANSI
         # colour resets there ("<esc>[0;32m[OK]<esc>[0m symlink: .zshrc").
-        ok=$(echo "$output" | grep -cE "\[OK\].*(symlink|copy|plist):" || true)
-        issues=$(echo "$output" | grep -cE "\[(WARN|ERROR)\].*(symlink|copy|plist):" || true)
+        ok=$(echo "$output" | grep -cE "\[OK\].*(symlink|copy|plist|retired):" || true)
+        issues=$(echo "$output" | grep -cE "\[(WARN|ERROR)\].*(symlink|copy|plist|retired):" || true)
 
         if [[ $issues -eq 0 ]]; then
             log_pass "All $ok file mappings OK"

@@ -129,3 +129,17 @@ copies:
     target: ~/Library/Preferences/com.interversehq.InstantSpaceSwitcher.plist
     os: macos
     reason: Quit InstantSpaceSwitcher before running link-files.sh — it rewrites its plist on exit
+
+# Mappings that used to exist. Removing an entry above only stops link-files.sh
+# from creating the symlink -- machines that already ran the old mapping keep
+# it. List the old target here and link-files.sh removes it on every machine,
+# but only if it is still a symlink pointing into this repo (real files and
+# foreign links are never touched). If the link was covering a file tracked by
+# a git checkout, that file is restored. So: when you delete a mapping, move
+# its target down here instead of just deleting it.
+retired:
+  # Forked agnoster theme, dropped in ed05e24 for two overrides in .zshrc. The
+  # leftover link dangled inside the oh-my-zsh checkout, replacing a tracked
+  # file, so `omz update` autostashed it, pulled, and then failed to pop the
+  # stash ("agnoster.zsh-theme: needs merge").
+  - target: ~/.oh-my-zsh/themes/agnoster.zsh-theme
