@@ -219,6 +219,12 @@
         "source": "github",
         "repo": "joshlebed/claude-extras"
       }
+    },
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
+      }
     }
   },
   "alwaysThinkingEnabled": true,
