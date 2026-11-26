@@ -26,6 +26,28 @@ That's it! The script handles everything:
 ./scripts/audit-brew.sh              # Compare installed Homebrew packages to Brewfile
 ```
 
+### Day-to-day: `make`
+
+Once a machine is set up, the `Makefile` is the front door. Run `make` on its
+own to list every target.
+
+```bash
+make build                 # regenerate karabiner.json, Raycast text commands, quicklinks
+make check                 # verify those are up to date (writes nothing)
+make format                # prettier over hand-written docs and JS
+make drift                 # compare this machine to the repo: links, prefs, brew, ...
+make link ARGS=--dry-run   # ARGS is passed through to the underlying script
+```
+
+Every target is a one-line call into the scripts documented below, so running a
+script directly is always equivalent. `check` and `drift` keep going past a
+failure, so one run reports everything that is out of date.
+
+`make format` is scoped to hand-written Markdown and JS (`PRETTIER_GLOBS` in the
+`Makefile`). It deliberately skips `config/*.yaml` — `link-files.sh` reads those
+line by line in bash, so their layout matters — and app-owned config like
+`vscode/` and `zed/`, which the apps rewrite themselves.
+
 ### Git identity (day 1)
 
 This repo is public and the clone above uses HTTPS, so **no SSH key or GitHub
@@ -307,6 +329,7 @@ limited install (skips system packages).
 ├── config/
 │   ├── file-mappings.yaml      # All symlink/copy/plist definitions
 │   └── preference-filters.yaml # Churn keys stripped from exported plists
+├── Makefile                  # Front door: `make` lists every target
 ├── Brewfile                  # Declarative Homebrew baseline
 ├── git/
 │   ├── config               # Global git config (XDG; read natively by git)

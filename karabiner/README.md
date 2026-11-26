@@ -104,6 +104,13 @@ cd ~/.config/karabiner && pnpm install
 
 ## Build
 
+Build once, from the repo root:
+
+```bash
+make karabiner           # karabiner.js -> karabiner.json
+make karabiner-check     # verify karabiner.json is up to date, write nothing
+```
+
 Start file watcher (rebuilds on save):
 
 ```bash

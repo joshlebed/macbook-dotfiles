@@ -1,5 +1,5 @@
 ---
-name: ship
+name: land
 allowed-tools: Bash(git checkout:*), Bash(git add:*), Bash(git status:*), Bash(git push:*), Bash(git commit:*), Bash(gh pr create:*), Bash(gh pr merge:*), Bash(git pull:*)
 description: Commit, push, open a PR, squash-merge, and clean up
 ---
