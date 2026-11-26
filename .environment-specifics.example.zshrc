@@ -44,6 +44,10 @@ export TMUXAI_OPENROUTER_API_KEY=""
 # vaic
 export VAIC_OPENAI_API_KEY=""
 
+# TickTick Open API — used by scripts/ticktick.py. Personal token, created in
+# the web app: avatar → Settings → Account → API Token.
+export TICKTICK_API_TOKEN=""
+
 # ---------------------------------------------------------------------------
 # PATH additions specific to this machine
 # ---------------------------------------------------------------------------

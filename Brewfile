@@ -153,7 +153,10 @@ cask "karabiner-elements"
 cask "rectangle"
 cask "contexts"
 cask "hammerspoon"
-cask "thaw"
+# Thaw 3 beta — the build for macOS 27 (cask requires macOS >= 27). Conflicts
+# with the stable `thaw` cask (2.x), so only one can be listed/installed; switch
+# back to `cask "thaw"` once 3.0 ships as stable.
+cask "thaw@beta"
 cask "keyboard-maestro"
 cask "raycast"
 # Upstream build, deliberately — NOT the joshlebed fork. The fork only ever

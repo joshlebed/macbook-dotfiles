@@ -179,6 +179,25 @@ cp ~/.config/.environment-specifics.example.zshrc ~/.environment-specifics.zshrc
 chmod 600 ~/.environment-specifics.zshrc
 ```
 
+### TickTick API
+
+`scripts/ticktick.py` is a thin, dependency-free client for the official
+[TickTick Open API](https://developer.ticktick.com/docs/index.html) — tasks,
+projects, tags, habits, focus records, comments.
+
+```bash
+./scripts/ticktick.py GET project                     # list projects
+./scripts/ticktick.py GET project/<id>/data           # a project and its open tasks
+./scripts/ticktick.py POST task '{"title": "hello"}'  # paths are relative to /open/v1/
+```
+
+It authenticates with a **personal API token**, read from `TICKTICK_API_TOKEN`
+in `~/.environment-specifics.zshrc`. Create one in the web app: avatar →
+Settings → Account → API Token. No OAuth app is needed — registering one at
+developer.ticktick.com is only for authorizing *other* users, and its scopes
+are limited to `tasks:read` / `tasks:write`. The token grants access to the
+whole account, so revoke and replace it if it is ever exposed.
+
 ### Node (fnm)
 
 Node is managed by [fnm](https://github.com/Schniz/fnm), not nvm and not
@@ -347,6 +366,7 @@ limited install (skips system packages).
 │   ├── audit-brew.sh         # Report Homebrew drift from Brewfile
 │   ├── brew_install_all.sh   # Homebrew packages
 │   ├── install_zsh_and_omz.sh
+│   ├── ticktick.py           # TickTick Open API client (see TickTick API)
 │   └── clear-notifications.sh  # Clear all macOS notifications
 ├── vscode/                  # VS Code / Cursor settings
 ├── karabiner/               # Keyboard remapping (see [karabiner/README.md](karabiner/README.md))

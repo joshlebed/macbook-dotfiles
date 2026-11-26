@@ -94,6 +94,8 @@ raycast-x/
 
 # Synced Claude skills (third-party, large; restored by sync, not tracked)
 claude/skills/synced/
+# Where the sync moves skills it removes — same third-party content, tool-managed
+claude/skills/.trash/
 
 # Local credentials — this repo is public, never track these.
 bikebot/
