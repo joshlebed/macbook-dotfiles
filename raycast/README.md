@@ -54,6 +54,9 @@ into the frontmost app.
 ./scripts/build-raycast-text-paste-scripts.py --check   # verify output is up to date
 ```
 
+`make raycast-text` and `make raycast-text-check` run the same two commands from
+the repo root.
+
 Edit a `.txt` file, run the build, done. Raycast picks the generated scripts up
 off disk on its own — there is nothing to import and no Raycast interaction at
 all.
